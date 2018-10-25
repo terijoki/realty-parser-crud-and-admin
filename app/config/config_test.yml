@@ -1,0 +1,42 @@
+imports:
+    - { resource: config_dev.yml }
+
+framework:
+    test: ~
+    session:
+        storage_id: session.storage.mock_file
+    profiler:
+        enabled: false
+        collect: false
+    php_errors:
+        log: false
+
+web_profiler:
+    toolbar: false
+    intercept_redirects: false
+
+swiftmailer:
+    disable_delivery: true
+
+doctrine:
+    dbal:
+        dbname:  "%test_database_name%"
+        user: "%test_database_user%"
+        password:  "%test_database_password%"
+        host:  "%test_database_host%"
+        port: "%test_database_port%"
+        logging: "%test_logging%"
+        profiling: "%test_profiling%"
+
+doctrine_migrations:
+    table_name: rlt_migration_versions
+
+liip_functional_test: ~
+
+monolog:
+    handlers:
+        elasticsearch:
+            type: stream
+            path: "%kernel.logs_dir%/%kernel.environment%.log"
+            level: critical
+            channels: []

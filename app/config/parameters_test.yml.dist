@@ -1,0 +1,27 @@
+parameters:
+    test_database_name: postgres_test
+    test_database_password: postgres_test
+    test_database_user: postgres_test
+    test_database_host: localhost
+    test_database_port: 5432
+
+    jwt_key_pass_phrase:  test
+    test_user_name: admin
+    test_user_name_new: R.Admin
+    test_user_password: 'pass'
+    test_user_email: 'admin@example.com'
+    test_root_group_name: 'root'
+    test_another_group_name: 'another'
+    test_another_user_name: 'anotheruser'
+
+    ftp_host: test
+    ftp_user: test
+    ftp_password: test
+
+    test_logging: false
+    test_profiling: false
+
+
+
+
+

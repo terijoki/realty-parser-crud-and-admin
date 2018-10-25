@@ -1,0 +1,12 @@
+api:
+    resource: "RltBundle/Controller/"
+    type:     rest
+    prefix:   /api
+
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix: "/doc"
+
+fos_user_security_logout:
+    path:     /logout
+    defaults: { _controller: FOSUserBundle:Security:logout }

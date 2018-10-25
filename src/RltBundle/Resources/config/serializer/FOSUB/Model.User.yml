@@ -1,0 +1,12 @@
+FOS\UserBundle\Model\User:
+    exclusion_policy: ALL
+    properties:
+        username:
+            exclude: false
+            groups: ['users', 'getBuildings']
+        email:
+            exclude: false
+            groups: ['users']
+        id:
+            exclude: false
+            groups: ['users', 'getBuildingst']

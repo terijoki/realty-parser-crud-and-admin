@@ -1,0 +1,13 @@
+FOS\UserBundle\Model\Group:
+    exclusion_policy: ALL
+    properties:
+        id:
+            exclude: false
+            groups: ['users', 'getBuildings']
+        name:
+            exclude: false
+            groups: ['users', 'getBuildings']
+        roles:
+            exclude: false
+            groups: ['users']
+

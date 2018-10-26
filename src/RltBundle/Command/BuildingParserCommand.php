@@ -6,6 +6,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RltBundle\Entity\Building;
+use RltBundle\Manager\BuildingManager;
+use RltBundle\RltBundle;
 use RltBundle\Service\BuildingService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
@@ -42,7 +44,10 @@ class BuildingParserCommand extends Command
      */
     private $service;
 
-
+    /**
+     * @var BuildingManager
+     */
+    private $manager;
 
     /**
      * BuildingParserCommand constructor.
@@ -51,26 +56,29 @@ class BuildingParserCommand extends Command
      * @param ContainerInterface     $container
      * @param LoggerInterface        $logger
      * @param BuildingService        $buildingService
+     * @param BuildingManager        $manager
      */
     public function __construct(
         EntityManagerInterface $em,
         ContainerInterface $container,
         LoggerInterface $logger,
-        BuildingService $service
+        BuildingService $service,
+        BuildingManager $manager
     ) {
         $this->container = $container;
         parent::__construct();
         $this->em = $em;
         $this->logger = $logger;
         $this->service = $service;
-
+        $this->manager = $manager;
     }
 
     protected function configure(): void
     {
         $this
-            ->setName('parser:buildings')
+            ->setName('parser:new-buildings')
             ->addOption('cache', 'c', InputOption::VALUE_OPTIONAL, 'Use cache for store data', null)
+            ->setDescription('Checks building site for new realty and parse them')
         ;
     }
 
@@ -94,18 +102,21 @@ class BuildingParserCommand extends Command
             return;
         }
 
-        if ($input->hasOption('redis') && $input->getOption('redis')) {
+        if ($input->hasOption('cache') && $input->getOption('cache')) {
             $this->service->useCache(true);
         }
+
+        $this->manager->createBuilding('a', 'b');die;
 
         $links = $this->service->parseLinks();
 
         //maybe use getReference?
-        $this->storedIds = $this->em->getRepository(Building::class)->getExternalIds();
+        $this->storedIds = $this->em->getRepository('RltBundle:Building')->getExternalIds();
 
         foreach ($links as $link) {
             if ($this->isUnique($link)) {
-                $this->service->parseItem($link);
+                $item = $this->service->getItem($link);
+                $this->manager->createBuilding($item);
             }
         }
     }

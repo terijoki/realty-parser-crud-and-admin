@@ -6,9 +6,10 @@ use ApiBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-abstract class Manager
+abstract class AbstractManager
 {
     /**
      * @var EntityManagerInterface
@@ -16,12 +17,17 @@ abstract class Manager
     protected $em;
 
     /**
+     * @var Crawler
+     */
+    protected $crawler;
+
+    /**
      * @var LoggerInterface
      */
     protected $logger;
 
     /**
-     * Manager constructor.
+     * AbstractManager constructor.
      *
      * @param EntityManagerInterface $em
      * @param LoggerInterface        $logger
@@ -95,5 +101,11 @@ abstract class Manager
 //            'category' => $name . 's',
 //        ]);
 //    }
-
+    /**
+     * Manager destructor.
+     */
+    public function __destruct()
+    {
+        $this->crawler->clear();
+    }
 }

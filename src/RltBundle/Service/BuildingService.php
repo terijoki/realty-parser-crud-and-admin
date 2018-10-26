@@ -26,31 +26,28 @@ class BuildingService extends AbstractService
     {
         $offset = 0;
         $content = '';
-        $result = [];
+        $links = [];
 
-        $content = file_get_contents(__DIR__ . '/');
-        $result[] = $this->parseItemForLink($content);
-//        while (true) {
-//            $param = 'o:' . $offset * static::PAGE_SIZE;
-//            //$content = $this->request($param);
-//            if (empty($content)) {
-//                break;
-//            }
-//            $result[] = $this->parseItemForLink($content);
-//            ++$offset;
-//        }
-//        return \array_merge(...$result);
+        while (true) {
+            $param = 'o:' . $offset * static::PAGE_SIZE;
+            $content = $this->request($param);
+            if (empty($content)) {
+                break;
+            }
+            $result[] = $this->parseItemForLinks($content);
+            ++$offset;
+        }
+        return \array_merge(...$links);
     }
 
     /**
      * @param string $content
      * @return array
      */
-    protected function parseItemForLink(string $content): array
+    protected function parseItemForLinks(string $content): array
     {
         $temp = [];
         $result = [];
-
         $crawler = new Crawler($content);
 
         foreach ($crawler->filter('li > a[target="_blank"]') as $key => $li) {
@@ -59,11 +56,12 @@ class BuildingService extends AbstractService
             if (!\mb_strpos($temp[$key], '#comments')) {
                 $id = $this->parseExtId($temp[$key]);
                 $result[$id] = $temp[$key];
-
             }
         }
+        $crawler->clear();
         \array_filter($result);
         \ksort($result);
+
         return $result;
     }
 
@@ -77,18 +75,12 @@ class BuildingService extends AbstractService
     }
 
     /**
+     * @param string $link
      * @return string
+     * @throws \ReflectionException
      */
-    protected function parseItem(string $link): BuildingDTO
+    public function getItem(string $link): string
     {
-        return '';
-    }
-
-        /**
-         * @return array
-         */
-    protected function parseDOM(): array
-    {
-        return [];
+        return $this->simpleRequest($link);
     }
 }

@@ -7,6 +7,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Flat
 {
     /**
+     * @var int
+     *
+     * @Assert\Type(type="float")
+     */
+    private $rooms;
+
+    /**
      * @var null|float
      *
      * @Assert\Type(type="float")
@@ -41,6 +48,24 @@ class Flat
      * @Assert\Range(min=1900, max=2018, message = "You must enter a valid year")
      */
     private $buildDate;
+
+    /**
+     * @return int
+     */
+    public function getRooms(): int
+    {
+        return $this->rooms;
+    }
+
+    /**
+     * @param int $rooms
+     * @return Flat
+     */
+    public function setRooms(int $rooms): Flat
+    {
+        $this->rooms = $rooms;
+        return $this;
+    }
 
     /**
      * @return float|null

@@ -187,6 +187,8 @@ class Building
     /**
      * @var array
      *
+     * @Assert\Type(type="array")
+     *
      * @ORM\Column(name="build_date", type="json", options={"jsonb" : true, "default" : "[]"})
      */
     private $buildDate = [];
@@ -229,15 +231,24 @@ class Building
      */
     private $accreditation;
 
+
     /**
      * @var null|string
      *
      * @Assert\Type(type="string")
      *
-     * @ORM\Column(name="images", type="string", nullable=true)
-     *
+     * @ORM\Column(name="ext_updated", type="string", length=255, nullable=true)
      */
-    private $images;
+    private $extUpdated;
+
+    /**
+     * @var array
+     *
+     * @Assert\Type(type="array")
+     *
+     * @ORM\Column(name="images", type="json", options={"jsonb" : true, "default" : "[]"})
+     */
+    private $images = [];
 
     /**
      * @var null|string
@@ -300,11 +311,20 @@ class Building
     /**
      * @var int
      *
-     * @Assert\Type(type="integer")
+     * @Assert\Type(type="string")
      *
-     * @ORM\Column(name="price", type="int", nullable=true)
+     * @ORM\Column(name="price", type="string", nullable=true)
      */
     private $price;
+
+    /**
+     * @var int
+     *
+     * @Assert\Type(type="string")
+     *
+     * @ORM\Column(name="price_per_m2", type="string", nullable=true)
+     */
+    private $pricePerM2;
 
     /**
      * @var Flat[]
@@ -647,21 +667,41 @@ class Building
         return $this;
     }
 
+
+
     /**
-     * @return null|string
+     * @return array
      */
-    public function getImages(): ?string
+    public function getImages(): array
     {
         return $this->images;
     }
 
     /**
-     * @param null|string $images
+     * @param array $images
      * @return Building
      */
-    public function setImages(?string $images): Building
+    public function setImages(array $images): Building
     {
         $this->images = $images;
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getExtUpdated(): ?string
+    {
+        return $this->extUpdated;
+    }
+
+    /**
+     * @param null|string $extUpdated
+     * @return Building
+     */
+    public function setExtUpdated(?string $extUpdated): Building
+    {
+        $this->extUpdated = $extUpdated;
         return $this;
     }
 
@@ -788,6 +828,24 @@ class Building
     public function setPrice(int $price): Building
     {
         $this->price = $price;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPricePerM2(): int
+    {
+        return $this->pricePerM2;
+    }
+
+    /**
+     * @param int $pricePerM2
+     * @return Building
+     */
+    public function setPricePerM2(int $pricePerM2): Building
+    {
+        $this->pricePerM2 = $pricePerM2;
         return $this;
     }
 

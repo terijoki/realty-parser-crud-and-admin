@@ -9,6 +9,7 @@ use GuzzleHttp\RequestOptions;
 use Psr\Log\LoggerInterface;
 use Psr\Log\Test\LoggerInterfaceTest;
 use GuzzleHttp\Psr7;
+use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * Class AbstractService.
@@ -22,6 +23,11 @@ abstract class AbstractService
      * @var Client
      */
     protected $client;
+
+    /**
+     * @var Crawler
+     */
+    protected $crawler;
 
     /**
      * @var LoggerInterface
@@ -131,6 +137,32 @@ abstract class AbstractService
     }
 
     /**
+     * @param $link
+     * @param array $params
+     * @return string
+     * @throws \ReflectionException
+     */
+    protected function simpleRequest($link, $params = []): string
+    {
+        try {
+            $response = $this->client->get($link, [
+                RequestOptions::QUERY => $params,
+            ]);
+
+            return $response->getBody()->getContents();
+        } catch (RequestException $e) {
+            $this->logger->error($e->getMessage(), [
+                'class' => (new \ReflectionClass(static::class))->getShortName(),
+                'request' => Psr7\str($e->getRequest()),
+                'response' => Psr7\str($e->getResponse()),
+                'category' => 'post-error',
+            ]);
+
+            return '';
+        }
+    }
+
+    /**
      * @return array
      */
     abstract public function parseLinks(): array;
@@ -138,13 +170,8 @@ abstract class AbstractService
     /**
      * @throws \ReflectionException
      *
-     * @param string $content
+     * @param string $link
      * @return string
      */
-    abstract protected function parseItem(string $content): array;
-
-    /**
-     * @return bool
-     */
-    abstract protected function parseDOM();
+    abstract public function getItem(string $link): string ;
 }

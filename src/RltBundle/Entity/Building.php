@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Building
 {
     /**
-     * Realty classes
+     * Realty classes.
      */
     public const OTHER_CLASS = 0;
     public const ELITE = 1;
@@ -27,7 +27,7 @@ class Building
     public const ECONOM = 4;
 
     /**
-     * Realty types
+     * Realty types.
      */
     public const OTHER_TYPE = 0;
     public const MONOLIT = 1;
@@ -37,26 +37,26 @@ class Building
     public const BRICK = 5;
 
     /**
-     * Contract types
+     * Contract types.
      */
     public const ZHSK = 0;
     public const DDU = 1;
 
     /**
-     * Facing types
+     * Facing types.
      */
     public const WITHOUT = 0;
     public const WITH = 1;
     public const WITH_AND_WITHOUT = 2;
 
     /**
-     * Payment types
+     * Payment types.
      */
     public const INSTALMENTS = 0;
     public const IPOTEKA = 1;
 
     /**
-     * Status
+     * Status.
      */
     public const IN_PROCESS = 0;
     public const READY = 1;
@@ -231,7 +231,6 @@ class Building
      */
     private $accreditation;
 
-
     /**
      * @var null|string
      *
@@ -295,15 +294,6 @@ class Building
      *
      * @Assert\Type(type="string")
      *
-     * @ORM\Column(name="specifications", type="string", nullable=true)
-     */
-    private $specifications;
-
-    /**
-     * @var null|string
-     *
-     * @Assert\Type(type="string")
-     *
      * @ORM\Column(name="parking", type="string", nullable=true)
      */
     private $parking;
@@ -332,6 +322,23 @@ class Building
      * @ORM\Column(name="flats", type="flat", options={"default" : "[]", "jsonb" : true})
      */
     private $flats;
+
+    /**
+     * @var User
+     * @Assert\Blank()
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\User", inversedBy="buildingsCreated", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="user_creator", referencedColumnName="id")
+     */
+    private $userCreator;
+
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\User", inversedBy="buildingsUpdated", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="user_updater", referencedColumnName="id", nullable=true)
+     */
+    private $userUpdater;
 
     /**
      * @var \DateTime
@@ -371,11 +378,13 @@ class Building
 
     /**
      * @param int $id
+     *
      * @return Building
      */
     public function setId(int $id): Building
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -389,11 +398,13 @@ class Building
 
     /**
      * @param string $name
+     *
      * @return Building
      */
     public function setName(string $name): Building
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -407,11 +418,13 @@ class Building
 
     /**
      * @param Distinct $distinct
+     *
      * @return Building
      */
     public function setDistinct(Distinct $distinct): Building
     {
         $this->distinct = $distinct;
+
         return $this;
     }
 
@@ -425,11 +438,13 @@ class Building
 
     /**
      * @param int $externalId
+     *
      * @return Building
      */
     public function setExternalId(int $externalId): Building
     {
         $this->externalId = $externalId;
+
         return $this;
     }
 
@@ -443,16 +458,18 @@ class Building
 
     /**
      * @param Metro[] $metro
+     *
      * @return Building
      */
     public function setMetro(array $metro): Building
     {
         $this->metro = $metro;
+
         return $this;
     }
 
     /**
-     * @return int|null
+     * @return null|int
      */
     public function getClass(): ?int
     {
@@ -460,12 +477,14 @@ class Building
     }
 
     /**
-     * @param int|null $class
+     * @param null|int $class
+     *
      * @return Building
      */
     public function setClass(?int $class): Building
     {
         $this->class = $class;
+
         return $this;
     }
 
@@ -479,16 +498,18 @@ class Building
 
     /**
      * @param null|string $address
+     *
      * @return Building
      */
     public function setAddress(?string $address): Building
     {
         $this->address = $address;
+
         return $this;
     }
 
     /**
-     * @return int|null
+     * @return null|int
      */
     public function getBuildType(): ?int
     {
@@ -496,12 +517,14 @@ class Building
     }
 
     /**
-     * @param int|null $buildType
+     * @param null|int $buildType
+     *
      * @return Building
      */
     public function setBuildType(?int $buildType): Building
     {
         $this->buildType = $buildType;
+
         return $this;
     }
 
@@ -515,11 +538,13 @@ class Building
 
     /**
      * @param null|string $floors
+     *
      * @return Building
      */
     public function setFloors(?string $floors): Building
     {
         $this->floors = $floors;
+
         return $this;
     }
 
@@ -533,16 +558,18 @@ class Building
 
     /**
      * @param Developer $developer
+     *
      * @return Building
      */
     public function setDeveloper(Developer $developer): Building
     {
         $this->developer = $developer;
+
         return $this;
     }
 
     /**
-     * @return bool|null
+     * @return null|bool
      */
     public function getContractType(): ?bool
     {
@@ -550,12 +577,14 @@ class Building
     }
 
     /**
-     * @param bool|null $contractType
+     * @param null|bool $contractType
+     *
      * @return Building
      */
     public function setContractType(?bool $contractType): Building
     {
         $this->contractType = $contractType;
+
         return $this;
     }
 
@@ -569,11 +598,13 @@ class Building
 
     /**
      * @param null|string $flatCount
+     *
      * @return Building
      */
     public function setFlatCount(?string $flatCount): Building
     {
         $this->flatCount = $flatCount;
+
         return $this;
     }
 
@@ -587,11 +618,13 @@ class Building
 
     /**
      * @param bool $permission
+     *
      * @return Building
      */
     public function setPermission(bool $permission): Building
     {
         $this->permission = $permission;
+
         return $this;
     }
 
@@ -605,16 +638,18 @@ class Building
 
     /**
      * @param array $buildDate
+     *
      * @return Building
      */
     public function setBuildDate(array $buildDate): Building
     {
         $this->buildDate = $buildDate;
+
         return $this;
     }
 
     /**
-     * @return int|null
+     * @return null|int
      */
     public function getFacing(): ?int
     {
@@ -622,17 +657,19 @@ class Building
     }
 
     /**
-     * @param int|null $facing
+     * @param null|int $facing
+     *
      * @return Building
      */
     public function setFacing(?int $facing): Building
     {
         $this->facing = $facing;
+
         return $this;
     }
 
     /**
-     * @return bool|null
+     * @return null|bool
      */
     public function getPaymentType(): ?bool
     {
@@ -640,12 +677,14 @@ class Building
     }
 
     /**
-     * @param bool|null $paymentType
+     * @param null|bool $paymentType
+     *
      * @return Building
      */
     public function setPaymentType(?bool $paymentType): Building
     {
         $this->paymentType = $paymentType;
+
         return $this;
     }
 
@@ -659,15 +698,15 @@ class Building
 
     /**
      * @param Bank[] $accreditation
+     *
      * @return Building
      */
     public function setAccreditation(array $accreditation): Building
     {
         $this->accreditation = $accreditation;
+
         return $this;
     }
-
-
 
     /**
      * @return array
@@ -679,11 +718,13 @@ class Building
 
     /**
      * @param array $images
+     *
      * @return Building
      */
     public function setImages(array $images): Building
     {
         $this->images = $images;
+
         return $this;
     }
 
@@ -697,11 +738,13 @@ class Building
 
     /**
      * @param null|string $extUpdated
+     *
      * @return Building
      */
     public function setExtUpdated(?string $extUpdated): Building
     {
         $this->extUpdated = $extUpdated;
+
         return $this;
     }
 
@@ -715,11 +758,13 @@ class Building
 
     /**
      * @param null|string $description
+     *
      * @return Building
      */
     public function setDescription(?string $description): Building
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -733,11 +778,13 @@ class Building
 
     /**
      * @param null|string $ourOpinition
+     *
      * @return Building
      */
     public function setOurOpinition(?string $ourOpinition): Building
     {
         $this->ourOpinition = $ourOpinition;
+
         return $this;
     }
 
@@ -751,11 +798,13 @@ class Building
 
     /**
      * @param News[] $news
+     *
      * @return Building
      */
     public function setNews(array $news): Building
     {
         $this->news = $news;
+
         return $this;
     }
 
@@ -769,29 +818,13 @@ class Building
 
     /**
      * @param bool $status
+     *
      * @return Building
      */
     public function setStatus(bool $status): Building
     {
         $this->status = $status;
-        return $this;
-    }
 
-    /**
-     * @return null|string
-     */
-    public function getSpecifications(): ?string
-    {
-        return $this->specifications;
-    }
-
-    /**
-     * @param null|string $specifications
-     * @return Building
-     */
-    public function setSpecifications(?string $specifications): Building
-    {
-        $this->specifications = $specifications;
         return $this;
     }
 
@@ -805,11 +838,13 @@ class Building
 
     /**
      * @param null|string $parking
+     *
      * @return Building
      */
     public function setParking(?string $parking): Building
     {
         $this->parking = $parking;
+
         return $this;
     }
 
@@ -823,11 +858,13 @@ class Building
 
     /**
      * @param int $price
+     *
      * @return Building
      */
     public function setPrice(int $price): Building
     {
         $this->price = $price;
+
         return $this;
     }
 
@@ -841,11 +878,13 @@ class Building
 
     /**
      * @param int $pricePerM2
+     *
      * @return Building
      */
     public function setPricePerM2(int $pricePerM2): Building
     {
         $this->pricePerM2 = $pricePerM2;
+
         return $this;
     }
 
@@ -859,11 +898,53 @@ class Building
 
     /**
      * @param array $flats
+     *
      * @return Building
      */
     public function setFlats(array $flats): Building
     {
         $this->flats = $flats;
+
+        return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUserCreator(): User
+    {
+        return $this->userCreator;
+    }
+
+    /**
+     * @param User $userCreator
+     *
+     * @return Building
+     */
+    public function setUserCreator(User $userCreator): Building
+    {
+        $this->userCreator = $userCreator;
+
+        return $this;
+    }
+
+    /**
+     * @return null|User
+     */
+    public function getUserUpdater(): ?User
+    {
+        return $this->userUpdater;
+    }
+
+    /**
+     * @param null|User $userUpdater
+     *
+     * @return Building
+     */
+    public function setUserUpdater(?User $userUpdater): Building
+    {
+        $this->userUpdater = $userUpdater;
+
         return $this;
     }
 
@@ -877,11 +958,13 @@ class Building
 
     /**
      * @param \DateTime $createdAt
+     *
      * @return Building
      */
     public function setCreatedAt(\DateTime $createdAt): Building
     {
         $this->createdAt = $createdAt;
+
         return $this;
     }
 
@@ -895,11 +978,13 @@ class Building
 
     /**
      * @param \DateTime $updatedAt
+     *
      * @return Building
      */
     public function setUpdatedAt(\DateTime $updatedAt): Building
     {
         $this->updatedAt = $updatedAt;
+
         return $this;
     }
 }

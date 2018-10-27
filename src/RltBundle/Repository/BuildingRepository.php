@@ -33,8 +33,9 @@ class BuildingRepository extends EntityRepository
     }
 
     /**
-     * @return array|int[]
      * @throws \Doctrine\DBAL\DBALException
+     *
+     * @return array|int[]
      */
     public function getExternalIds(): array
     {

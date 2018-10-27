@@ -3,7 +3,6 @@
 namespace RltBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\Group;
 use FOS\UserBundle\Model\User as BaseUser;
@@ -63,30 +62,58 @@ class User extends BaseUser
     /**
      * @var Building[]
      *
-     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Building", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Building", mappedBy="userCreator")
      */
-    private $buildings;
+    private $buildingsCreated;
+
+    /**
+     * @var Building[]
+     *
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Building", mappedBy="userUpdater")
+     */
+    private $buildingsUpdated;
 
     /**
      * @var Developer[]
      *
-     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Developer", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Developer", mappedBy="user"Creator)
      */
-    private $developers;
+    private $developersCreated;
+
+    /**
+     * @var Developer[]
+     *
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Developer", mappedBy="userUpdater")
+     */
+    private $developersUpdated;
 
     /**
      * @var Bank[]
      *
-     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Bank", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Bank", mappedBy="userCreator")
      */
-    private $banks;
+    private $banksCreated;
+
+    /**
+     * @var Bank[]
+     *
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Bank", mappedBy="userUpdater")
+     */
+    private $banksUpdated;
 
     /**
      * @var News[]
      *
-     * @ORM\OneToMany(targetEntity="RltBundle\Entity\News", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\News", mappedBy="userCreator")
      */
-    private $news;
+    private $newsCreated;
+
+    /**
+     * @var News[]
+     *
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\News", mappedBy="userUpdater")
+     */
+    private $newsUpadted;
 
     /**
      * @var \DateTime
@@ -120,48 +147,14 @@ class User extends BaseUser
     }
 
     /**
-     * @return Building[]
-     */
-    public function getBuildings(): array
-    {
-        return $this->buildings;
-    }
-
-    /**
-     * @param Building[] $buildings
-     * @return User
-     */
-    public function setBuildings(array $buildings): User
-    {
-        $this->buildings = $buildings;
-        return $this;
-    }
-
-    /**
-     * @return Bank[]
-     */
-    public function getBanks(): array
-    {
-        return $this->banks;
-    }
-
-    /**
-     * @param Bank[] $banks
-     * @return User
-     */
-    public function setBanks(array $banks): User
-    {
-        $this->banks = $banks;
-        return $this;
-    }
-
-    /**
      * @param int $id
+     *
      * @return User
      */
     public function setId(int $id): User
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -175,11 +168,13 @@ class User extends BaseUser
 
     /**
      * @param Group[] $groups
+     *
      * @return User
      */
     public function setGroups(array $groups): User
     {
         $this->groups = $groups;
+
         return $this;
     }
 
@@ -192,38 +187,162 @@ class User extends BaseUser
     }
 
     /**
-     * @return Developer[]
+     * @return Building[]
      */
-    public function getDevelopers(): array
+    public function getBuildingsCreated(): array
     {
-        return $this->developers;
+        return $this->buildingsCreated;
     }
 
     /**
-     * @param Developer[] $developers
+     * @param Building[] $buildingsCreated
+     *
      * @return User
      */
-    public function setDevelopers(array $developers): User
+    public function setBuildingsCreated(array $buildingsCreated): User
     {
-        $this->developers = $developers;
+        $this->buildingsCreated = $buildingsCreated;
+
+        return $this;
+    }
+
+    /**
+     * @return Building[]
+     */
+    public function getBuildingsUpdated(): array
+    {
+        return $this->buildingsUpdated;
+    }
+
+    /**
+     * @param Building[] $buildingsUpdated
+     *
+     * @return User
+     */
+    public function setBuildingsUpdated(array $buildingsUpdated): User
+    {
+        $this->buildingsUpdated = $buildingsUpdated;
+
+        return $this;
+    }
+
+    /**
+     * @return Developer[]
+     */
+    public function getDevelopersCreated(): array
+    {
+        return $this->developersCreated;
+    }
+
+    /**
+     * @param Developer[] $developersCreated
+     *
+     * @return User
+     */
+    public function setDevelopersCreated(array $developersCreated): User
+    {
+        $this->developersCreated = $developersCreated;
+
+        return $this;
+    }
+
+    /**
+     * @return Developer[]
+     */
+    public function getDevelopersUpdated(): array
+    {
+        return $this->developersUpdated;
+    }
+
+    /**
+     * @param Developer[] $developersUpdated
+     *
+     * @return User
+     */
+    public function setDevelopersUpdated(array $developersUpdated): User
+    {
+        $this->developersUpdated = $developersUpdated;
+
+        return $this;
+    }
+
+    /**
+     * @return Bank[]
+     */
+    public function getBanksCreated(): array
+    {
+        return $this->banksCreated;
+    }
+
+    /**
+     * @param Bank[] $banksCreated
+     *
+     * @return User
+     */
+    public function setBanksCreated(array $banksCreated): User
+    {
+        $this->banksCreated = $banksCreated;
+
+        return $this;
+    }
+
+    /**
+     * @return Bank[]
+     */
+    public function getBanksUpdated(): array
+    {
+        return $this->banksUpdated;
+    }
+
+    /**
+     * @param Bank[] $banksUpdated
+     *
+     * @return User
+     */
+    public function setBanksUpdated(array $banksUpdated): User
+    {
+        $this->banksUpdated = $banksUpdated;
+
         return $this;
     }
 
     /**
      * @return News[]
      */
-    public function getNews(): array
+    public function getNewsCreated(): array
     {
-        return $this->news;
+        return $this->newsCreated;
     }
 
     /**
-     * @param News[] $news
+     * @param News[] $newsCreated
+     *
      * @return User
      */
-    public function setNews(array $news): User
+    public function setNewsCreated(array $newsCreated): User
     {
-        $this->news = $news;
+        $this->newsCreated = $newsCreated;
+
+        return $this;
+    }
+
+    /**
+     * @return News[]
+     */
+    public function getNewsUpadted(): array
+    {
+        return $this->newsUpadted;
+    }
+
+    /**
+     * @param News[] $newsUpadted
+     *
+     * @return User
+     */
+    public function setNewsUpadted(array $newsUpadted): User
+    {
+        $this->newsUpadted = $newsUpadted;
+
         return $this;
     }
 
@@ -237,16 +356,18 @@ class User extends BaseUser
 
     /**
      * @param \DateTime $createdAt
+     *
      * @return User
      */
     public function setCreatedAt(\DateTime $createdAt): User
     {
         $this->createdAt = $createdAt;
+
         return $this;
     }
 
     /**
-     * @return \DateTime|null
+     * @return null|\DateTime
      */
     public function getUpdatedAt(): ?\DateTime
     {
@@ -254,12 +375,14 @@ class User extends BaseUser
     }
 
     /**
-     * @param \DateTime|null $updatedAt
+     * @param null|\DateTime $updatedAt
+     *
      * @return User
      */
     public function setUpdatedAt(?\DateTime $updatedAt): User
     {
         $this->updatedAt = $updatedAt;
+
         return $this;
     }
 }

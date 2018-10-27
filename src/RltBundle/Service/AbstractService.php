@@ -3,12 +3,10 @@
 namespace RltBundle\Service;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7;
 use GuzzleHttp\RequestOptions;
 use Psr\Log\LoggerInterface;
-use Psr\Log\Test\LoggerInterfaceTest;
-use GuzzleHttp\Psr7;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
@@ -51,9 +49,10 @@ abstract class AbstractService
 
     /**
      * Service constructor.
+     *
      * @param LoggerInterface $logger
-     * @param string $url
-     * @param RedisService $redis
+     * @param string          $url
+     * @param RedisService    $redis
      */
     public function __construct(string $url, LoggerInterface $logger, RedisService $redis)
     {
@@ -108,13 +107,16 @@ abstract class AbstractService
     protected function createCacheKey(string $unique): string
     {
         $today = new \DateTime();
+
         return 'link_' . \hash('sha256', $unique . $today->format('Ymd'));
     }
 
     /**
      * @param mixed $param
-     * @return string
+     *
      * @throws \ReflectionException
+     *
+     * @return string
      */
     protected function request($param): string
     {
@@ -139,8 +141,10 @@ abstract class AbstractService
     /**
      * @param $link
      * @param array $params
-     * @return string
+     *
      * @throws \ReflectionException
+     *
+     * @return string
      */
     protected function simpleRequest($link, $params = []): string
     {
@@ -168,10 +172,11 @@ abstract class AbstractService
     abstract public function parseLinks(): array;
 
     /**
+     * @param string $link
+     *
      * @throws \ReflectionException
      *
-     * @param string $link
      * @return string
      */
-    abstract public function getItem(string $link): string ;
+    abstract public function getItem(string $link): string;
 }

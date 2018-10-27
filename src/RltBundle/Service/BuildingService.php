@@ -2,10 +2,6 @@
 
 namespace RltBundle\Service;
 
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
@@ -18,9 +14,9 @@ class BuildingService extends AbstractService
     private const PAGE_SIZE = 20;
 
     /**
-     * @return array
-     *
      * @throws \ReflectionException
+     *
+     * @return array
      */
     public function parseLinks(): array
     {
@@ -37,11 +33,13 @@ class BuildingService extends AbstractService
             $result[] = $this->parseItemForLinks($content);
             ++$offset;
         }
+
         return \array_merge(...$links);
     }
 
     /**
      * @param string $content
+     *
      * @return array
      */
     protected function parseItemForLinks(string $content): array
@@ -67,17 +65,20 @@ class BuildingService extends AbstractService
 
     /**
      * @param string $link
+     *
      * @return int
      */
     protected function parseExtId(string $link): int
     {
-        return preg_replace('/.+\/novostroyki\/(\d+).+/ui','$1', $link) ?? 0;
+        return \preg_replace('/.+\/novostroyki\/(\d+).+/ui', '$1', $link) ?? 0;
     }
 
     /**
      * @param string $link
-     * @return string
+     *
      * @throws \ReflectionException
+     *
+     * @return string
      */
     public function getItem(string $link): string
     {

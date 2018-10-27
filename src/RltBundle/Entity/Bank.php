@@ -49,9 +49,9 @@ class Bank
      *
      * @Assert\Type(type="integer")
      * @Assert\Length(
-     *      min = 6,
-     *      max = 12,
-     *      message = "You must enter a valid phone number",
+     *     min=6,
+     *     max=12,
+     *     message="You must enter a valid phone number",
      * )
      *
      * @ORM\Column(name="phone", type="integer", unique=true, nullable=true)
@@ -62,8 +62,8 @@ class Bank
      * @var null|string
      *
      * @Assert\Email(
-     *     message = "The email '{{ value }}' is not a valid email.",
-     *     checkMX = true)
+     *     message="The email '{{ value }}' is not a valid email.",
+     * checkMX=true)
      *
      * @ORM\Column(name="email", type="string", length=255, unique=true, nullable=true)
      */
@@ -82,7 +82,7 @@ class Bank
      * @var null|int
      *
      * @Assert\Type(type="integer")
-     * @Assert\Range(min=1900, max=2018, message = "You must enter a valid year")
+     * @Assert\Range(min=1900, max=2018, message="You must enter a valid year")
      *
      * @ORM\Column(name="creation_year", type="smallint", nullable=true)
      */
@@ -112,7 +112,6 @@ class Bank
      * @Assert\Type(type="string")
      *
      * @ORM\Column(name="logo", type="string", nullable=true)
-     *
      */
     private $logo;
 
@@ -124,6 +123,23 @@ class Bank
      * @ORM\Column(name="description", type="string", nullable=true)
      */
     private $description;
+
+    /**
+     * @var User
+     * @Assert\Blank()
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\User", inversedBy="banksCreated", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="user_creator", referencedColumnName="id")
+     */
+    private $userCreator;
+
+    /**
+     * @var null|User
+     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\User", inversedBy="banksUpdated", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="user_updater", referencedColumnName="id", nullable=true)
+     */
+    private $userUpdater;
 
     /**
      * Bank constructor.
@@ -144,11 +160,13 @@ class Bank
 
     /**
      * @param int $id
+     *
      * @return Bank
      */
     public function setId(int $id): Bank
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -162,11 +180,13 @@ class Bank
 
     /**
      * @param string $name
+     *
      * @return Bank
      */
     public function setName(string $name): Bank
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -180,16 +200,18 @@ class Bank
 
     /**
      * @param int $externalId
+     *
      * @return Bank
      */
     public function setExternalId(int $externalId): Bank
     {
         $this->externalId = $externalId;
+
         return $this;
     }
 
     /**
-     * @return int|null
+     * @return null|int
      */
     public function getPhone(): ?int
     {
@@ -197,12 +219,14 @@ class Bank
     }
 
     /**
-     * @param int|null $phone
+     * @param null|int $phone
+     *
      * @return Bank
      */
     public function setPhone(?int $phone): Bank
     {
         $this->phone = $phone;
+
         return $this;
     }
 
@@ -216,11 +240,13 @@ class Bank
 
     /**
      * @param null|string $email
+     *
      * @return Bank
      */
     public function setEmail(?string $email): Bank
     {
         $this->email = $email;
+
         return $this;
     }
 
@@ -234,16 +260,18 @@ class Bank
 
     /**
      * @param null|string $site
+     *
      * @return Bank
      */
     public function setSite(?string $site): Bank
     {
         $this->site = $site;
+
         return $this;
     }
 
     /**
-     * @return int|null
+     * @return null|int
      */
     public function getCreationYear(): ?int
     {
@@ -251,12 +279,14 @@ class Bank
     }
 
     /**
-     * @param int|null $creationYear
+     * @param null|int $creationYear
+     *
      * @return Bank
      */
     public function setCreationYear(?int $creationYear): Bank
     {
         $this->creationYear = $creationYear;
+
         return $this;
     }
 
@@ -270,11 +300,13 @@ class Bank
 
     /**
      * @param Building[] $accreditated
+     *
      * @return Bank
      */
     public function setAccreditated(array $accreditated): Bank
     {
         $this->accreditated = $accreditated;
+
         return $this;
     }
 
@@ -288,11 +320,13 @@ class Bank
 
     /**
      * @param News[] $news
+     *
      * @return Bank
      */
     public function setNews(array $news): Bank
     {
         $this->news = $news;
+
         return $this;
     }
 
@@ -306,11 +340,13 @@ class Bank
 
     /**
      * @param null|string $logo
+     *
      * @return Bank
      */
     public function setLogo(?string $logo): Bank
     {
         $this->logo = $logo;
+
         return $this;
     }
 
@@ -324,11 +360,53 @@ class Bank
 
     /**
      * @param null|string $description
+     *
      * @return Bank
      */
     public function setDescription(?string $description): Bank
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUserCreator(): User
+    {
+        return $this->userCreator;
+    }
+
+    /**
+     * @param User $userCreator
+     *
+     * @return Bank
+     */
+    public function setUserCreator(User $userCreator): Bank
+    {
+        $this->userCreator = $userCreator;
+
+        return $this;
+    }
+
+    /**
+     * @return null|User
+     */
+    public function getUserUpdater(): ?User
+    {
+        return $this->userUpdater;
+    }
+
+    /**
+     * @param null|User $userUpdater
+     *
+     * @return Bank
+     */
+    public function setUserUpdater(?User $userUpdater): Bank
+    {
+        $this->userUpdater = $userUpdater;
+
         return $this;
     }
 }

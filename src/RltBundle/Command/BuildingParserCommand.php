@@ -5,7 +5,6 @@ namespace RltBundle\Command;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use RltBundle\Entity\Building;
 use RltBundle\Manager\BuildingManager;
 use RltBundle\RltBundle;
 use RltBundle\Service\BuildingService;
@@ -83,11 +82,12 @@ class BuildingParserCommand extends Command
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      *
-     * @return null|int|void
      * @throws \ReflectionException
+     *
+     * @return null|int|void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -106,7 +106,8 @@ class BuildingParserCommand extends Command
             $this->service->useCache(true);
         }
 
-        $this->manager->createBuilding('a', 'b');die;
+        $this->manager->createBuilding('a', 'b');
+        die;
 
         $links = $this->service->parseLinks();
 

@@ -2,6 +2,9 @@
 
 namespace RltBundle\Entity\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 final class BuildingDTO
 {
     /**
@@ -40,16 +43,6 @@ final class BuildingDTO
     private $developer;
 
     /**
-     * @var array
-     */
-    private $banks;
-
-    /**
-     * @var array
-     */
-    private $bankLinks;
-
-    /**
      * @var string
      */
     private $developerLink;
@@ -85,9 +78,14 @@ final class BuildingDTO
     private $paymentType;
 
     /**
-     * @var null|string
+     * @var array
      */
     private $accreditation;
+
+    /**
+     * @var array
+     */
+    private $bankLinks;
 
     /**
      * @var array
@@ -112,11 +110,6 @@ final class BuildingDTO
     /**
      * @var null|string
      */
-    private $specifications;
-
-    /**
-     * @var null|string
-     */
     private $parking;
 
     /**
@@ -130,41 +123,22 @@ final class BuildingDTO
     private $pricePerM2;
 
     /**
-     * @var int
+     * @var Flat[]
      */
-    private $flatRooms;
-
-    /**
-     * @var null|float
-     */
-    private $flatSize;
-
-    /**
-     * @var null|string
-     */
-    private $flatCost;
-
-    /**
-     * @var null|string
-     */
-    private $flatCostPerM2;
-
-    /**
-     * @var null|string
-     */
-    private $flatImg;
-
-    /**
-     * @var null|string
-     */
-    private $flatBuildDate;
-
+    private $flats;
 
     /**
      * @var null|string
      */
     private $updated;
 
+    /**
+     * BuildingDTO constructor.
+     */
+    public function __construct()
+    {
+        $this->flats = new ArrayCollection();
+    }
 
     /**
      * @return string
@@ -176,11 +150,13 @@ final class BuildingDTO
 
     /**
      * @param string $name
+     *
      * @return BuildingDTO
      */
     public function setName(string $name): BuildingDTO
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -194,11 +170,13 @@ final class BuildingDTO
 
     /**
      * @param null|string $metro
+     *
      * @return BuildingDTO
      */
     public function setMetro(?string $metro): BuildingDTO
     {
         $this->metro = $metro;
+
         return $this;
     }
 
@@ -212,11 +190,13 @@ final class BuildingDTO
 
     /**
      * @param null|string $class
+     *
      * @return BuildingDTO
      */
     public function setClass(?string $class): BuildingDTO
     {
         $this->class = $class;
+
         return $this;
     }
 
@@ -230,11 +210,13 @@ final class BuildingDTO
 
     /**
      * @param null|string $address
+     *
      * @return BuildingDTO
      */
     public function setAddress(?string $address): BuildingDTO
     {
         $this->address = $address;
+
         return $this;
     }
 
@@ -248,11 +230,13 @@ final class BuildingDTO
 
     /**
      * @param null|string $buildType
+     *
      * @return BuildingDTO
      */
     public function setBuildType(?string $buildType): BuildingDTO
     {
         $this->buildType = $buildType;
+
         return $this;
     }
 
@@ -266,11 +250,13 @@ final class BuildingDTO
 
     /**
      * @param null|string $floors
+     *
      * @return BuildingDTO
      */
     public function setFloors(?string $floors): BuildingDTO
     {
         $this->floors = $floors;
+
         return $this;
     }
 
@@ -284,11 +270,13 @@ final class BuildingDTO
 
     /**
      * @param string $developer
+     *
      * @return BuildingDTO
      */
     public function setDeveloper(string $developer): BuildingDTO
     {
         $this->developer = $developer;
+
         return $this;
     }
 
@@ -302,29 +290,13 @@ final class BuildingDTO
 
     /**
      * @param string $developerLink
+     *
      * @return BuildingDTO
      */
     public function setDeveloperLink(string $developerLink): BuildingDTO
     {
         $this->developerLink = $developerLink;
-        return $this;
-    }
 
-    /**
-     * @return array
-     */
-    public function getBanks(): array
-    {
-        return $this->banks;
-    }
-
-    /**
-     * @param array $banks
-     * @return BuildingDTO
-     */
-    public function setBanks(array $banks): BuildingDTO
-    {
-        $this->banks = $banks;
         return $this;
     }
 
@@ -338,11 +310,13 @@ final class BuildingDTO
 
     /**
      * @param array $bankLinks
+     *
      * @return BuildingDTO
      */
     public function setBankLinks(array $bankLinks): BuildingDTO
     {
         $this->bankLinks = $bankLinks;
+
         return $this;
     }
 
@@ -356,11 +330,13 @@ final class BuildingDTO
 
     /**
      * @param null|string $contractType
+     *
      * @return BuildingDTO
      */
     public function setContractType(?string $contractType): BuildingDTO
     {
         $this->contractType = $contractType;
+
         return $this;
     }
 
@@ -374,11 +350,13 @@ final class BuildingDTO
 
     /**
      * @param null|string $flatCount
+     *
      * @return BuildingDTO
      */
     public function setFlatCount(?string $flatCount): BuildingDTO
     {
         $this->flatCount = $flatCount;
+
         return $this;
     }
 
@@ -392,11 +370,13 @@ final class BuildingDTO
 
     /**
      * @param null|string $permission
+     *
      * @return BuildingDTO
      */
     public function setPermission(?string $permission): BuildingDTO
     {
         $this->permission = $permission;
+
         return $this;
     }
 
@@ -410,11 +390,13 @@ final class BuildingDTO
 
     /**
      * @param array $buildDate
+     *
      * @return BuildingDTO
      */
     public function setBuildDate(array $buildDate): BuildingDTO
     {
         $this->buildDate = $buildDate;
+
         return $this;
     }
 
@@ -428,11 +410,13 @@ final class BuildingDTO
 
     /**
      * @param null|string $facing
+     *
      * @return BuildingDTO
      */
     public function setFacing(?string $facing): BuildingDTO
     {
         $this->facing = $facing;
+
         return $this;
     }
 
@@ -446,29 +430,33 @@ final class BuildingDTO
 
     /**
      * @param null|string $paymentType
+     *
      * @return BuildingDTO
      */
     public function setPaymentType(?string $paymentType): BuildingDTO
     {
         $this->paymentType = $paymentType;
+
         return $this;
     }
 
     /**
-     * @return null|string
+     * @return array
      */
-    public function getAccreditation(): ?string
+    public function getAccreditation(): array
     {
         return $this->accreditation;
     }
 
     /**
-     * @param null|string $accreditation
+     * @param array $accreditation
+     *
      * @return BuildingDTO
      */
-    public function setAccreditation(?string $accreditation): BuildingDTO
+    public function setAccreditation(array $accreditation): BuildingDTO
     {
         $this->accreditation = $accreditation;
+
         return $this;
     }
 
@@ -482,11 +470,13 @@ final class BuildingDTO
 
     /**
      * @param array $images
+     *
      * @return BuildingDTO
      */
     public function setImages(array $images): BuildingDTO
     {
         $this->images = $images;
+
         return $this;
     }
 
@@ -500,11 +490,13 @@ final class BuildingDTO
 
     /**
      * @param null|string $description
+     *
      * @return BuildingDTO
      */
     public function setDescription(?string $description): BuildingDTO
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -518,11 +510,13 @@ final class BuildingDTO
 
     /**
      * @param null|string $ourOpinition
+     *
      * @return BuildingDTO
      */
     public function setOurOpinition(?string $ourOpinition): BuildingDTO
     {
         $this->ourOpinition = $ourOpinition;
+
         return $this;
     }
 
@@ -536,11 +530,13 @@ final class BuildingDTO
 
     /**
      * @param null|string $status
+     *
      * @return BuildingDTO
      */
     public function setStatus(?string $status): BuildingDTO
     {
         $this->status = $status;
+
         return $this;
     }
 
@@ -554,11 +550,13 @@ final class BuildingDTO
 
     /**
      * @param null|string $specifications
+     *
      * @return BuildingDTO
      */
     public function setSpecifications(?string $specifications): BuildingDTO
     {
         $this->specifications = $specifications;
+
         return $this;
     }
 
@@ -572,11 +570,13 @@ final class BuildingDTO
 
     /**
      * @param null|string $parking
+     *
      * @return BuildingDTO
      */
     public function setParking(?string $parking): BuildingDTO
     {
         $this->parking = $parking;
+
         return $this;
     }
 
@@ -590,11 +590,13 @@ final class BuildingDTO
 
     /**
      * @param null|string $price
+     *
      * @return BuildingDTO
      */
     public function setPrice(?string $price): BuildingDTO
     {
         $this->price = $price;
+
         return $this;
     }
 
@@ -608,119 +610,47 @@ final class BuildingDTO
 
     /**
      * @param null|string $pricePerM2
+     *
      * @return BuildingDTO
      */
     public function setPricePerM2(?string $pricePerM2): BuildingDTO
     {
         $this->pricePerM2 = $pricePerM2;
+
         return $this;
     }
 
     /**
-     * @return float|null
+     * @return Collection|Flat[]
      */
-    public function getFlatSize(): ?float
+    public function getFlats(): Collection
     {
-        return $this->flatSize;
+        return $this->flats;
     }
 
     /**
-     * @return int
-     */
-    public function getFlatRooms(): int
-    {
-        return $this->flatRooms;
-    }
-
-    /**
-     * @param int $flatRooms
+     * Add flat.
+     *
+     * @param Flat $flat
+     *
      * @return BuildingDTO
      */
-    public function setFlatRooms(int $flatRooms): BuildingDTO
+    public function addFlat(Flat $flat)
     {
-        $this->flatRooms = $flatRooms;
+        $this->flats[] = $flat;
+
         return $this;
     }
 
     /**
-     * @param float|null $flatSize
+     * @param Flat[] $flats
+     *
      * @return BuildingDTO
      */
-    public function setFlatSize(?float $flatSize): BuildingDTO
+    public function setFlats(array $flats): BuildingDTO
     {
-        $this->flatSize = $flatSize;
-        return $this;
-    }
+        $this->flats = $flats;
 
-    /**
-     * @return null|string
-     */
-    public function getFlatCost(): ?string
-    {
-        return $this->flatCost;
-    }
-
-    /**
-     * @param null|string $flatCost
-     * @return BuildingDTO
-     */
-    public function setFlatCost(?string $flatCost): BuildingDTO
-    {
-        $this->flatCost = $flatCost;
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getFlatCostPerM2(): ?string
-    {
-        return $this->flatCostPerM2;
-    }
-
-    /**
-     * @param null|string $flatCostPerM2
-     * @return BuildingDTO
-     */
-    public function setFlatCostPerM2(?string $flatCostPerM2): BuildingDTO
-    {
-        $this->flatCostPerM2 = $flatCostPerM2;
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getFlatImg(): ?string
-    {
-        return $this->flatImg;
-    }
-
-    /**
-     * @param null|string $flatImg
-     * @return BuildingDTO
-     */
-    public function setFlatImg(?string $flatImg): BuildingDTO
-    {
-        $this->flatImg = $flatImg;
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getFlatBuildDate(): ?string
-    {
-        return $this->flatBuildDate;
-    }
-
-    /**
-     * @param null|string $flatBuildDate
-     * @return BuildingDTO
-     */
-    public function setFlatBuildDate(?string $flatBuildDate): BuildingDTO
-    {
-        $this->flatBuildDate = $flatBuildDate;
         return $this;
     }
 
@@ -734,11 +664,13 @@ final class BuildingDTO
 
     /**
      * @param null|string $updated
+     *
      * @return BuildingDTO
      */
     public function setUpdated(?string $updated): BuildingDTO
     {
         $this->updated = $updated;
+
         return $this;
     }
 }

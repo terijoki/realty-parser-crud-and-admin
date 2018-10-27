@@ -35,9 +35,9 @@ class Group extends BaseGroup
     protected $id;
 
     /**
-     * @var User[]
+     * @var user[]
      *
-     * Many Groups have Many Users.
+     * Many Groups have Many Users
      * @ManyToMany(targetEntity="RltBundle\Entity\User", mappedBy="groups", fetch="EXTRA_LAZY")
      */
     protected $users;

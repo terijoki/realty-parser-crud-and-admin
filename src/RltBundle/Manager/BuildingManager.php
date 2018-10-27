@@ -1,15 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: vladimir
- * Date: 25.10.18
- * Time: 12:25
- */
 
 namespace RltBundle\Manager;
 
-
 use RltBundle\Entity\Model\BuildingDTO;
+use RltBundle\Entity\Model\Flat;
 use Symfony\Component\DomCrawler\Crawler;
 
 class BuildingManager extends AbstractManager
@@ -45,11 +39,12 @@ class BuildingManager extends AbstractManager
     /**
      * @param string $item
      * @param string $link
+     *
      * @return BuildingDTO
      */
     public function createBuilding(string $item, string $link)
     {
-        $dom = new Crawler(file_get_contents(__DIR__ .'/'. 'item.html'));
+        $dom = new Crawler(\file_get_contents(__DIR__ . '/' . 'item.html'));
 
         $this->dto = new BuildingDTO();
         $this->parseCharacteristics($dom);
@@ -71,7 +66,8 @@ class BuildingManager extends AbstractManager
 
     /**
      * @param Crawler $dom
-     * @param string $link
+     * @param string  $link
+     *
      * @return string
      */
     private function parseName(Crawler $dom, string $link): string
@@ -88,11 +84,12 @@ class BuildingManager extends AbstractManager
 
     /**
      * @param Crawler $dom
+     *
      * @return null|string
      */
     private function parseMetro(Crawler $dom): ?string
     {
-        return trim($dom->filter('div[class="build-info-metro"] > a')->text());
+        return \trim($dom->filter('div[class="build-info-metro"] > a')->text());
     }
 
     /**
@@ -101,51 +98,63 @@ class BuildingManager extends AbstractManager
     private function parseCharacteristics(Crawler $dom): void
     {
         foreach ($dom->filter('table[class="build-info-data"]')->eq(0)->children() as $node) {
-            $result = trim($node->childNodes->item(2)->nodeValue);
+            $result = \trim($node->childNodes->item(2)->nodeValue);
             switch ($node->firstChild->nodeValue) {
                 case self::B_CLASS:
                     $this->dto->setClass($result);
+
                     break;
                 case self::TYPE:
                     $this->dto->setBuildType($result);
+
                     break;
                 case self::FLOORS:
                     $this->dto->setFloors($result);
+
                     break;
                 case self::FLATS:
                     $this->dto->setFlatCount($result);
+
                     break;
                 case self::PARKING:
-                    $this->dto->setFloors($result);
+                    $this->dto->setParking($result);
+
                     break;
                 case self::FACING:
                     $this->dto->setFacing($result);
+
                     break;
                 case self::PERMISSION:
                     $this->dto->setPermission($result);
+
                     break;
             }
         }
 
         foreach ($dom->filter('table[class="build-info-data"]')->eq(1)->children() as $node) {
-            $result = trim($node->childNodes->item(2)->nodeValue);
+            $result = \trim($node->childNodes->item(2)->nodeValue);
             switch ($node->firstChild->nodeValue) {
                 case self::PAYMENT:
                     $this->dto->setPaymentType($result);
+
                     break;
                 case self::CONTRACT:
                     $this->dto->setContractType($result);
+
                     break;
                 case self::DEVELOPER:
                     $this->dto->setDeveloper($this->parseDeveloper($node));
                     $this->dto->setDeveloperLink($this->parseDeveloperLink($node));
+
                     break;
                 case self::ACCREDITATION:
-                    $this->dto->setBanks($this->parseBanks($node));
+                    $this->dto->setAccreditation($this->parseBanks($node));
                     $this->dto->setBankLinks($this->parseBankLinks($node));
+
                     break;
                 case self::UPDATED:
                     $this->dto->setUpdated($result);
+
                     break;
             }
         }
@@ -160,21 +169,24 @@ class BuildingManager extends AbstractManager
 
     /**
      * @param \DOMNodeList $node
-     * @return array|null
+     *
+     * @return null|array
      */
     private function parseBuildDate(\DOMNodeList $node): ?array
     {
         $dates = [];
-        if ($node->item(0)->nodeValue === self::DATE_FINISH) {
+        if (self::DATE_FINISH === $node->item(0)->nodeValue) {
             foreach ($node->item(2)->getElementsByTagName('span') as $item) {
-                $dates[] = trim($item->firstChild->nodeValue);
+                $dates[] = \trim($item->firstChild->nodeValue);
             }
         }
+
         return $dates;
     }
 
     /**
      * @param \DOMElement $node
+     *
      * @return string
      */
     private function parseDeveloper(\DOMElement $node)
@@ -184,6 +196,7 @@ class BuildingManager extends AbstractManager
 
     /**
      * @param \DOMElement $node
+     *
      * @return string
      */
     private function parseDeveloperLink(\DOMElement $node)
@@ -193,6 +206,7 @@ class BuildingManager extends AbstractManager
 
     /**
      * @param \DOMElement $nodes
+     *
      * @return array
      */
     private function parseBanks(\DOMElement $nodes)
@@ -201,15 +215,17 @@ class BuildingManager extends AbstractManager
 
         foreach ($nodes->getElementsByTagName('a') as $key => $node) {
             $banks[] = $node->nodeValue;
-            if (preg_match('/еще/u', $banks[$key], $matches)) {
+            if (\preg_match('/еще/u', $banks[$key], $matches)) {
                 unset($banks[$key]);
             }
         }
+
         return $banks;
     }
 
     /**
      * @param \DOMElement $nodes
+     *
      * @return array
      */
     private function parseBankLinks(\DOMElement $nodes)
@@ -218,7 +234,7 @@ class BuildingManager extends AbstractManager
 
         foreach ($nodes->getElementsByTagName('a') as $key => $node) {
             $bankLinks[] = $node->getAttribute('href');
-            if (preg_match('/#/u', $bankLinks[$key], $matches)) {
+            if (\preg_match('/#/u', $bankLinks[$key], $matches)) {
                 unset($bankLinks[$key]);
             }
         }
@@ -228,16 +244,18 @@ class BuildingManager extends AbstractManager
 
     /**
      * @param Crawler $dom
+     *
      * @return null|string
      */
     private function parseAddress(Crawler $dom): ?string
     {
-        return trim($dom->filter('div[class="build-info-address"] > a')->text());
+        return \trim($dom->filter('div[class="build-info-address"] > a')->text());
     }
 
     /**
      * @param Crawler $dom
-     * @return array|null
+     *
+     * @return null|array
      */
     private function parseImages(Crawler $dom): ?array
     {
@@ -246,45 +264,52 @@ class BuildingManager extends AbstractManager
         foreach ($dom->filter('div[class="slider_cnt"] > ul > li > img') as $img) {
             $images[] = $img->getAttribute('src');
         }
+
         return $images;
     }
 
     /**
      * @param Crawler $dom
+     *
      * @return null|string
      */
     private function parseDescription(Crawler $dom): ?string
     {
-        return trim($dom->filter('div[itemprop="description"]')->text());
+        return \trim($dom->filter('div[itemprop="description"]')->text());
     }
 
     /**
      * @param Crawler $dom
+     *
      * @return null|string
      */
     private function parseOurOpinition(Crawler $dom): ?string
     {
-        return trim($dom->filter('div[class="p_c"]')->text());
+        return \trim($dom->filter('div[class="p_c"]')->text());
     }
 
     /**
      * @param Crawler $dom
+     *
      * @return null|string
      */
     private function parsePrice(Crawler $dom): ?string
     {
         $node = $dom->filter('div[class="build-info-price"] > p')->getNode(0);
-        return trim($node->firstChild->nodeValue);
+
+        return \trim($node->firstChild->nodeValue);
     }
 
     /**
      * @param Crawler $dom
+     *
      * @return null|string
      */
     private function parsePricePerM2(Crawler $dom): ?string
     {
         $node = $dom->filter('div[class="build-info-price"] > p')->getNode(1);
-        return trim($node->firstChild->nodeValue);
+
+        return \trim($node->firstChild->nodeValue);
     }
 
     /**
@@ -293,21 +318,20 @@ class BuildingManager extends AbstractManager
     private function parseFlats(Crawler $dom): void
     {
         for ($rooms = 0; $rooms < 6; ++$rooms) {
-            if ($rooms === 0) {
+            if (0 === $rooms) {
                 $selector = 'div[data-type="S"]';
             } else {
-                $selector = 'div[data-type="'. $rooms .'"]';
+                $selector = 'div[data-type="' . $rooms . '"]';
             }
             foreach ($dom->filter($selector)->filter('tr[itemprop="offers"]') as $flat) {
-                if ($flat->childNodes->count() === self::STANDART_COLUMN_COUNT) {
+                if (self::STANDART_COLUMN_COUNT === $flat->childNodes->count()) {
                     $params = [
                         'flat_size' => self::FLAT_SIZE,
                         'cost_per_m2' => self::COST_PER_M2,
                         'total_cost' => self::TOTAL_COST,
                         'plan_image' => self::IMAGE,
-                        'build_date' => self::FLAT_BUILD_DATE
+                        'build_date' => self::FLAT_BUILD_DATE,
                     ];
-                    $this->createFlat($flat, $params);
                 } else {
                     $params = [
                         //todo: change
@@ -315,39 +339,48 @@ class BuildingManager extends AbstractManager
                         'cost_per_m2' => self::COST_PER_M2,
                         'total_cost' => self::TOTAL_COST,
                         'plan_image' => self::IMAGE,
-                        'build_date' => self::FLAT_BUILD_DATE
+                        'build_date' => self::FLAT_BUILD_DATE,
                     ];
-                    $this->createFlat($flat, $params);
                 }
+                $this->createFlat($flat, $rooms, $params);
             }
-
         }
     }
 
     /**
-     * @param \DOMElement $flat
-     * @param array $params
+     * @param \DOMElement $item
+     * @param int         $rooms
+     * @param array       $params
      */
-    private function createFlat(\DOMElement $flat, array $params): void
+    private function createFlat(\DOMElement $item, int $rooms, array $params): void
     {
-        foreach ($flat->childNodes as $key => $field) {
+        $flat = new Flat();
+
+        $flat->setRooms($rooms);
+        foreach ($item->childNodes as $key => $field) {
             switch ($key) {
                 case $params['flat_size']:
-                    $this->dto->setFlatSize(trim($field->nodeValue));
+                    $flat->setSize(\trim($field->nodeValue));
+
                     break;
                 case $params['cost_per_m2']:
-                    $this->dto->setFlatCostPerM2(trim($field->nodeValue));
+                    $flat->setCostPerM2(\trim($field->nodeValue));
+
                     break;
                 case $params['total_cost']:
-                    $this->dto->setFlatCost(trim($field->nodeValue));
+                    $flat->setCost(\trim($field->nodeValue));
+
                     break;
                 case $params['plan_image']:
-                    $this->dto->setFlatImg($field->getElementsByTagName('a')->item(0)->getAttribute('href'));
+                    $flat->setImg($field->getElementsByTagName('a')->item(0)->getAttribute('href'));
+
                     break;
                 case $params['build_date']:
-                    $this->dto->setFlatBuildDate(trim($field->nodeValue));
+                    $flat->setBuildDate(\trim($field->nodeValue));
+
                     break;
             }
         }
+        $this->dto->addFlat($flat);
     }
 }

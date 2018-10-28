@@ -2,34 +2,37 @@
 
 namespace RltBundle\Manager;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use RltBundle\Entity\Model\BuildingDTO;
 use RltBundle\Entity\Model\Flat;
+use RltBundle\Service\AbstractService;
 use Symfony\Component\DomCrawler\Crawler;
 
-class BuildingManager extends AbstractManager
+final class BuildingParserManager extends AbstractManager
 {
-    protected const B_CLASS = 'Класс жилья';
-    protected const TYPE = 'Тип здания';
-    protected const FLOORS = 'Этажность';
-    protected const FLATS = 'Квартир';
-    protected const PARKING = 'Паркинг';
-    protected const FACING = 'Отделка:';
-    protected const PERMISSION = 'Разрешение на строительство';
-    protected const PAYMENT = 'Оплата';
-    protected const CONTRACT = 'Договор';
-    protected const DEVELOPER = 'Застройщик:';
-    protected const ACCREDITATION = 'Аккредитация';
-    protected const UPDATED = 'Обновлено';
-    protected const DATE_FINISH = 'Дата сдачи';
+    private const B_CLASS = 'Класс жилья';
+    private const TYPE = 'Тип здания';
+    private const FLOORS = 'Этажность';
+    private const FLATS = 'Квартир';
+    private const PARKING = 'Паркинг';
+    private const FACING = 'Отделка:';
+    private const PERMISSION = 'Разрешение на строительство';
+    private const PAYMENT = 'Оплата';
+    private const CONTRACT = 'Договор';
+    private const DEVELOPER = 'Застройщик:';
+    private const ACCREDITATION = 'Аккредитация';
+    private const UPDATED = 'Обновлено';
+    private const DATE_FINISH = 'Дата сдачи';
 
-    protected const FLAT_SIZE = 0;
-    protected const COST_PER_M2 = 8;
-    protected const TOTAL_COST = 10;
-    protected const IMAGE = 12;
-    protected const FLAT_BUILD_DATE = 14;
+    private const FLAT_SIZE = 0;
+    private const COST_PER_M2 = 8;
+    private const TOTAL_COST = 10;
+    private const IMAGE = 12;
+    private const FLAT_BUILD_DATE = 14;
 
-    protected const STANDART_COLUMN_COUNT = 16;
-    protected const STUDIO = 'S';
+    private const STANDART_COLUMN_COUNT = 16;
+    private const STUDIO = 'S';
 
     /**
      * @var BuildingDTO
@@ -37,20 +40,43 @@ class BuildingManager extends AbstractManager
     private $dto;
 
     /**
+     * BuildingParserManager constructor.
+     *
+     * @param EntityManagerInterface $em
+     * @param LoggerInterface        $logger
+     * @param AbstractService        $service
+     */
+    public function __construct(EntityManagerInterface $em, LoggerInterface $logger, AbstractService $service)
+    {
+        parent::__construct($em, $logger, $service);
+        $this->dto = new BuildingDTO();
+    }
+
+    /**
+     * @return BuildingDTO
+     */
+    public function getDto(): BuildingDTO
+    {
+        return $this->dto;
+    }
+
+    /**
      * @param string $item
-     * @param string $link
+     * @param int    $externalId
+     *
+     * @throws \ReflectionException
      *
      * @return BuildingDTO
      */
-    public function createBuilding(string $item, string $link)
+    public function parseBuilding(string $item, int $externalId): BuildingDTO
     {
         $dom = new Crawler(\file_get_contents(__DIR__ . '/' . 'item.html'));
+        $this->externalId = $externalId;
 
-        $this->dto = new BuildingDTO();
         $this->parseCharacteristics($dom);
         $this->parseFlats($dom);
         $this->dto
-            ->setName($this->parseName($dom, $link))
+            ->setName($this->parseName($dom))
             ->setMetro($this->parseMetro($dom))
             ->setAddress($this->parseAddress($dom))
             ->setImages($this->parseImages($dom))
@@ -59,9 +85,10 @@ class BuildingManager extends AbstractManager
             ->setPrice($this->parsePrice($dom))
             ->setPricePerM2($this->parsePricePerM2($dom))
         ;
+
         $dom->clear();
 
-        return $this->dto;
+        return $this->getDto();
     }
 
     /**
@@ -70,14 +97,14 @@ class BuildingManager extends AbstractManager
      *
      * @return string
      */
-    private function parseName(Crawler $dom, string $link): string
+    private function parseName(Crawler $dom): string
     {
         try {
             return $dom->filter('h1[itemprop="name"]')->text();
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage(), [
                 'category' => 'no-name',
-                'link_info' => $link,
+                'info' => $dom->html(),
             ]);
         }
     }
@@ -170,14 +197,18 @@ class BuildingManager extends AbstractManager
     /**
      * @param \DOMNodeList $node
      *
-     * @return null|array
+     * @return array
      */
-    private function parseBuildDate(\DOMNodeList $node): ?array
+    private function parseBuildDate(\DOMNodeList $node): array
     {
         $dates = [];
         if (self::DATE_FINISH === $node->item(0)->nodeValue) {
             foreach ($node->item(2)->getElementsByTagName('span') as $item) {
-                $dates[] = \trim($item->firstChild->nodeValue);
+                $result = \trim($item->firstChild->nodeValue);
+                if (\mb_stripos(\mb_strtolower($result), 'сдано')) {
+                    $this->dto->setStatus(true);
+                }
+                $dates[] = $result;
             }
         }
 
@@ -189,7 +220,7 @@ class BuildingManager extends AbstractManager
      *
      * @return string
      */
-    private function parseDeveloper(\DOMElement $node)
+    private function parseDeveloper(\DOMElement $node): string
     {
         return $node->getElementsByTagName('a')->item(0)->nodeValue;
     }
@@ -199,7 +230,7 @@ class BuildingManager extends AbstractManager
      *
      * @return string
      */
-    private function parseDeveloperLink(\DOMElement $node)
+    private function parseDeveloperLink(\DOMElement $node): string
     {
         return $node->getElementsByTagName('a')->item(0)->getAttribute('href');
     }
@@ -209,7 +240,7 @@ class BuildingManager extends AbstractManager
      *
      * @return array
      */
-    private function parseBanks(\DOMElement $nodes)
+    private function parseBanks(\DOMElement $nodes): array
     {
         $banks = [];
 
@@ -228,7 +259,7 @@ class BuildingManager extends AbstractManager
      *
      * @return array
      */
-    private function parseBankLinks(\DOMElement $nodes)
+    private function parseBankLinks(\DOMElement $nodes): array
     {
         $bankLinks = [];
 
@@ -314,12 +345,14 @@ class BuildingManager extends AbstractManager
 
     /**
      * @param Crawler $dom
+     *
+     * @throws \ReflectionException
      */
     private function parseFlats(Crawler $dom): void
     {
         for ($rooms = 0; $rooms < 6; ++$rooms) {
             if (0 === $rooms) {
-                $selector = 'div[data-type="S"]';
+                $selector = 'div[data-type=' . self::STUDIO . ']';
             } else {
                 $selector = 'div[data-type="' . $rooms . '"]';
             }
@@ -351,6 +384,8 @@ class BuildingManager extends AbstractManager
      * @param \DOMElement $item
      * @param int         $rooms
      * @param array       $params
+     *
+     * @throws \ReflectionException
      */
     private function createFlat(\DOMElement $item, int $rooms, array $params): void
     {
@@ -372,6 +407,8 @@ class BuildingManager extends AbstractManager
 
                     break;
                 case $params['plan_image']:
+//                    $imagePath = $this->uploadImage($field->getElementsByTagName('a')->item(0)->getAttribute('href'), $this->externalId);
+//                    $flat->setImg($imagePath);
                     $flat->setImg($field->getElementsByTagName('a')->item(0)->getAttribute('href'));
 
                     break;

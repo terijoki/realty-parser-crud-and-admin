@@ -53,7 +53,7 @@ final class BuildingDTO
     private $contractType;
 
     /**
-     * @var null|string
+     * @var null|int
      */
     private $flatCount;
 
@@ -103,7 +103,7 @@ final class BuildingDTO
     private $ourOpinition;
 
     /**
-     * @var null|string
+     * @var null|bool
      */
     private $status;
 
@@ -341,19 +341,19 @@ final class BuildingDTO
     }
 
     /**
-     * @return null|string
+     * @return null|int
      */
-    public function getFlatCount(): ?string
+    public function getFlatCount(): ?int
     {
         return $this->flatCount;
     }
 
     /**
-     * @param null|string $flatCount
+     * @param null|int $flatCount
      *
      * @return BuildingDTO
      */
-    public function setFlatCount(?string $flatCount): BuildingDTO
+    public function setFlatCount(?int $flatCount): BuildingDTO
     {
         $this->flatCount = $flatCount;
 
@@ -521,41 +521,21 @@ final class BuildingDTO
     }
 
     /**
-     * @return null|string
+     * @return null|bool
      */
-    public function getStatus(): ?string
+    public function getStatus(): ?bool
     {
         return $this->status;
     }
 
     /**
-     * @param null|string $status
+     * @param null|bool $status
      *
      * @return BuildingDTO
      */
-    public function setStatus(?string $status): BuildingDTO
+    public function setStatus(?bool $status): BuildingDTO
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getSpecifications(): ?string
-    {
-        return $this->specifications;
-    }
-
-    /**
-     * @param null|string $specifications
-     *
-     * @return BuildingDTO
-     */
-    public function setSpecifications(?string $specifications): BuildingDTO
-    {
-        $this->specifications = $specifications;
 
         return $this;
     }
@@ -623,14 +603,12 @@ final class BuildingDTO
     /**
      * @return Collection|Flat[]
      */
-    public function getFlats(): Collection
+    public function getFlats()
     {
         return $this->flats;
     }
 
     /**
-     * Add flat.
-     *
      * @param Flat $flat
      *
      * @return BuildingDTO

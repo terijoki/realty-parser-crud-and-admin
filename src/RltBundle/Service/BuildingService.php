@@ -21,7 +21,6 @@ class BuildingService extends AbstractService
     public function parseLinks(): array
     {
         $offset = 0;
-        $content = '';
         $links = [];
 
         while (true) {
@@ -30,7 +29,8 @@ class BuildingService extends AbstractService
             if (empty($content)) {
                 break;
             }
-            $result[] = $this->parseItemForLinks($content);
+            $links[] = $this->parseItemForLinks($content);
+            $content = '';
             ++$offset;
         }
 

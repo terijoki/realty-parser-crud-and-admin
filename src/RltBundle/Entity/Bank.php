@@ -93,7 +93,7 @@ class Bank
      *
      * @Assert\Valid()
      *
-     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\Building", mappedBy="accreditation", fetch="EXTRA_LAZY")
+     * @ORM\ManyToMany(targetEntity="RltBundle\Entity\Building", mappedBy="accreditation", fetch="EXTRA_LAZY")
      */
     private $accreditated;
 
@@ -135,7 +135,7 @@ class Bank
 
     /**
      * @var null|User
-     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\User", inversedBy="banksUpdated", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\User", inversedBy="banksUpdated", cascade={"persist"})
      *
      * @ORM\JoinColumn(name="user_updater", referencedColumnName="id", nullable=true)
      */

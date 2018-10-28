@@ -3,8 +3,9 @@
 namespace RltBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use RltBundle\Entity\Model\Zone\Flat;
+use RltBundle\Entity\Model\Flat;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -54,12 +55,13 @@ class Building
      */
     public const INSTALMENTS = 0;
     public const IPOTEKA = 1;
+    public const ANY = 2;
 
     /**
      * Status.
      */
-    public const IN_PROCESS = 0;
-    public const READY = 1;
+    public const IN_PROCESS = false;
+    public const READY = true;
 
     /**
      * @var int
@@ -99,7 +101,7 @@ class Building
     private $externalId;
 
     /**
-     * @var Metro[]
+     * @var null|Metro[]
      *
      * @ORM\ManyToMany(targetEntity="Metro", inversedBy="buildings", cascade={"persist"})
      * @ORM\JoinTable(name="rlt_buildings_metro",
@@ -208,12 +210,13 @@ class Building
     private $facing;
 
     /**
-     * @var null|bool
+     * @var null|int
      *
      * @Assert\Type(type="boolean")
      * @Assert\Choice(choices={
      *     Building::INSTALMENTS,
-     *     Building::IPOTEKA
+     *     Building::IPOTEKA,
+     *     Building::ANY,
      * }, message="Choose a valid payment type", strict=true)
      *
      * @ORM\Column(name="payment_type", type="boolean", nullable=true)
@@ -230,15 +233,6 @@ class Building
      * )
      */
     private $accreditation;
-
-    /**
-     * @var null|string
-     *
-     * @Assert\Type(type="string")
-     *
-     * @ORM\Column(name="ext_updated", type="string", length=255, nullable=true)
-     */
-    private $extUpdated;
 
     /**
      * @var array
@@ -283,11 +277,11 @@ class Building
      * @Assert\Choice(choices={
      *     Building::IN_PROCESS,
      *     Building::READY
-     * }, message="Choose a valid payment type", strict=true)
+     * }, message="Choose a valid status", strict=true)
      *
-     * @ORM\Column(name="status", type="boolean", options={"default" : false})
+     * @ORM\Column(name="status", type="boolean")
      */
-    private $status = false;
+    private $status;
 
     /**
      * @var null|string
@@ -299,7 +293,16 @@ class Building
     private $parking;
 
     /**
-     * @var int
+     * @var string
+     *
+     * @Assert\Type(type="string")
+     *
+     * @ORM\Column(name="external_updated", type="string")
+     */
+    private $externalUpdated;
+
+    /**
+     * @var null|string
      *
      * @Assert\Type(type="string")
      *
@@ -308,7 +311,7 @@ class Building
     private $price;
 
     /**
-     * @var int
+     * @var null|string
      *
      * @Assert\Type(type="string")
      *
@@ -334,7 +337,7 @@ class Building
 
     /**
      * @var User
-     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\User", inversedBy="buildingsUpdated", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\User", inversedBy="buildingsUpdated", cascade={"persist"})
      *
      * @ORM\JoinColumn(name="user_updater", referencedColumnName="id", nullable=true)
      */
@@ -449,21 +452,35 @@ class Building
     }
 
     /**
-     * @return Metro[]
+     * @return null|Metro[]
      */
-    public function getMetro(): array
+    public function getMetro(): ?array
     {
         return $this->metro;
     }
 
     /**
-     * @param Metro[] $metro
+     * @param null|Collection|Metro[] $metro
      *
      * @return Building
      */
-    public function setMetro(array $metro): Building
+    public function setMetro($metro): Building
     {
-        $this->metro = $metro;
+        foreach ($metro as $item) {
+            $this->addMetro($item);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param null|Metro $metro
+     *
+     * @return Building
+     */
+    public function addMetro(?Metro $metro)
+    {
+        $this->metro[] = $metro;
 
         return $this;
     }
@@ -669,19 +686,19 @@ class Building
     }
 
     /**
-     * @return null|bool
+     * @return null|int
      */
-    public function getPaymentType(): ?bool
+    public function getPaymentType(): ?int
     {
         return $this->paymentType;
     }
 
     /**
-     * @param null|bool $paymentType
+     * @param null|int $paymentType
      *
      * @return Building
      */
-    public function setPaymentType(?bool $paymentType): Building
+    public function setPaymentType(?int $paymentType): Building
     {
         $this->paymentType = $paymentType;
 
@@ -703,7 +720,21 @@ class Building
      */
     public function setAccreditation(array $accreditation): Building
     {
-        $this->accreditation = $accreditation;
+        foreach ($accreditation as $item) {
+            $this->addAccreditation($item);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Bank|Collection $bank
+     *
+     * @return Building
+     */
+    public function addAccreditation($bank)
+    {
+        $this->accreditation[] = $bank;
 
         return $this;
     }
@@ -724,26 +755,6 @@ class Building
     public function setImages(array $images): Building
     {
         $this->images = $images;
-
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getExtUpdated(): ?string
-    {
-        return $this->extUpdated;
-    }
-
-    /**
-     * @param null|string $extUpdated
-     *
-     * @return Building
-     */
-    public function setExtUpdated(?string $extUpdated): Building
-    {
-        $this->extUpdated = $extUpdated;
 
         return $this;
     }
@@ -849,19 +860,39 @@ class Building
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getPrice(): int
+    public function getExternalUpdated(): string
+    {
+        return $this->externalUpdated;
+    }
+
+    /**
+     * @param string $externalUpdated
+     *
+     * @return Building
+     */
+    public function setExternalUpdated(string $externalUpdated): Building
+    {
+        $this->externalUpdated = $externalUpdated;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getPrice(): ?string
     {
         return $this->price;
     }
 
     /**
-     * @param int $price
+     * @param null|string $price
      *
      * @return Building
      */
-    public function setPrice(int $price): Building
+    public function setPrice(?string $price): Building
     {
         $this->price = $price;
 
@@ -869,19 +900,19 @@ class Building
     }
 
     /**
-     * @return int
+     * @return null|string
      */
-    public function getPricePerM2(): int
+    public function getPricePerM2(): ?string
     {
         return $this->pricePerM2;
     }
 
     /**
-     * @param int $pricePerM2
+     * @param null|string $pricePerM2
      *
      * @return Building
      */
-    public function setPricePerM2(int $pricePerM2): Building
+    public function setPricePerM2(?string $pricePerM2): Building
     {
         $this->pricePerM2 = $pricePerM2;
 
@@ -889,21 +920,35 @@ class Building
     }
 
     /**
-     * @return array
+     * @return Collection|Flat[]
      */
-    public function getFlats(): array
+    public function getFlats(): Collection
     {
         return $this->flats;
     }
 
     /**
-     * @param array $flats
+     * @param Flat $flat
      *
      * @return Building
      */
-    public function setFlats(array $flats): Building
+    public function addFlat(Flat $flat)
     {
-        $this->flats = $flats;
+        $this->flats[] = $flat;
+
+        return $this;
+    }
+
+    /**
+     * @param Collection $flats
+     *
+     * @return Building
+     */
+    public function setFlats($flats): Building
+    {
+        foreach ($flats as $flat) {
+            $this->addFlat($flat);
+        }
 
         return $this;
     }

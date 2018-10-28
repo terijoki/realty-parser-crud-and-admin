@@ -144,7 +144,7 @@ class Developer
 
     /**
      * @var null|User
-     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\User", inversedBy="developersUpdated", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\User", inversedBy="developersUpdated", cascade={"persist"})
      *
      * @ORM\JoinColumn(name="user_updater", referencedColumnName="id", nullable=true)
      */

@@ -31,6 +31,8 @@ class User extends BaseUser
     public const ROLE_MODERATOR = 'ROLE_MODERATOR';
     public const ROLE_USER = 'ROLE_USER';
 
+    public const PARSER = 1;
+
     /**
      * @var int
      *

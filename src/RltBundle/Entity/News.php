@@ -105,7 +105,7 @@ class News
 
     /**
      * @var null|User
-     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\User", inversedBy="newsUpdated", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\User", inversedBy="newsUpdated", cascade={"persist"})
      *
      * @ORM\JoinColumn(name="user_updater", referencedColumnName="id", nullable=true)
      */

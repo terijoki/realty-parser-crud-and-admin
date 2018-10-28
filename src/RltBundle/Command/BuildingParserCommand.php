@@ -5,7 +5,9 @@ namespace RltBundle\Command;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use RltBundle\Manager\BuildingManager;
+use RltBundle\Entity\Building;
+use RltBundle\Manager\BuildingParserManager;
+use RltBundle\Manager\BuildingValidatorManager;
 use RltBundle\RltBundle;
 use RltBundle\Service\BuildingService;
 use Symfony\Component\Console\Command\Command;
@@ -44,9 +46,19 @@ class BuildingParserCommand extends Command
     private $service;
 
     /**
-     * @var BuildingManager
+     * @var BuildingParserManager
      */
-    private $manager;
+    private $parser;
+
+    /**
+     * @var BuildingValidatorManager
+     */
+    private $validator;
+
+    /**
+     * @var array
+     */
+    private $storedIds;
 
     /**
      * BuildingParserCommand constructor.
@@ -55,28 +67,30 @@ class BuildingParserCommand extends Command
      * @param ContainerInterface     $container
      * @param LoggerInterface        $logger
      * @param BuildingService        $buildingService
-     * @param BuildingManager        $manager
+     * @param BuildingParserManager  $manager
      */
     public function __construct(
         EntityManagerInterface $em,
-        ContainerInterface $container,
         LoggerInterface $logger,
+        ContainerInterface $container,
         BuildingService $service,
-        BuildingManager $manager
+        BuildingParserManager $parser,
+        BuildingValidatorManager $validator
     ) {
-        $this->container = $container;
         parent::__construct();
         $this->em = $em;
         $this->logger = $logger;
+        $this->container = $container;
         $this->service = $service;
-        $this->manager = $manager;
+        $this->parser = $parser;
+        $this->validator = $validator;
     }
 
     protected function configure(): void
     {
         $this
             ->setName('parser:new-buildings')
-            ->addOption('cache', 'c', InputOption::VALUE_OPTIONAL, 'Use cache for store data', null)
+            ->addOption('cache', 'c', InputOption::VALUE_NONE, 'Use cache for store data')
             ->setDescription('Checks building site for new realty and parse them')
         ;
     }
@@ -106,24 +120,32 @@ class BuildingParserCommand extends Command
             $this->service->useCache(true);
         }
 
-        $this->manager->createBuilding('a', 'b');
+        $buildingDTO = $this->parser->parseBuilding('a', 1);
+        $building = $this->validator->createEntity($buildingDTO, 1);
         die;
 
         $links = $this->service->parseLinks();
 
         //maybe use getReference?
-        $this->storedIds = $this->em->getRepository('RltBundle:Building')->getExternalIds();
+        $this->storedIds = $this->em->getRepository(Building::class)->getExternalIds();
 
-        foreach ($links as $link) {
-            if ($this->isUnique($link)) {
+        foreach ($links as $id => $link) {
+            if ($this->isUnique($id)) {
                 $item = $this->service->getItem($link);
-                $this->manager->createBuilding($item);
+                $buildingDTO = $this->parser->parseBuilding($item, $id);
+                $building = $this->validator->createEntity($buildingDTO, $id);
+                $this->em->persist($building);
             }
         }
     }
 
-    final protected function isUnique(string $statId): bool
+    /**
+     * @param string $externalId
+     *
+     * @return bool
+     */
+    protected function isUnique(string $externalId): bool
     {
-        return !\in_array($statId, $this->storedIds, true);
+        return !\in_array($externalId, $this->storedIds, true);
     }
 }

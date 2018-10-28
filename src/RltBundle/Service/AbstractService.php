@@ -118,7 +118,7 @@ abstract class AbstractService
      *
      * @return string
      */
-    protected function request($param): string
+    public function request($param): string
     {
         try {
             $response = $this->client->post(static::URN, [
@@ -146,7 +146,7 @@ abstract class AbstractService
      *
      * @return string
      */
-    protected function simpleRequest($link, $params = []): string
+    public function simpleRequest($link, $params = []): string
     {
         try {
             $response = $this->client->get($link, [
@@ -159,7 +159,7 @@ abstract class AbstractService
                 'class' => (new \ReflectionClass(static::class))->getShortName(),
                 'request' => Psr7\str($e->getRequest()),
                 'response' => Psr7\str($e->getResponse()),
-                'category' => 'post-error',
+                'category' => 'get-error',
             ]);
 
             return '';

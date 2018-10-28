@@ -5,19 +5,18 @@ namespace RltBundle\Manager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DomCrawler\Crawler;
+use RltBundle\Service\AbstractService;
+use RltBundle\Service\BuildingService;
 
 abstract class AbstractManager
 {
+    protected const MIN_DELAY = 3;
+    protected const MAX_DELAY = 10;
+
     /**
      * @var EntityManagerInterface
      */
     protected $em;
-
-    /**
-     * @var Crawler
-     */
-    protected $crawler;
 
     /**
      * @var LoggerInterface
@@ -25,15 +24,27 @@ abstract class AbstractManager
     protected $logger;
 
     /**
+     * @var BuildingService
+     */
+    protected $service;
+
+    /**
+     * @var int
+     */
+    protected $externalId;
+
+    /**
      * AbstractManager constructor.
      *
      * @param EntityManagerInterface $em
      * @param LoggerInterface        $logger
+     * @param AbstractService        $service
      */
-    public function __construct(EntityManagerInterface $em, LoggerInterface $logger)
+    public function __construct(EntityManagerInterface $em, LoggerInterface $logger, AbstractService $service)
     {
         $this->em = $em;
         $this->logger = $logger;
+        $this->service = $service;
     }
 
     public function save(): void
@@ -61,5 +72,32 @@ abstract class AbstractManager
         }
 
         $uow->computeChangeSet($meta, $entity);
+    }
+
+    /**
+     * @param string $imagePath
+     * @param int    $id
+     *
+     * @throws \ReflectionException
+     *
+     * @return string
+     */
+    protected function uploadImage(string $imagePath, int $id): string
+    {
+        $localName = \preg_replace('/.+\/(.+.jpg)/ui', '$1', $imagePath);
+        $image = $this->service->simpleRequest($imagePath);
+        $uploadPath = ROOT . '/var/images/' . $id . '/';
+        $path = $uploadPath . $localName;
+
+        try {
+            if (!\file_exists($uploadPath)) {
+                \mkdir($uploadPath);
+            }
+            \file_put_contents($path, $image);
+        } catch (\Exception $e) {
+            $this->logger->error($e->getMessage(), ['category' => 'images-upload']);
+        }
+
+        return $path;
     }
 }

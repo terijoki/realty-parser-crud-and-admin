@@ -9,7 +9,7 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class NewsService extends AbstractService
 {
-    protected const URN = 'news';
+    public const URN = 'news';
 
     /**
      * @throws \ReflectionException
@@ -48,7 +48,7 @@ class NewsService extends AbstractService
         foreach ($crawler->filter('li > a') as $li) {
             $link = $li->getAttribute('href') ?? '';
 
-            $id = $this->parseExtId($link);
+            $id = $this->parseExtId($link, self::URN);
             $result[$id] = $link;
         }
         $crawler->clear();

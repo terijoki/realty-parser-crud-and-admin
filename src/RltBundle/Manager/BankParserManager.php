@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use RltBundle\Entity\Model\BankDTO;
 use RltBundle\Entity\Model\DTOInterface;
+use RltBundle\Service\AbstractService;
 use RltBundle\Service\ParseListInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -22,11 +23,11 @@ final class BankParserManager extends AbstractManager implements ParseItemInterf
     private $dto;
 
     /**
-     * BuildingParserManager constructor.
+     * BankParserManager constructor.
      *
      * @param EntityManagerInterface $em
      * @param LoggerInterface        $logger
-     * @param ParseListInterface     $service
+     * @param AbstractService        $service
      */
     public function __construct(EntityManagerInterface $em, LoggerInterface $logger, ParseListInterface $service)
     {

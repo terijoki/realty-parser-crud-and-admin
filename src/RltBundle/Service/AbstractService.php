@@ -177,9 +177,9 @@ abstract class AbstractService implements ParseListInterface
      *
      * @return int
      */
-    protected function parseExtId(string $link): int
+    public function parseExtId(string $link, string $urn): int
     {
-        return \preg_replace('/.+\/' . static::URN . '\/(\d+).+/ui', '$1', $link) ?? 0;
+        return \preg_replace('/.+\/' . $urn . '\/(\d+).+/ui', '$1', $link) ?? 0;
     }
 
     /**

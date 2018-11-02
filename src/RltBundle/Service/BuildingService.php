@@ -9,7 +9,7 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class BuildingService extends AbstractService
 {
-    protected const URN = 'novostroyki';
+    public const URN = 'novostroyki';
 
     /**
      * @param string $content
@@ -24,7 +24,7 @@ class BuildingService extends AbstractService
         foreach ($crawler->filter('li > a[class="n"]') as $li) {
             $temp = $li->getAttribute('href') ?? '';
 
-            $id = $this->parseExtId($temp);
+            $id = $this->parseExtId($temp, self::URN);
             $result[$id] = $temp;
         }
         $crawler->clear();

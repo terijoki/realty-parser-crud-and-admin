@@ -15,11 +15,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 final class DeveloperValidatorManager extends AbstractManager implements ValidateItemInterface
 {
     /**
-     * @var EntityInterface
-     */
-    private $entity;
-
-    /**
      * @var ValidatorInterface
      */
     private $validator;

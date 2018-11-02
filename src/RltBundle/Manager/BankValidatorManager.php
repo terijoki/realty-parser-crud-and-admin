@@ -5,6 +5,7 @@ namespace RltBundle\Manager;
 use RltBundle\Entity\Bank;
 use RltBundle\Entity\Building;
 use RltBundle\Entity\EntityInterface;
+use RltBundle\Entity\Model\BankDTO;
 use RltBundle\Entity\Model\DTOInterface;
 use RltBundle\Entity\User;
 use RltBundle\Service\AbstractService;
@@ -13,11 +14,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class BankValidatorManager extends AbstractManager implements ValidateItemInterface
 {
-    /**
-     * @var EntityInterface
-     */
-    private $entity;
-
     /**
      * @var ValidatorInterface
      */
@@ -48,8 +44,8 @@ final class BankValidatorManager extends AbstractManager implements ValidateItem
     }
 
     /**
-     * @param DTOInterface $dto
-     * @param int          $externalId
+     * @param BankDTO $dto
+     * @param int     $externalId
      *
      * @throws \Doctrine\ORM\ORMException
      * @throws \ReflectionException

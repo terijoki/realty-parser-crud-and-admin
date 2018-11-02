@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use RltBundle\Entity\Model\DeveloperDTO;
 use RltBundle\Entity\Model\DTOInterface;
+use RltBundle\Service\AbstractService;
 use RltBundle\Service\ParseListInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -23,11 +24,11 @@ final class DeveloperParserManager extends AbstractManager implements ParseItemI
     private $dto;
 
     /**
-     * BuildingParserManager constructor.
+     * DeveloperParserManager constructor.
      *
      * @param EntityManagerInterface $em
      * @param LoggerInterface        $logger
-     * @param ParseListInterface     $service
+     * @param AbstractService        $service
      */
     public function __construct(EntityManagerInterface $em, LoggerInterface $logger, ParseListInterface $service)
     {

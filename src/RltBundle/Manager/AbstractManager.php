@@ -5,6 +5,7 @@ namespace RltBundle\Manager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Psr\Log\LoggerInterface;
+use RltBundle\Entity\EntityInterface;
 use RltBundle\Service\AbstractService;
 
 abstract class AbstractManager
@@ -30,6 +31,11 @@ abstract class AbstractManager
      * @var int
      */
     protected $externalId;
+
+    /**
+     * @var EntityInterface
+     */
+    protected $entity;
 
     /**
      * AbstractManager constructor.
@@ -70,6 +76,24 @@ abstract class AbstractManager
         }
 
         $uow->computeChangeSet($meta, $entity);
+    }
+
+    /**
+     * @param array $imagesPath
+     *
+     * @throws \ReflectionException
+     *
+     * @return array
+     */
+    public function uploadImages(array $imagesPath): array
+    {
+        $images = [];
+        foreach ($imagesPath as $imagePath) {
+            $images[] = $this->uploadImage($imagePath, $this->externalId);
+            \sleep(static::DELAY);
+        }
+
+        return $images;
     }
 
     /**

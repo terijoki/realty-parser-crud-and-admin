@@ -5,7 +5,7 @@ namespace RltBundle\Manager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Psr\Log\LoggerInterface;
-use RltBundle\Service\AbstractService;
+use RltBundle\Service\ParseListInterface;
 
 abstract class AbstractManager
 {
@@ -23,7 +23,7 @@ abstract class AbstractManager
     protected $logger;
 
     /**
-     * @var AbstractService
+     * @var ParseListInterface
      */
     protected $service;
 
@@ -37,9 +37,9 @@ abstract class AbstractManager
      *
      * @param EntityManagerInterface $em
      * @param LoggerInterface        $logger
-     * @param AbstractService        $service
+     * @param ParseListInterface     $service
      */
-    public function __construct(EntityManagerInterface $em, LoggerInterface $logger, AbstractService $service)
+    public function __construct(EntityManagerInterface $em, LoggerInterface $logger, ParseListInterface $service)
     {
         $this->em = $em;
         $this->logger = $logger;

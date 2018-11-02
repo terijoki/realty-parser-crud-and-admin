@@ -12,10 +12,12 @@ use Symfony\Component\DomCrawler\Crawler;
 /**
  * Class AbstractService.
  */
-abstract class AbstractService
+abstract class AbstractService implements ParseListInterface
 {
     protected const URN = '';
     protected const EXPIRATION = 0;
+    protected const PAGE_SIZE = 0;
+    protected const DELAY = 5;
 
     /**
      * @var Client
@@ -112,6 +114,31 @@ abstract class AbstractService
     }
 
     /**
+     * @throws \ReflectionException
+     *
+     * @return array
+     */
+    public function parseLinks(): array
+    {
+        $offset = 0;
+        $links = [];
+
+        while (true) {
+            $param = 'o:' . $offset * static::PAGE_SIZE;
+            $content = \file_get_contents(__DIR__ . '/../Tests/Mock/banks.html'); //$this->request($param);
+            if (empty($content)) {
+                break;
+            }
+            $links[] = $this->parseItemForLinks($content);
+            $content = '';
+            ++$offset;
+            \sleep(self::DELAY);
+        }
+
+        return \array_merge(...$links);
+    }
+
+    /**
      * @param mixed $param
      *
      * @throws \ReflectionException
@@ -150,6 +177,7 @@ abstract class AbstractService
     {
         try {
             $response = $this->client->get($link, [
+                'debug' => true,
                 RequestOptions::QUERY => $params,
             ]);
 
@@ -167,9 +195,14 @@ abstract class AbstractService
     }
 
     /**
-     * @return array
+     * @param string $link
+     *
+     * @return int
      */
-    abstract public function parseLinks(): array;
+    protected function parseExtId(string $link): int
+    {
+        return \preg_replace('/.+\/' . static::URN . '\/(\d+).+/ui', '$1', $link) ?? 0;
+    }
 
     /**
      * @param string $link
@@ -178,5 +211,15 @@ abstract class AbstractService
      *
      * @return string
      */
-    abstract public function getItem(string $link): string;
+    public function getItem(string $link): string
+    {
+        return $this->simpleRequest($link);
+    }
+
+    /**
+     * @param string $content
+     *
+     * @return array
+     */
+    abstract protected function parseItemForLinks(string $content): array;
 }

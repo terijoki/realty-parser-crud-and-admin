@@ -2,35 +2,9 @@
 
 namespace RltBundle\Command;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
-use RltBundle\Manager\ParseItemInterface;
-use RltBundle\Manager\ValidateItemInterface;
-use RltBundle\Service\ParseListInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 class RealtyNewParserCommand extends AbstractParserCommand
 {
-    /**
-     * RealtyNewParserCommand constructor.
-     *
-     * @param EntityManagerInterface $em
-     * @param LoggerInterface        $logger
-     * @param ContainerInterface     $container
-     * @param ParseListInterface     $service
-     * @param ParseItemInterface     $parser
-     * @param ValidateItemInterface  $validator
-     */
-    public function __construct(
-        EntityManagerInterface $em,
-        LoggerInterface        $logger,
-        ContainerInterface     $container,
-        ParseListInterface     $service,
-        ParseItemInterface     $parser,
-        ValidateItemInterface  $validator
-    ) {
-        parent::__construct($em, $logger, $container, $service, $parser, $validator);
-    }
+    protected const NAME = '';
 
     /**
      * @throws \ReflectionException
@@ -38,17 +12,19 @@ class RealtyNewParserCommand extends AbstractParserCommand
      */
     protected function process(): void
     {
-        $buildingDTO = $this->parser->parseItem('a', 1);
-        $building = $this->validator->createEntity($buildingDTO, 1);
+        $links = $this->service->parseLinks();
+        $dto = $this->parser->parseItem('a', 1);
+        $entity = $this->validator->createEntity($dto, 1);
         die;
 
-        $links = $this->service->parseLinks();
-
         foreach ($links as $id => $link) {
-            if ($this->isUnique($id)) {
+            if ($this->isUnique($id) && !$this->input->getOption('force')) {
                 $item = $this->service->getItem($link);
+
                 $dto = $this->parser->parseItem($item, $id);
+
                 $entity = $this->validator->createEntity($dto, $id);
+
                 $this->em->persist($entity);
             }
         }

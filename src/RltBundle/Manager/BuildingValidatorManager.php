@@ -11,7 +11,7 @@ use RltBundle\Entity\EntityInterface;
 use RltBundle\Entity\Metro;
 use RltBundle\Entity\Model\DTOInterface;
 use RltBundle\Entity\User;
-use RltBundle\Service\AbstractService;
+use RltBundle\Service\ParseListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class BuildingValidatorManager extends AbstractManager implements ValidateItemInterface
@@ -57,9 +57,9 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
      * @param $em
      * @param $logger
      * @param ValidatorInterface $validator
-     * @param AbstractService    $service
+     * @param ParseListInterface $service
      */
-    public function __construct($em, $logger, ValidatorInterface $validator, AbstractService $service)
+    public function __construct($em, $logger, ValidatorInterface $validator, ParseListInterface $service)
     {
         parent::__construct($em, $logger, $service);
         $this->validator = $validator;

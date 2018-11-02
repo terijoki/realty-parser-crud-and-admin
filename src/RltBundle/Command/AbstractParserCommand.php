@@ -5,11 +5,8 @@ namespace RltBundle\Command;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use RltBundle\Manager\BuildingParserManager;
-use RltBundle\Manager\BuildingValidatorManager;
 use RltBundle\Manager\ParseItemInterface;
 use RltBundle\Manager\ValidateItemInterface;
-use RltBundle\Service\BuildingService;
 use RltBundle\Service\ParseListInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
@@ -21,6 +18,10 @@ use Symfony\Component\Stopwatch\Stopwatch;
 abstract class AbstractParserCommand extends Command
 {
     use LockableTrait;
+
+    protected const NAME = '';
+    protected const EXPIRATION = 86400;
+    protected const PAGE_SIZE = 20;
 
     /**
      * @var EntityManagerInterface
@@ -38,22 +39,27 @@ abstract class AbstractParserCommand extends Command
     protected $container;
 
     /**
+     * @var InputInterface
+     */
+    protected $input;
+
+    /**
      * @var OutputInterface
      */
     protected $output;
 
     /**
-     * @var BuildingService
+     * @var ParseListInterface
      */
     protected $service;
 
     /**
-     * @var BuildingParserManager
+     * @var ParseItemInterface
      */
     protected $parser;
 
     /**
-     * @var BuildingValidatorManager
+     * @var ValidateItemInterface
      */
     protected $validator;
 
@@ -78,20 +84,21 @@ abstract class AbstractParserCommand extends Command
      * @param ValidateItemInterface  $validator
      */
     public function __construct(
-        EntityManagerInterface $em,
-        LoggerInterface        $logger,
-        ContainerInterface     $container,
         ParseListInterface     $service,
         ParseItemInterface     $parser,
-        ValidateItemInterface  $validator
+        ValidateItemInterface  $validator,
+        EntityManagerInterface $em,
+        ContainerInterface     $container,
+        LoggerInterface        $logger
     ) {
         parent::__construct();
-        $this->em = $em;
-        $this->logger = $logger;
-        $this->container = $container;
         $this->service = $service;
         $this->parser = $parser;
         $this->validator = $validator;
+        $this->em = $em;
+        $this->container = $container;
+        $this->logger = $logger;
+        //$this->storedIds = $this->em->getRepository(static::NAME)->getExternalIds();
     }
 
     /**
@@ -116,19 +123,15 @@ abstract class AbstractParserCommand extends Command
             return;
         }
 
-        if ($input->hasOption('cache') && $input->getOption('cache')) {
-            $this->service->useCache(true);
-        }
-
         $stopwatch = new Stopwatch();
         $stopwatch->start($this->getName());
 
         $this->io = new SymfonyStyle($input, $output);
         $this->io->writeln((new \DateTime())->format('Y-m-d H:i:s') . ' Run');
-        $this->logger->info('Run ' . $this->getName(), [
-            'class' => (new \ReflectionClass(static::class))->getShortName(),
-            'category' => 'parser-command',
-        ]);
+//        $this->logger->info('Run ' . $this->getName(), [
+//            'class' => (new \ReflectionClass(static::class))->getShortName(),
+//            'category' => 'parser-command',
+//        ]);
 
         try {
             $this->process();

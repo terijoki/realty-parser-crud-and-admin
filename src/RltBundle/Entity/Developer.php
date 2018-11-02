@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="rlt_developers")
  * @ORM\Entity(repositoryClass="RltBundle\Repository\DeveloperRepository")
  */
-class Developer
+class Developer implements EntityInterface
 {
     /**
      * @var int
@@ -49,9 +49,9 @@ class Developer
      *
      * @Assert\Type(type="integer")
      * @Assert\Length(
-     *      min = 6,
-     *      max = 12,
-     *      message = "You must enter a valid phone number",
+     *     min=6,
+     *     max=12,
+     *     message="You must enter a valid phone number",
      * )
      *
      * @ORM\Column(name="phone", type="integer", unique=true, nullable=true)
@@ -62,8 +62,8 @@ class Developer
      * @var null|string
      *
      * @Assert\Email(
-     *     message = "The email '{{ value }}' is not a valid email.",
-     *     checkMX = true)
+     *     message="The email '{{ value }}' is not a valid email.",
+     * checkMX=true)
      *
      * @ORM\Column(name="email", type="string", length=255, unique=true, nullable=true)
      */
@@ -91,7 +91,7 @@ class Developer
      * @var null|int
      *
      * @Assert\Type(type="integer")
-     * @Assert\Range(min=1900, max=2018, message = "You must enter a valid year")
+     * @Assert\Range(min=1900, max=2018, message="You must enter a valid year")
      *
      * @ORM\Column(name="creation_year", type="smallint", nullable=true)
      */
@@ -121,7 +121,6 @@ class Developer
      * @Assert\Type(type="string")
      *
      * @ORM\Column(name="logo", type="string", nullable=true)
-     *
      */
     private $logo;
 
@@ -133,6 +132,23 @@ class Developer
      * @ORM\Column(name="description", type="string", nullable=true)
      */
     private $description;
+
+    /**
+     * @var User
+     * @Assert\Blank()
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\User", inversedBy="developersCreated", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="user_creator", referencedColumnName="id")
+     */
+    private $userCreator;
+
+    /**
+     * @var null|User
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\User", inversedBy="developersUpdated", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="user_updater", referencedColumnName="id", nullable=true)
+     */
+    private $userUpdater;
 
     /**
      * Developer constructor.
@@ -153,11 +169,13 @@ class Developer
 
     /**
      * @param int $id
+     *
      * @return Developer
      */
     public function setId(int $id): Developer
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -171,11 +189,13 @@ class Developer
 
     /**
      * @param string $name
+     *
      * @return Developer
      */
     public function setName(string $name): Developer
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -189,16 +209,18 @@ class Developer
 
     /**
      * @param int $externalId
+     *
      * @return Developer
      */
     public function setExternalId(int $externalId): Developer
     {
         $this->externalId = $externalId;
+
         return $this;
     }
 
     /**
-     * @return int|null
+     * @return null|int
      */
     public function getPhone(): ?int
     {
@@ -206,12 +228,14 @@ class Developer
     }
 
     /**
-     * @param int|null $phone
+     * @param null|int $phone
+     *
      * @return Developer
      */
     public function setPhone(?int $phone): Developer
     {
         $this->phone = $phone;
+
         return $this;
     }
 
@@ -225,11 +249,13 @@ class Developer
 
     /**
      * @param null|string $email
+     *
      * @return Developer
      */
     public function setEmail(?string $email): Developer
     {
         $this->email = $email;
+
         return $this;
     }
 
@@ -243,11 +269,13 @@ class Developer
 
     /**
      * @param null|string $site
+     *
      * @return Developer
      */
     public function setSite(?string $site): Developer
     {
         $this->site = $site;
+
         return $this;
     }
 
@@ -261,16 +289,18 @@ class Developer
 
     /**
      * @param null|string $address
+     *
      * @return Developer
      */
     public function setAddress(?string $address): Developer
     {
         $this->address = $address;
+
         return $this;
     }
 
     /**
-     * @return int|null
+     * @return null|int
      */
     public function getCreationYear(): ?int
     {
@@ -278,12 +308,14 @@ class Developer
     }
 
     /**
-     * @param int|null $creationYear
+     * @param null|int $creationYear
+     *
      * @return Developer
      */
     public function setCreationYear(?int $creationYear): Developer
     {
         $this->creationYear = $creationYear;
+
         return $this;
     }
 
@@ -297,11 +329,13 @@ class Developer
 
     /**
      * @param Building[] $buildings
+     *
      * @return Developer
      */
     public function setBuildings(array $buildings): Developer
     {
         $this->buildings = $buildings;
+
         return $this;
     }
 
@@ -315,11 +349,13 @@ class Developer
 
     /**
      * @param News[] $news
+     *
      * @return Developer
      */
     public function setNews(array $news): Developer
     {
         $this->news = $news;
+
         return $this;
     }
 
@@ -333,11 +369,13 @@ class Developer
 
     /**
      * @param null|string $logo
+     *
      * @return Developer
      */
     public function setLogo(?string $logo): Developer
     {
         $this->logo = $logo;
+
         return $this;
     }
 
@@ -351,11 +389,53 @@ class Developer
 
     /**
      * @param null|string $description
+     *
      * @return Developer
      */
     public function setDescription(?string $description): Developer
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUserCreator(): User
+    {
+        return $this->userCreator;
+    }
+
+    /**
+     * @param User $userCreator
+     *
+     * @return Developer
+     */
+    public function setUserCreator(User $userCreator): Developer
+    {
+        $this->userCreator = $userCreator;
+
+        return $this;
+    }
+
+    /**
+     * @return null|User
+     */
+    public function getUserUpdater(): ?User
+    {
+        return $this->userUpdater;
+    }
+
+    /**
+     * @param null|User $userUpdater
+     *
+     * @return Developer
+     */
+    public function setUserUpdater(?User $userUpdater): Developer
+    {
+        $this->userUpdater = $userUpdater;
+
         return $this;
     }
 }

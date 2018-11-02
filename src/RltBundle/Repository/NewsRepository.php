@@ -12,6 +12,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class NewsRepository extends EntityRepository
 {
+    public const TABLE = 'rlt_news';
+
     /**
      * Entity full signature (with bundle name, like "RltBundle:User").
      *
@@ -30,5 +32,19 @@ class NewsRepository extends EntityRepository
     public function getAlias(): string
     {
         return 'n';
+    }
+
+    /**
+     * @throws \Doctrine\DBAL\DBALException
+     *
+     * @return array|int[]
+     */
+    public function getExternalIds(): array
+    {
+        $sql = 'SELECT external_id FROM rlt_news';
+        $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_COLUMN);
     }
 }

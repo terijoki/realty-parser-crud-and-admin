@@ -21,6 +21,7 @@
 !/var/data
 /var/data/*
 !var/data/.gitkeep
+php_cs_fixer.sh
 
 /vendor/
 /web/bundles/
@@ -29,4 +30,4 @@
 /app/config/parameters.yml
 /app/config/parameters_test.yml
 
-/php_cs
+/.php_cs

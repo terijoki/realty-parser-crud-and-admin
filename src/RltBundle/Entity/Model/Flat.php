@@ -1,11 +1,18 @@
 <?php
 
-namespace RltBundle\Entity\Model\Zone;
+namespace RltBundle\Entity\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Flat
 {
+    /**
+     * @var int
+     *
+     * @Assert\Type(type="float")
+     */
+    private $rooms;
+
     /**
      * @var null|float
      *
@@ -14,16 +21,16 @@ class Flat
     private $size;
 
     /**
-     * @var null|int
+     * @var null|string
      *
-     * @Assert\Type(type="integer")
+     * @Assert\Type(type="string")
      */
     private $cost;
 
     /**
-     * @var null|int
+     * @var null|string
      *
-     * @Assert\Type(type="integer")
+     * @Assert\Type(type="string")
      */
     private $costPerM2;
 
@@ -35,15 +42,34 @@ class Flat
     private $img;
 
     /**
-     * @var null|int
+     * @var null|string
      *
-     * @Assert\Type(type="integer")
-     * @Assert\Range(min=1900, max=2018, message = "You must enter a valid year")
+     * @Assert\Type(type="string")
      */
     private $buildDate;
 
     /**
-     * @return float|null
+     * @return int
+     */
+    public function getRooms(): int
+    {
+        return $this->rooms;
+    }
+
+    /**
+     * @param int $rooms
+     *
+     * @return Flat
+     */
+    public function setRooms(int $rooms): Flat
+    {
+        $this->rooms = $rooms;
+
+        return $this;
+    }
+
+    /**
+     * @return null|float
      */
     public function getSize(): ?float
     {
@@ -51,48 +77,54 @@ class Flat
     }
 
     /**
-     * @param float|null $size
+     * @param null|float $size
+     *
      * @return Flat
      */
     public function setSize(?float $size): Flat
     {
         $this->size = $size;
+
         return $this;
     }
 
     /**
-     * @return int|null
+     * @return null|string
      */
-    public function getCost(): ?int
+    public function getCost(): ?string
     {
         return $this->cost;
     }
 
     /**
-     * @param int|null $cost
+     * @param null|string $cost
+     *
      * @return Flat
      */
-    public function setCost(?int $cost): Flat
+    public function setCost(?string $cost): Flat
     {
         $this->cost = $cost;
+
         return $this;
     }
 
     /**
-     * @return int|null
+     * @return null|string
      */
-    public function getCostPerM2(): ?int
+    public function getCostPerM2(): ?string
     {
         return $this->costPerM2;
     }
 
     /**
-     * @param int|null $costPerM2
+     * @param null|string $costPerM2
+     *
      * @return Flat
      */
-    public function setCostPerM2(?int $costPerM2): Flat
+    public function setCostPerM2(?string $costPerM2): Flat
     {
         $this->costPerM2 = $costPerM2;
+
         return $this;
     }
 
@@ -106,29 +138,33 @@ class Flat
 
     /**
      * @param null|string $img
+     *
      * @return Flat
      */
     public function setImg(?string $img): Flat
     {
         $this->img = $img;
+
         return $this;
     }
 
     /**
-     * @return int|null
+     * @return null|string
      */
-    public function getBuildDate(): ?int
+    public function getBuildDate(): ?string
     {
         return $this->buildDate;
     }
 
     /**
-     * @param int|null $buildDate
+     * @param null|string $buildDate
+     *
      * @return Flat
      */
-    public function setBuildDate(?int $buildDate): Flat
+    public function setBuildDate(?string $buildDate): Flat
     {
         $this->buildDate = $buildDate;
+
         return $this;
     }
 }

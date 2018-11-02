@@ -61,11 +61,13 @@ class Metro
 
     /**
      * @param int $id
+     *
      * @return Metro
      */
     public function setId(int $id): Metro
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -79,11 +81,13 @@ class Metro
 
     /**
      * @param string $name
+     *
      * @return Metro
      */
     public function setName(string $name): Metro
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -97,11 +101,13 @@ class Metro
 
     /**
      * @param Building[] $buildings
+     *
      * @return Metro
      */
     public function setBuildings(array $buildings): Metro
     {
         $this->buildings = $buildings;
+
         return $this;
     }
 }

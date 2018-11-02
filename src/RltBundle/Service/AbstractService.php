@@ -3,25 +3,31 @@
 namespace RltBundle\Service;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7;
 use GuzzleHttp\RequestOptions;
 use Psr\Log\LoggerInterface;
-use Psr\Log\Test\LoggerInterfaceTest;
-use GuzzleHttp\Psr7;
+use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * Class AbstractService.
  */
-abstract class AbstractService
+abstract class AbstractService implements ParseListInterface
 {
     protected const URN = '';
     protected const EXPIRATION = 0;
+    protected const PAGE_SIZE = 0;
+    protected const DELAY = 5;
 
     /**
      * @var Client
      */
     protected $client;
+
+    /**
+     * @var Crawler
+     */
+    protected $crawler;
 
     /**
      * @var LoggerInterface
@@ -45,9 +51,10 @@ abstract class AbstractService
 
     /**
      * Service constructor.
+     *
      * @param LoggerInterface $logger
-     * @param string $url
-     * @param RedisService $redis
+     * @param string          $url
+     * @param RedisService    $redis
      */
     public function __construct(string $url, LoggerInterface $logger, RedisService $redis)
     {
@@ -73,27 +80,6 @@ abstract class AbstractService
         $this->useCache = $useCache;
     }
 
-//    /**
-//     * @return array
-//     * @throws \ReflectionException
-//     */
-//    public function parse(): array
-//    {
-//        $data = [];
-//
-//        if ($this->useCache) {
-//            $key = $this->createCacheKey($link);
-//            if ($this->redis->exists($key)) {
-//                $response[] = $this->redis->get($key);
-//            }
-//            $data[] = $this->parseItem($link);
-//
-//            $this->redis->setex($key, static::EXPIRATION, $data);
-//        } else {
-//            $data[] = $this->parseItem($link);
-//        }
-//    }
-
     /**
      * @param string $unique
      *
@@ -102,15 +88,43 @@ abstract class AbstractService
     protected function createCacheKey(string $unique): string
     {
         $today = new \DateTime();
+
         return 'link_' . \hash('sha256', $unique . $today->format('Ymd'));
     }
 
     /**
-     * @param mixed $param
-     * @return string
      * @throws \ReflectionException
+     *
+     * @return array
      */
-    protected function request($param): string
+    public function parseLinks(): array
+    {
+        $offset = 0;
+        $links = [];
+
+        while (true) {
+            $param = 'o:' . $offset * static::PAGE_SIZE;
+            $content = $this->request($param);
+            if (empty($content)) {
+                break;
+            }
+            $links[] = $this->parseItemForLinks($content);
+            $content = '';
+            ++$offset;
+            \sleep(self::DELAY);
+        }
+
+        return \array_merge(...$links);
+    }
+
+    /**
+     * @param mixed $param
+     *
+     * @throws \ReflectionException
+     *
+     * @return string
+     */
+    public function request($param): string
     {
         try {
             $response = $this->client->post(static::URN, [
@@ -131,20 +145,60 @@ abstract class AbstractService
     }
 
     /**
-     * @return array
-     */
-    abstract public function parseLinks(): array;
-
-    /**
+     * @param $link
+     * @param array $params
+     *
      * @throws \ReflectionException
      *
-     * @param string $content
      * @return string
      */
-    abstract protected function parseItem(string $content): array;
+    public function simpleRequest($link, $params = []): string
+    {
+        try {
+            $response = $this->client->get($link, [
+                'debug' => true,
+                RequestOptions::QUERY => $params,
+            ]);
+
+            return $response->getBody()->getContents();
+        } catch (RequestException $e) {
+            $this->logger->error($e->getMessage(), [
+                'class' => (new \ReflectionClass(static::class))->getShortName(),
+                'request' => Psr7\str($e->getRequest()),
+                'response' => Psr7\str($e->getResponse()),
+                'category' => 'get-error',
+            ]);
+
+            return '';
+        }
+    }
 
     /**
-     * @return bool
+     * @param string $link
+     *
+     * @return int
      */
-    abstract protected function parseDOM();
+    protected function parseExtId(string $link): int
+    {
+        return \preg_replace('/.+\/' . static::URN . '\/(\d+).+/ui', '$1', $link) ?? 0;
+    }
+
+    /**
+     * @param string $link
+     *
+     * @throws \ReflectionException
+     *
+     * @return string
+     */
+    public function getItem(string $link): string
+    {
+        return $this->simpleRequest($link);
+    }
+
+    /**
+     * @param string $content
+     *
+     * @return array
+     */
+    abstract protected function parseItemForLinks(string $content): array;
 }

@@ -5,11 +5,11 @@ namespace RltBundle\Service;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
- * Class BuildingService.
+ * Class BankService.
  */
-class BuildingService extends AbstractService
+class BankService extends AbstractService
 {
-    protected const URN = 'novostroyki';
+    protected const URN = 'banks';
 
     /**
      * @param string $content
@@ -21,7 +21,7 @@ class BuildingService extends AbstractService
         $result = [];
         $crawler = new Crawler($content);
 
-        foreach ($crawler->filter('li > a[class="n"]') as $li) {
+        foreach ($crawler->filter('li > a[class="company"]') as $li) {
             $temp = $li->getAttribute('href') ?? '';
 
             $id = $this->parseExtId($temp);

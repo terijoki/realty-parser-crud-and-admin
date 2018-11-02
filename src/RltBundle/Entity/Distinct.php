@@ -43,11 +43,13 @@ class Distinct
 
     /**
      * @param int $id
+     *
      * @return Distinct
      */
     public function setId(int $id): Distinct
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -61,11 +63,13 @@ class Distinct
 
     /**
      * @param string $distinct
+     *
      * @return Distinct
      */
     public function setDistinct(string $distinct): Distinct
     {
         $this->distinct = $distinct;
+
         return $this;
     }
 }

@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="rlt_news")
  * @ORM\Entity(repositoryClass="RltBundle\Repository\NewsRepository")
  */
-class News
+class News implements EntityInterface
 {
     /**
      * @var int
@@ -95,6 +95,23 @@ class News
     private $building;
 
     /**
+     * @var User
+     * @Assert\Blank()
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\User", inversedBy="newsCreated", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="user_creator", referencedColumnName="id")
+     */
+    private $userCreator;
+
+    /**
+     * @var null|User
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\User", inversedBy="newsUpdated", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="user_updater", referencedColumnName="id", nullable=true)
+     */
+    private $userUpdater;
+
+    /**
      * @var \DateTime
      *
      * @Serializer\Type("DateTime<'Y-m-d H:i:s'>")
@@ -122,11 +139,13 @@ class News
 
     /**
      * @param int $id
+     *
      * @return News
      */
     public function setId(int $id): News
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -140,11 +159,13 @@ class News
 
     /**
      * @param string $title
+     *
      * @return News
      */
     public function setTitle(string $title): News
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -158,11 +179,13 @@ class News
 
     /**
      * @param int $externalId
+     *
      * @return News
      */
     public function setExternalId(int $externalId): News
     {
         $this->externalId = $externalId;
+
         return $this;
     }
 
@@ -176,11 +199,13 @@ class News
 
     /**
      * @param array $images
+     *
      * @return News
      */
     public function setImages(array $images): News
     {
         $this->images = $images;
+
         return $this;
     }
 
@@ -194,11 +219,13 @@ class News
 
     /**
      * @param string $description
+     *
      * @return News
      */
     public function setDescription(string $description): News
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -212,11 +239,13 @@ class News
 
     /**
      * @param array $text
+     *
      * @return News
      */
     public function setText(array $text): News
     {
         $this->text = $text;
+
         return $this;
     }
 
@@ -230,11 +259,13 @@ class News
 
     /**
      * @param mixed $tags
+     *
      * @return News
      */
     public function setTags($tags)
     {
         $this->tags = $tags;
+
         return $this;
     }
 
@@ -248,11 +279,13 @@ class News
 
     /**
      * @param null|Developer $developer
+     *
      * @return News
      */
     public function setDeveloper(?Developer $developer): News
     {
         $this->developer = $developer;
+
         return $this;
     }
 
@@ -266,11 +299,13 @@ class News
 
     /**
      * @param null|Bank $bank
+     *
      * @return News
      */
     public function setBank(?Bank $bank): News
     {
         $this->bank = $bank;
+
         return $this;
     }
 
@@ -284,12 +319,46 @@ class News
 
     /**
      * @param Building $building
+     *
      * @return News
      */
     public function setBuilding(Building $building): News
     {
         $this->building = $building;
+
         return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUserCreator(): User
+    {
+        return $this->userCreator;
+    }
+
+    /**
+     * @param User $userCreator
+     */
+    public function setUserCreator(User $userCreator): void
+    {
+        $this->userCreator = $userCreator;
+    }
+
+    /**
+     * @return null|User
+     */
+    public function getUserUpdater(): ?User
+    {
+        return $this->userUpdater;
+    }
+
+    /**
+     * @param null|User $userUpdater
+     */
+    public function setUserUpdater(?User $userUpdater): void
+    {
+        $this->userUpdater = $userUpdater;
     }
 
     /**
@@ -302,11 +371,13 @@ class News
 
     /**
      * @param \DateTime $createdAt
+     *
      * @return News
      */
     public function setCreatedAt(\DateTime $createdAt): News
     {
         $this->createdAt = $createdAt;
+
         return $this;
     }
 
@@ -320,11 +391,13 @@ class News
 
     /**
      * @param \DateTime $updatedAt
+     *
      * @return News
      */
     public function setUpdatedAt(\DateTime $updatedAt): News
     {
         $this->updatedAt = $updatedAt;
+
         return $this;
     }
 }

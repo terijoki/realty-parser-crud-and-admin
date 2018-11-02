@@ -18,17 +18,87 @@ services:
     RltBundle\Controller\:
         resource: '../../src/RltBundle/Controller/*'
 
+
+    RltBundle\Service\ParseListInterface: '@RltBundle\Service\BuildingService'
+
+    # Buildings
+    RltBundle\Service\BuildingService:
+      arguments: ['%parser_host%']
+      public: true
+
+    RltBundle\Manager\BuildingParserManager:
+      arguments: ['@doctrine.orm.default_entity_manager', '@logger']
+      public: true
+
+    RltBundle\Manager\BuildingValidatorManager:
+      arguments: ['@doctrine.orm.default_entity_manager', '@logger']
+      public: true
+
+    RltBundle\Command\BuildingNewParserCommand:
+      arguments: ['@RltBundle\Service\BuildingService', '@RltBundle\Manager\BuildingParserManager', '@RltBundle\Manager\BuildingValidatorManager']
+      tags:
+      - { name: console.command }
+
+    # Developers
+    RltBundle\Service\DeveloperService:
+      arguments: ['%parser_host%']
+      public: true
+
+    RltBundle\Manager\DeveloperParserManager:
+      arguments: ['@doctrine.orm.default_entity_manager', '@logger']
+      public: true
+
+    RltBundle\Manager\DeveloperValidatorManager:
+      arguments: ['@doctrine.orm.default_entity_manager', '@logger']
+      public: true
+
+    RltBundle\Command\DeveloperNewParserCommand:
+      arguments: ['@RltBundle\Service\DeveloperService', '@RltBundle\Manager\DeveloperParserManager', '@RltBundle\Manager\DeveloperValidatorManager']
+      tags:
+      - { name: console.command }
+
+    # Banks
+    RltBundle\Service\BankService:
+      arguments: ['%parser_host%']
+      public: true
+
+    RltBundle\Manager\BankParserManager:
+      arguments: ['@doctrine.orm.default_entity_manager', '@logger']
+      public: true
+
+    RltBundle\Manager\BankValidatorManager:
+      arguments: ['@doctrine.orm.default_entity_manager', '@logger']
+      public: true
+
+    RltBundle\Command\BankNewParserCommand:
+      arguments: ['@RltBundle\Service\BankService', '@RltBundle\Manager\BankParserManager', '@RltBundle\Manager\BankValidatorManager']
+      tags:
+      - { name: console.command }
+
+    # News
+    RltBundle\Service\NewsService:
+      arguments: ['%parser_host%']
+      public: true
+
+    RltBundle\Manager\NewsParserManager:
+      arguments: ['@doctrine.orm.default_entity_manager', '@logger']
+      public: true
+
+    RltBundle\Manager\NewsValidatorManager:
+      arguments: ['@doctrine.orm.default_entity_manager', '@logger']
+      public: true
+
+    RltBundle\Command\NewsNewParserCommand:
+      arguments: ['@RltBundle\Service\NewsService', '@RltBundle\Manager\NewsParserManager', '@RltBundle\Manager\NewsValidatorManager']
+      tags:
+      - { name: console.command }
+
+
     RltBundle\Command\TestCommand:
         tags:
         - { name: console.command }
 
-    RltBundle\Command\BuildingParserCommand:
-        tags:
-        - { name: console.command }
 
-    RltBundle\Service\BuildingService:
-        arguments: ['%parser_host%']
-        public: true
 
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:

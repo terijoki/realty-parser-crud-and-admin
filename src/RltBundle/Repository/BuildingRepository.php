@@ -12,6 +12,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class BuildingRepository extends EntityRepository
 {
+    public const TABLE = 'rlt_buildings';
+
     /**
      * Entity full signature (with bundle name, like "RltBundle:User").
      *
@@ -33,8 +35,9 @@ class BuildingRepository extends EntityRepository
     }
 
     /**
-     * @return array|int[]
      * @throws \Doctrine\DBAL\DBALException
+     *
+     * @return array|int[]
      */
     public function getExternalIds(): array
     {

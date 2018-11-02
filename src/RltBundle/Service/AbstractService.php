@@ -80,27 +80,6 @@ abstract class AbstractService implements ParseListInterface
         $this->useCache = $useCache;
     }
 
-//    /**
-//     * @return array
-//     * @throws \ReflectionException
-//     */
-//    public function parse(): array
-//    {
-//        $data = [];
-//
-//        if ($this->useCache) {
-//            $key = $this->createCacheKey($link);
-//            if ($this->redis->exists($key)) {
-//                $response[] = $this->redis->get($key);
-//            }
-//            $data[] = $this->parseItem($link);
-//
-//            $this->redis->setex($key, static::EXPIRATION, $data);
-//        } else {
-//            $data[] = $this->parseItem($link);
-//        }
-//    }
-
     /**
      * @param string $unique
      *
@@ -125,7 +104,7 @@ abstract class AbstractService implements ParseListInterface
 
         while (true) {
             $param = 'o:' . $offset * static::PAGE_SIZE;
-            $content = \file_get_contents(__DIR__ . '/../Tests/Mock/banks.html'); //$this->request($param);
+            $content = $this->request($param);
             if (empty($content)) {
                 break;
             }

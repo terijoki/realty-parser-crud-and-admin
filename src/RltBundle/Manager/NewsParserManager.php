@@ -10,7 +10,7 @@ use RltBundle\Entity\Model\Flat;
 use RltBundle\Service\BuildingService;
 use Symfony\Component\DomCrawler\Crawler;
 
-final class BankParserManager extends AbstractManager implements ParseItemInterface
+final class NewsParserManager extends AbstractManager implements ParseItemInterface
 {
     private const B_CLASS = 'Класс жилья';
     private const TYPE = 'Тип здания';
@@ -41,7 +41,7 @@ final class BankParserManager extends AbstractManager implements ParseItemInterf
     private $dto;
 
     /**
-     * BuildingParserManager constructor.
+     * NewsParserManager constructor.
      *
      * @param EntityManagerInterface $em
      * @param LoggerInterface        $logger
@@ -71,7 +71,7 @@ final class BankParserManager extends AbstractManager implements ParseItemInterf
      */
     public function parseItem(string $item, int $externalId): DTOInterface
     {
-        $dom = new Crawler(\file_get_contents(__DIR__ . '/../Tests/Mock/bank1.html'));
+        $dom = new Crawler(\file_get_contents(__DIR__ . '/../Tests/Mock/news1.html'));
         $this->externalId = $externalId;
 
         $this->parseCharacteristics($dom);

@@ -5,11 +5,11 @@ namespace RltBundle\Service;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
- * Class DeveloperService.
+ * Class BankService.
  */
-class DeveloperService extends AbstractService
+class BankService extends AbstractService
 {
-    protected const URN = 'companies';
+    protected const URN = 'banks';
 
     /**
      * @param string $content

@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="rlt_news")
  * @ORM\Entity(repositoryClass="RltBundle\Repository\NewsRepository")
  */
-class News
+class News implements EntityInterface
 {
     /**
      * @var int

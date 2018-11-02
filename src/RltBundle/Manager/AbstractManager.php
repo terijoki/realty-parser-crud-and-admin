@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use RltBundle\Service\AbstractService;
-use RltBundle\Service\BuildingService;
 
 abstract class AbstractManager
 {
@@ -24,7 +23,7 @@ abstract class AbstractManager
     protected $logger;
 
     /**
-     * @var BuildingService
+     * @var AbstractService
      */
     protected $service;
 

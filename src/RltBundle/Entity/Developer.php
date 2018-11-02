@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="rlt_developers")
  * @ORM\Entity(repositoryClass="RltBundle\Repository\DeveloperRepository")
  */
-class Developer
+class Developer implements EntityInterface
 {
     /**
      * @var int

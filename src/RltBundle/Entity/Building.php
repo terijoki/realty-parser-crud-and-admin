@@ -5,6 +5,7 @@ namespace RltBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use RltBundle\Entity\Model\Flat;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="rlt_buildings")
  * @ORM\Entity(repositoryClass="RltBundle\Repository\BuildingRepository")
  */
-class Building
+class Building implements EntityInterface
 {
     /**
      * Realty classes.
@@ -84,7 +85,7 @@ class Building
     /**
      * @var Distinct
      *
-     * @Assert/Valid
+     * @Assert\Valid()
      *
      * @ORM\ManyToOne(targetEntity="RltBundle\Entity\Distinct", cascade={"persist"})
      * @ORM\JoinColumn(name="distinct_id", referencedColumnName="id", nullable=false)
@@ -357,7 +358,7 @@ class Building
      *
      * @Serializer\Type("DateTime<'Y-m-d H:i:s'>")
      *
-     * @ORM\Column(name="created_at", type="datetime", options={"default" = "now()"})
+     * @ORM\Column(name="updated_at", type="datetime", options={"default" = "now()"})
      */
     private $updatedAt;
 

@@ -22,7 +22,7 @@ services:
         tags:
         - { name: console.command }
 
-    RltBundle\Command\BuildingParserCommand:
+    RltBundle\Command\BuildingNewParserCommand:
         tags:
         - { name: console.command }
 

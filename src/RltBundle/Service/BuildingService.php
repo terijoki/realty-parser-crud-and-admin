@@ -7,7 +7,7 @@ use Symfony\Component\DomCrawler\Crawler;
 /**
  * Class BuildingService.
  */
-class BuildingService extends AbstractService
+class BuildingService extends AbstractService implements ParseListInterface
 {
     protected const URN = 'novostroyki';
     protected const EXPIRATION = 86400;

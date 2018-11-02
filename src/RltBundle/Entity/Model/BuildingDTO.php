@@ -5,7 +5,7 @@ namespace RltBundle\Entity\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-final class BuildingDTO
+final class BuildingDTO implements DTOInterface
 {
     /**
      * @var string

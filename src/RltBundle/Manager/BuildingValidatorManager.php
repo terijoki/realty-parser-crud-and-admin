@@ -7,13 +7,14 @@ use RltBundle\Entity\Bank;
 use RltBundle\Entity\Building;
 use RltBundle\Entity\Developer;
 use RltBundle\Entity\Distinct;
+use RltBundle\Entity\EntityInterface;
 use RltBundle\Entity\Metro;
-use RltBundle\Entity\Model\BuildingDTO;
+use RltBundle\Entity\Model\DTOInterface;
 use RltBundle\Entity\User;
 use RltBundle\Service\AbstractService;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final class BuildingValidatorManager extends AbstractManager
+final class BuildingValidatorManager extends AbstractManager implements ValidateItemInterface
 {
     protected const ECONOM = 'Эконом класс';
     protected const COMFORT = 'Комфорт-класс';
@@ -41,12 +42,12 @@ final class BuildingValidatorManager extends AbstractManager
     protected const YES = 'Есть';
 
     /**
-     * @var Building
+     * @var EntityInterface
      */
     private $entity;
 
     /**
-     * @var Building
+     * @var ValidatorInterface
      */
     private $validator;
 
@@ -75,20 +76,19 @@ final class BuildingValidatorManager extends AbstractManager
     }
 
     /**
-     * This fields don`t need additional validation.
+     * @param DTOInterface $dto
+     * @param int          $externalId
      *
-     * @param BuildingDTO $dto
-     * @param int         $externalId
-     *
+     * @throws \Doctrine\ORM\ORMException
      * @throws \ReflectionException
      *
-     * @return Building
+     * @return EntityInterface
      */
-    public function createEntity(BuildingDTO $dto, int $externalId): Building
+    public function createEntity(DTOInterface $dto, int $externalId): EntityInterface
     {
         $this->externalId = $externalId;
         /** @var User $user */
-        $user = $this->em->getRepository(User::class)->find(User::PARSER);
+        $user = $this->em->getReference(User::class, User::PARSER);
         $this->entity
             ->setName($dto->getName())
             ->setExternalId($externalId)
@@ -113,13 +113,11 @@ final class BuildingValidatorManager extends AbstractManager
     /**
      * Additional validation for entity.
      *
-     * @param BuildingDTO $dto
+     * @param DTOInterface $dto
      *
      * @throws \ReflectionException
-     *
-     * @return Building
      */
-    private function validateBuilding(BuildingDTO $dto): Building
+    private function validateBuilding(DTOInterface $dto): void
     {
 //        $this->setValidatedMetro($dto->getMetro());
 //        $this->setValidatedDeveloper($dto->getDeveloper());

@@ -12,6 +12,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class BuildingRepository extends EntityRepository
 {
+    public const TABLE = 'rlt_buildings';
+
     /**
      * Entity full signature (with bundle name, like "RltBundle:User").
      *

@@ -5,11 +5,12 @@ namespace RltBundle\Manager;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use RltBundle\Entity\Model\BuildingDTO;
+use RltBundle\Entity\Model\DTOInterface;
 use RltBundle\Entity\Model\Flat;
-use RltBundle\Service\AbstractService;
+use RltBundle\Service\BuildingService;
 use Symfony\Component\DomCrawler\Crawler;
 
-final class BuildingParserManager extends AbstractManager
+final class BuildingParserManager extends AbstractManager implements ParseItemInterface
 {
     private const B_CLASS = 'Класс жилья';
     private const TYPE = 'Тип здания';
@@ -35,7 +36,7 @@ final class BuildingParserManager extends AbstractManager
     private const STUDIO = 'S';
 
     /**
-     * @var BuildingDTO
+     * @var DTOInterface
      */
     private $dto;
 
@@ -44,9 +45,9 @@ final class BuildingParserManager extends AbstractManager
      *
      * @param EntityManagerInterface $em
      * @param LoggerInterface        $logger
-     * @param AbstractService        $service
+     * @param BuildingService        $service
      */
-    public function __construct(EntityManagerInterface $em, LoggerInterface $logger, AbstractService $service)
+    public function __construct(EntityManagerInterface $em, LoggerInterface $logger, BuildingService $service)
     {
         parent::__construct($em, $logger, $service);
         $this->dto = new BuildingDTO();
@@ -66,11 +67,11 @@ final class BuildingParserManager extends AbstractManager
      *
      * @throws \ReflectionException
      *
-     * @return BuildingDTO
+     * @return DTOInterface
      */
-    public function parseBuilding(string $item, int $externalId): BuildingDTO
+    public function parseItem(string $item, int $externalId): DTOInterface
     {
-        $dom = new Crawler(\file_get_contents(__DIR__ . '/' . 'item.html'));
+        $dom = new Crawler(\file_get_contents(__DIR__ . '/../Tests/Mock/building1.html'));
         $this->externalId = $externalId;
 
         $this->parseCharacteristics($dom);
@@ -93,7 +94,6 @@ final class BuildingParserManager extends AbstractManager
 
     /**
      * @param Crawler $dom
-     * @param string  $link
      *
      * @return string
      */
@@ -186,7 +186,8 @@ final class BuildingParserManager extends AbstractManager
             }
         }
 
-        $this->dto->setBuildDate($this->parseBuildDate($dom
+        $this->dto->setBuildDate($this
+                                ->parseBuildDate($dom
                                 ->filter('table[class="build-info-data build-info-queue"]')
                                 ->eq(0)
                                 ->children()

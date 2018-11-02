@@ -194,7 +194,7 @@ final class NewsValidatorManager extends AbstractManager implements ValidateItem
         $images = [];
         foreach ($imagesPath as $imagePath) {
             $images[] = $this->uploadImage($imagePath, $this->externalId);
-            \sleep(\random_int(static::MIN_DELAY, static::MAX_DELAY));
+            \sleep(static::DELAY);
         }
         $this->entity->setImages($images);
     }

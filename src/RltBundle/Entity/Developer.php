@@ -45,16 +45,11 @@ class Developer implements EntityInterface
     private $externalId;
 
     /**
-     * @var null|int
+     * @var null|string
      *
-     * @Assert\Type(type="integer")
-     * @Assert\Length(
-     *     min=6,
-     *     max=12,
-     *     message="You must enter a valid phone number",
-     * )
+     * @Assert\Type(type="string")
      *
-     * @ORM\Column(name="phone", type="integer", unique=true, nullable=true)
+     * @ORM\Column(name="phone", type="string", unique=true, nullable=true)
      */
     private $phone;
 
@@ -91,7 +86,7 @@ class Developer implements EntityInterface
      * @var null|int
      *
      * @Assert\Type(type="integer")
-     * @Assert\Range(min=1900, max=2018, message="You must enter a valid year")
+     * @Assert\Range(min=1800, max=2018, message="You must enter a valid year")
      *
      * @ORM\Column(name="creation_year", type="smallint", nullable=true)
      */
@@ -220,19 +215,19 @@ class Developer implements EntityInterface
     }
 
     /**
-     * @return null|int
+     * @return null|string
      */
-    public function getPhone(): ?int
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
     /**
-     * @param null|int $phone
+     * @param null|string $phone
      *
      * @return Developer
      */
-    public function setPhone(?int $phone): Developer
+    public function setPhone(?string $phone): Developer
     {
         $this->phone = $phone;
 

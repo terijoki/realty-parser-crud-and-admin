@@ -156,7 +156,6 @@ abstract class AbstractService implements ParseListInterface
     {
         try {
             $response = $this->client->get($link, [
-                'debug' => true,
                 RequestOptions::QUERY => $params,
             ]);
 

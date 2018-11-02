@@ -68,9 +68,9 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
     }
 
     /**
-     * @return Building
+     * @return EntityInterface
      */
-    public function getEntity(): Building
+    public function getEntity(): EntityInterface
     {
         return $this->entity;
     }
@@ -194,7 +194,7 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
         $images = [];
         foreach ($imagesPath as $imagePath) {
             $images[] = $this->uploadImage($imagePath, $this->externalId);
-            \sleep(\random_int(static::MIN_DELAY, static::MAX_DELAY));
+            \sleep(static::DELAY);
         }
         $this->entity->setImages($images);
     }

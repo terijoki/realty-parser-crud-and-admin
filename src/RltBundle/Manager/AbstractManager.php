@@ -5,12 +5,12 @@ namespace RltBundle\Manager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Psr\Log\LoggerInterface;
-use RltBundle\Service\ParseListInterface;
+use RltBundle\Entity\EntityInterface;
+use RltBundle\Service\AbstractService;
 
 abstract class AbstractManager
 {
-    protected const MIN_DELAY = 3;
-    protected const MAX_DELAY = 10;
+    protected const DELAY = 5;
 
     /**
      * @var EntityManagerInterface
@@ -23,7 +23,7 @@ abstract class AbstractManager
     protected $logger;
 
     /**
-     * @var ParseListInterface
+     * @var AbstractService
      */
     protected $service;
 
@@ -33,13 +33,18 @@ abstract class AbstractManager
     protected $externalId;
 
     /**
+     * @var EntityInterface
+     */
+    protected $entity;
+
+    /**
      * AbstractManager constructor.
      *
      * @param EntityManagerInterface $em
      * @param LoggerInterface        $logger
-     * @param ParseListInterface     $service
+     * @param AbstractService        $service
      */
-    public function __construct(EntityManagerInterface $em, LoggerInterface $logger, ParseListInterface $service)
+    public function __construct(EntityManagerInterface $em, LoggerInterface $logger, AbstractService $service)
     {
         $this->em = $em;
         $this->logger = $logger;
@@ -71,6 +76,24 @@ abstract class AbstractManager
         }
 
         $uow->computeChangeSet($meta, $entity);
+    }
+
+    /**
+     * @param array $imagesPath
+     *
+     * @throws \ReflectionException
+     *
+     * @return array
+     */
+    public function uploadImages(array $imagesPath): array
+    {
+        $images = [];
+        foreach ($imagesPath as $imagePath) {
+            $images[] = $this->uploadImage($imagePath, $this->externalId);
+            \sleep(static::DELAY);
+        }
+
+        return $images;
     }
 
     /**

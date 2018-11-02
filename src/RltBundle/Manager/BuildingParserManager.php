@@ -307,7 +307,7 @@ final class BuildingParserManager extends AbstractManager implements ParseItemIn
      */
     private function parseDescription(Crawler $dom): ?string
     {
-        return \trim($dom->filter('div[itemprop="description"]')->text());
+        return \trim($dom->filter('div[itemprop="description"]')->html());
     }
 
     /**
@@ -317,7 +317,7 @@ final class BuildingParserManager extends AbstractManager implements ParseItemIn
      */
     private function parseOurOpinition(Crawler $dom): ?string
     {
-        return \trim($dom->filter('div[class="p_c"]')->text());
+        return \trim($dom->filter('div[class="p_c"]')->html());
     }
 
     /**

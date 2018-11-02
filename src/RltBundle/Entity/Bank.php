@@ -45,29 +45,22 @@ class Bank implements EntityInterface
     private $externalId;
 
     /**
-     * @var null|int
+     * @var null|string
      *
-     * @Assert\Type(type="integer")
-     * @Assert\Length(
-     *     min=6,
-     *     max=12,
-     *     message="You must enter a valid phone number",
-     * )
+     * @Assert\Type(type="string")
      *
-     * @ORM\Column(name="phone", type="integer", unique=true, nullable=true)
+     * @ORM\Column(name="address", type="string", nullable=true)
      */
-    private $phone;
+    private $address;
 
     /**
      * @var null|string
      *
-     * @Assert\Email(
-     *     message="The email '{{ value }}' is not a valid email.",
-     * checkMX=true)
+     * @Assert\Type(type="string")
      *
-     * @ORM\Column(name="email", type="string", length=255, unique=true, nullable=true)
+     * @ORM\Column(name="phone", type="string", unique=true, nullable=true)
      */
-    private $email;
+    private $phone;
 
     /**
      * @var null|string
@@ -82,7 +75,7 @@ class Bank implements EntityInterface
      * @var null|int
      *
      * @Assert\Type(type="integer")
-     * @Assert\Range(min=1900, max=2018, message="You must enter a valid year")
+     * @Assert\Range(min=1800, max=2018, message="You must enter a valid year")
      *
      * @ORM\Column(name="creation_year", type="smallint", nullable=true)
      */
@@ -211,19 +204,19 @@ class Bank implements EntityInterface
     }
 
     /**
-     * @return null|int
+     * @return null|string
      */
-    public function getPhone(): ?int
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
     /**
-     * @param null|int $phone
+     * @param null|string $phone
      *
      * @return Bank
      */
-    public function setPhone(?int $phone): Bank
+    public function setPhone(?string $phone): Bank
     {
         $this->phone = $phone;
 
@@ -233,19 +226,19 @@ class Bank implements EntityInterface
     /**
      * @return null|string
      */
-    public function getEmail(): ?string
+    public function getAddress(): ?string
     {
-        return $this->email;
+        return $this->address;
     }
 
     /**
-     * @param null|string $email
+     * @param null|string $address
      *
      * @return Bank
      */
-    public function setEmail(?string $email): Bank
+    public function setAddress(?string $address): Bank
     {
-        $this->email = $email;
+        $this->address = $address;
 
         return $this;
     }

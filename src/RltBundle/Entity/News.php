@@ -3,6 +3,7 @@
 namespace RltBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -29,7 +30,16 @@ class News implements EntityInterface
      *
      * @Assert\NotBlank()
      *
-     * @ORM\Column(name="title", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank()
+     *
+     * @ORM\Column(name="title", type="string", unique=true)
      */
     private $title;
 
@@ -43,6 +53,15 @@ class News implements EntityInterface
     private $externalId;
 
     /**
+     * @var string
+     *
+     * @Assert\NotBlank()
+     *
+     * @ORM\Column(name="title", type="string", unique=true)
+     */
+    private $date;
+
+    /**
      * @var array
      *
      * @ORM\Column(name="images", type="json_array", options={"jsonb" : true, "default" : "[]"})
@@ -54,16 +73,9 @@ class News implements EntityInterface
      *
      * @Assert\Type(type="string")
      *
-     * @ORM\Column(name="description", type="string", unique=true)
+     * @ORM\Column(name="description", type="string")
      */
-    private $description;
-
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="images", type="json_array", options={"jsonb" : true, "default" : "[]"})
-     */
-    private $text = [];
+    private $text;
 
     /**
      * @var ?
@@ -152,6 +164,26 @@ class News implements EntityInterface
     /**
      * @return string
      */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return News
+     */
+    public function setName(string $name): News
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function getTitle(): string
     {
         return $this->title;
@@ -190,6 +222,26 @@ class News implements EntityInterface
     }
 
     /**
+     * @return string
+     */
+    public function getDate(): string
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param string $date
+     *
+     * @return News
+     */
+    public function setDate(string $date): News
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function getImages(): array
@@ -212,37 +264,17 @@ class News implements EntityInterface
     /**
      * @return string
      */
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string $description
-     *
-     * @return News
-     */
-    public function setDescription(string $description): News
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getText(): array
+    public function getText(): string
     {
         return $this->text;
     }
 
     /**
-     * @param array $text
+     * @param string $text
      *
      * @return News
      */
-    public function setText(array $text): News
+    public function setText(string $text): News
     {
         $this->text = $text;
 

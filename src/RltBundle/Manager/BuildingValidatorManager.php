@@ -9,8 +9,10 @@ use RltBundle\Entity\Developer;
 use RltBundle\Entity\Distinct;
 use RltBundle\Entity\EntityInterface;
 use RltBundle\Entity\Metro;
+use RltBundle\Entity\Model\BuildingDTO;
 use RltBundle\Entity\Model\DTOInterface;
 use RltBundle\Entity\User;
+use RltBundle\Service\AbstractService;
 use RltBundle\Service\ParseListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -42,11 +44,6 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
     protected const YES = 'Есть';
 
     /**
-     * @var EntityInterface
-     */
-    private $entity;
-
-    /**
      * @var ValidatorInterface
      */
     private $validator;
@@ -57,7 +54,7 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
      * @param $em
      * @param $logger
      * @param ValidatorInterface $validator
-     * @param ParseListInterface $service
+     * @param AbstractService    $service
      */
     public function __construct($em, $logger, ValidatorInterface $validator, ParseListInterface $service)
     {
@@ -68,16 +65,16 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
     }
 
     /**
-     * @return Building
+     * @return EntityInterface
      */
-    public function getEntity(): Building
+    public function getEntity(): EntityInterface
     {
         return $this->entity;
     }
 
     /**
-     * @param DTOInterface $dto
-     * @param int          $externalId
+     * @param BuildingDTO $dto
+     * @param int         $externalId
      *
      * @throws \Doctrine\ORM\ORMException
      * @throws \ReflectionException
@@ -102,6 +99,7 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
             ->setPricePerM2($dto->getPricePerM2())
             ->setFlats($dto->getFlats())
             ->setUserCreator($user)
+            //->setImages($this->uploadImages($dto->getImages()))
         ;
         //todo make autoSet Datetime of create and update building (timestampable)
 
@@ -113,7 +111,7 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
     /**
      * Additional validation for entity.
      *
-     * @param DTOInterface $dto
+     * @param BuildingDTO $dto
      *
      * @throws \ReflectionException
      */
@@ -122,7 +120,6 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
 //        $this->setValidatedMetro($dto->getMetro());
 //        $this->setValidatedDeveloper($dto->getDeveloper());
 //        $this->setValidatedAccreditation($dto->getAccreditation());
-//        $this->uploadImages($dto->getImages());
 //        $this->setValidatedDistinct($dto->getAddress());
         $this->setValidatedStatus($dto->getStatus());
         $this->setValidatedClass($dto->getClass());
@@ -182,21 +179,6 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
         /** @var Bank[] $banks */
         $banks = $this->em->getRepository(Bank::class)->findBy(['name' => $bankNames]) ?? [];
         $this->entity->setAccreditation($banks);
-    }
-
-    /**
-     * @param array $imagesPath
-     *
-     * @throws \ReflectionException
-     */
-    protected function uploadImages(array $imagesPath): void
-    {
-        $images = [];
-        foreach ($imagesPath as $imagePath) {
-            $images[] = $this->uploadImage($imagePath, $this->externalId);
-            \sleep(\random_int(static::MIN_DELAY, static::MAX_DELAY));
-        }
-        $this->entity->setImages($images);
     }
 
     /**

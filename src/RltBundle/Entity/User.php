@@ -78,7 +78,7 @@ class User extends BaseUser
     /**
      * @var Developer[]
      *
-     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Developer", mappedBy="user"Creator)
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Developer", mappedBy="userCreator")
      */
     private $developersCreated;
 

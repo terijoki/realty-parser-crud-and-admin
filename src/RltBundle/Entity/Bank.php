@@ -4,6 +4,7 @@ namespace RltBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -11,8 +12,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @Serializer\AccessorOrder("custom", custom={"id", "name"})
  *
- * @ORM\Table(name="rlt_banks")
- * @ORM\Entity(repositoryClass="RltBundle\Repository\BankRepository")
+ * @ORM\Table(name="rlt_banks",
+ *     indexes={
+ *         @ORM\Index(name="rlt_banks_name_idx", columns={"name"})
+ *     })
+ *     @ORM\Entity(repositoryClass="RltBundle\Repository\BankRepository")
  */
 class Bank implements EntityInterface
 {
@@ -75,7 +79,7 @@ class Bank implements EntityInterface
      * @var null|int
      *
      * @Assert\Type(type="integer")
-     * @Assert\Range(min=1800, max=2018, message="You must enter a valid year")
+     * @Assert\Range(min=1800, max=2018, invalidMessage="You must enter a valid year")
      *
      * @ORM\Column(name="creation_year", type="smallint", nullable=true)
      */

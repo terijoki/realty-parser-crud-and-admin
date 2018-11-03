@@ -17,7 +17,7 @@ class GroupRepository extends EntityRepository
     }
 
     /**
-     * Entity full signature (with bundle name, like "ApiBundle:User").
+     * Entity full signature (with bundle name, like "RltBundle:User").
      *
      * @return string
      */

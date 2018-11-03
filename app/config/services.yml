@@ -99,13 +99,6 @@ services:
       tags:
       - { name: console.command }
 
-
-    RltBundle\Command\TestCommand:
-        tags:
-        - { name: console.command }
-
-
-
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
     #     arguments:

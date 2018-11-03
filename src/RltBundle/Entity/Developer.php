@@ -4,6 +4,7 @@ namespace RltBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -11,8 +12,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @Serializer\AccessorOrder("custom", custom={"id", "name"})
  *
- * @ORM\Table(name="rlt_developers")
- * @ORM\Entity(repositoryClass="RltBundle\Repository\DeveloperRepository")
+ * @ORM\Table(name="rlt_developers",
+ *     indexes={
+ *         @ORM\Index(name="rlt_developers_name_idx", columns={"name"})
+ *     }))
+ *     @ORM\Entity(repositoryClass="RltBundle\Repository\DeveloperRepository")
  */
 class Developer implements EntityInterface
 {
@@ -56,9 +60,11 @@ class Developer implements EntityInterface
     /**
      * @var null|string
      *
+     * @Assert\NotBlank()
      * @Assert\Email(
      *     message="The email '{{ value }}' is not a valid email.",
-     * checkMX=true)
+     *     checkMX=true
+     * )
      *
      * @ORM\Column(name="email", type="string", length=255, unique=true, nullable=true)
      */
@@ -69,7 +75,7 @@ class Developer implements EntityInterface
      *
      * @Assert\Type(type="string")
      *
-     * @ORM\Column(name="email", type="string", length=255, unique=true, nullable=true)
+     * @ORM\Column(name="site", type="string", length=255, unique=true, nullable=true)
      */
     private $site;
 
@@ -86,7 +92,7 @@ class Developer implements EntityInterface
      * @var null|int
      *
      * @Assert\Type(type="integer")
-     * @Assert\Range(min=1800, max=2018, message="You must enter a valid year")
+     * @Assert\Range(min=1800, max=2018, invalidMessage="You must enter a valid year")
      *
      * @ORM\Column(name="creation_year", type="smallint", nullable=true)
      */

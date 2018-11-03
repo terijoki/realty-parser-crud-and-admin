@@ -1,0 +1,45 @@
+version: '2'
+
+services:
+  postgresql:
+    image: 'bitnami/postgresql:latest'
+    restart: always
+    labels:
+      kompose.service.type: nodeport
+    ports:
+      - '5434:5432'
+    volumes:
+      - 'postgresql_data:/bitnami'
+    environment:
+    - POSTGRESQL_USERNAME=test
+    - POSTGRESQL_PASSWORD=test
+    - POSTGRESQL_DATABASE=rlt-api
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.2
+    container_name: rlt.elasticsearch
+    restart: always
+    ports:
+    - 9200:9200
+    environment:
+    - cluster.name=docker-cluster
+    - bootstrap.memory_lock=true
+    volumes:
+    - elasticdata:/usr/share/elasticsearch/data
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.4.2
+    container_name: rlt.kibana
+    restart: always
+    ports:
+    - 5601:5601
+    volumes:
+    - kibanadata:/usr/share/elasticsearch/data
+
+volumes:
+  postgresql_data:
+    driver: local
+  elasticdata:
+    driver: local
+  kibanadata:
+    driver: local

@@ -4,6 +4,7 @@ namespace RltBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -39,7 +40,7 @@ class Metro
      *
      * @Assert\Valid()
      *
-     * @ORM\ManyToMany(targetEntity="ApiBundle\Entity\Building", mappedBy="metro", fetch="EXTRA_LAZY")
+     * @ORM\ManyToMany(targetEntity="RltBundle\Entity\Building", mappedBy="metro", fetch="EXTRA_LAZY")
      */
     private $buildings;
 

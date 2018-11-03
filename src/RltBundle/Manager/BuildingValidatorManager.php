@@ -81,11 +81,11 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
      *
      * @return EntityInterface
      */
-    public function createEntity(DTOInterface $dto, int $externalId): EntityInterface
+    public function fillEntity(DTOInterface $dto, int $externalId): EntityInterface
     {
         $this->externalId = $externalId;
         /* @var User $user */
-        //$user = $this->em->getReference(User::class, User::PARSER);
+        $user = $this->em->getReference(User::class, User::PARSER);
         $this->entity
             ->setName($dto->getName())
             ->setExternalId($externalId)
@@ -98,7 +98,7 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
             ->setPrice($dto->getPrice())
             ->setPricePerM2($dto->getPricePerM2())
             ->setFlats($dto->getFlats())
-            //->setUserCreator($user)
+            ->setUserCreator($user)
             //->setImages($this->uploadImages($dto->getImages()))
         ;
         //todo make autoSet Datetime of create and update building (timestampable)
@@ -117,10 +117,10 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
      */
     private function validateBuilding(DTOInterface $dto): void
     {
-//        $this->setValidatedMetro($dto->getMetro());
-//        $this->setValidatedDeveloper($dto->getDeveloper());
-//        $this->setValidatedAccreditation($dto->getAccreditation());
-//        $this->setValidatedDistinct($dto->getAddress());
+        $this->setValidatedMetro($dto->getMetro());
+        $this->setValidatedDeveloper($dto->getDeveloper());
+        $this->setValidatedAccreditation($dto->getAccreditation());
+        $this->setValidatedDistinct($dto->getAddress());
         $this->setValidatedStatus($dto->getStatus());
         $this->setValidatedClass($dto->getClass());
         $this->setValidatedPermission($dto->getPermission());
@@ -139,13 +139,6 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
     {
         /** @var Metro[] $allStations */
         $allStations = $this->em->getRepository(Metro::class)->findAll();
-
-//        $errors = $this->validator->validate(trim($metro), (new MetroConstraint())->setMetroList($allStations));
-//        if (count($errors) > 0) {
-//            $errorsString = (string) $errors;
-//
-//            return new Response($errorsString);
-//        }
 
         $exploded = \explode(',', $metro);
         foreach ($exploded as $item) {

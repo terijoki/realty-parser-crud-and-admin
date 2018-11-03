@@ -11,8 +11,16 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @Serializer\AccessorOrder("custom", custom={"id", "title"})
  *
- * @ORM\Table(name="rlt_news")
- * @ORM\Entity(repositoryClass="RltBundle\Repository\NewsRepository")
+ * @ORM\Table(name="rlt_news",
+ *     indexes={
+ *         @ORM\Index(name="rlt_news_name_idx", columns={"name"}),
+ *         @ORM\Index(name="rlt_news_date_idx", columns={"date"}),
+ *         @ORM\Index(name="rlt_news_text_idx", columns={"text"}),
+ *         @ORM\Index(name="rlt_news_developers_idx", columns={"developer_id"}),
+ *         @ORM\Index(name="rlt_news_buildings_idx", columns={"building_id"}),
+ *         @ORM\Index(name="rlt_news_banks_idx", columns={"bank_id"}),
+ *     }))
+ *     @ORM\Entity(repositoryClass="RltBundle\Repository\NewsRepository")
  */
 class News implements EntityInterface
 {
@@ -57,7 +65,7 @@ class News implements EntityInterface
      *
      * @Assert\NotBlank()
      *
-     * @ORM\Column(name="title", type="string", unique=true)
+     * @ORM\Column(name="date", type="string", unique=true)
      */
     private $date;
 
@@ -73,14 +81,9 @@ class News implements EntityInterface
      *
      * @Assert\Type(type="string")
      *
-     * @ORM\Column(name="description", type="string")
+     * @ORM\Column(name="text", type="string")
      */
     private $text;
-
-    /**
-     * @var ?
-     */
-    private $tags;
 
     /**
      * @var null|Developer
@@ -137,7 +140,7 @@ class News implements EntityInterface
      *
      * @Serializer\Type("DateTime<'Y-m-d H:i:s'>")
      *
-     * @ORM\Column(name="created_at", type="datetime", options={"default" = "now()"})
+     * @ORM\Column(name="updated_at", type="datetime", options={"default" = "now()"})
      */
     private $updatedAt;
 
@@ -277,26 +280,6 @@ class News implements EntityInterface
     public function setText(string $text): News
     {
         $this->text = $text;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTags()
-    {
-        return $this->tags;
-    }
-
-    /**
-     * @param mixed $tags
-     *
-     * @return News
-     */
-    public function setTags($tags)
-    {
-        $this->tags = $tags;
 
         return $this;
     }

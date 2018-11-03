@@ -52,7 +52,7 @@ final class BankValidatorManager extends AbstractManager implements ValidateItem
      *
      * @return EntityInterface
      */
-    public function createEntity(DTOInterface $dto, int $externalId): EntityInterface
+    public function fillEntity(DTOInterface $dto, int $externalId): EntityInterface
     {
         /** @var User $user */
         $user = $this->em->getReference(User::class, User::PARSER);

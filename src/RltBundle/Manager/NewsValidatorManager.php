@@ -57,11 +57,11 @@ final class NewsValidatorManager extends AbstractManager implements ValidateItem
      *
      * @return EntityInterface
      */
-    public function createEntity(DTOInterface $dto, int $externalId): EntityInterface
+    public function fillEntity(DTOInterface $dto, int $externalId): EntityInterface
     {
         $this->externalId = $externalId;
         /* @var User $user */
-        //$user = $this->em->getReference(User::class, User::PARSER);
+        $user = $this->em->getReference(User::class, User::PARSER);
         $this->entity
             ->setName($dto->getName())
             ->setExternalId($externalId)
@@ -69,7 +69,7 @@ final class NewsValidatorManager extends AbstractManager implements ValidateItem
             ->setDate($dto->getDate())
             //->setImages($this->uploadImages($dto->getImages()))
             ->setText($dto->getText())
-            //->setUserCreator($user)
+            ->setUserCreator($user)
         ;
         //todo make autoSet Datetime of create and update building (timestampable)
 

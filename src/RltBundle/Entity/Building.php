@@ -14,8 +14,19 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @Serializer\AccessorOrder("custom", custom={"id", "name"})
  *
- * @ORM\Table(name="rlt_buildings")
- * @ORM\Entity(repositoryClass="RltBundle\Repository\BuildingRepository")
+ * @ORM\Table(name="rlt_buildings",
+ *     indexes={
+ *         @ORM\Index(name="rlt_buildings_name_idx", columns={"name"}),
+ *         @ORM\Index(name="rlt_buildings_distinct_idx", columns={"distinct_id"}),
+ *         @ORM\Index(name="rlt_buildings_class_idx", columns={"class"}),
+ *         @ORM\Index(name="rlt_buildings_build_type_idx", columns={"build_type"}),
+ *         @ORM\Index(name="rlt_buildings_developers_idx", columns={"developer_id"}),
+ *         @ORM\Index(name="rlt_buildings_facing_idx", columns={"facing"}),
+ *         @ORM\Index(name="rlt_buildings_status_idx", columns={"status"}),
+ *         @ORM\Index(name="rlt_buildings_payment_type_idx", columns={"payment_type"}),
+ *         @ORM\Index(name="rlt_buildings_priceM2_idx", columns={"price_per_m2"}),
+ *     }))
+ *     @ORM\Entity(repositoryClass="RltBundle\Repository\BuildingRepository")
  */
 class Building implements EntityInterface
 {
@@ -112,7 +123,7 @@ class Building implements EntityInterface
      *
      * @Assert\Type(type="integer")
      *
-     * @ORM\Column(name="external_id", type="int", unique=true)
+     * @ORM\Column(name="external_id", type="integer", unique=true)
      */
     private $externalId;
 
@@ -130,7 +141,7 @@ class Building implements EntityInterface
     /**
      * @var null|int
      *
-     * @Assert\Type(type="int")
+     * @Assert\Type(type="integer")
      *
      * @ORM\Column(name="class", type="smallint", nullable=true)
      */
@@ -148,7 +159,7 @@ class Building implements EntityInterface
     /**
      * @var null|int
      *
-     * @Assert\Type(type="int")
+     * @Assert\Type(type="integer")
      *
      * @ORM\Column(name="build_type", type="smallint", nullable=true)
      */
@@ -214,7 +225,7 @@ class Building implements EntityInterface
     /**
      * @var null|int
      *
-     * @Assert\Type(type="int")
+     * @Assert\Type(type="integer")
      * @Assert\Choice(choices={
      *     Building::WITHOUT,
      *     Building::WITH,

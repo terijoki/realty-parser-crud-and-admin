@@ -49,7 +49,7 @@ doctrine:
             default:
                 #                schema_filter: ~^rlt_mytable~
                 driver:   pdo_pgsql
-                server_version: 9.6
+                server_version: 10.5
                 host:     "%database_host%"
                 port:     "%database_port%"
                 dbname:   "%database_name%"
@@ -84,7 +84,8 @@ doctrine:
                 class: Doctrine\DBAL\PostgresTypes\IntArrayType
             json_array:
                 class: Doctrine\DBAL\Types\JsonArrayType
-
+            flat:
+                class: RltBundle\Types\FlatSortType
     orm:
         default_entity_manager: default
         auto_generate_proxy_classes: "%kernel.debug%"
@@ -118,7 +119,6 @@ doctrine_migrations:
     namespace: Application\Migrations
     table_name: rlt_migration_versions
     name: Application Migrations
-    organize_migrations: by_year
 
 # Nelmio CORS
 nelmio_cors:

@@ -99,7 +99,7 @@ abstract class AbstractParserCommand extends Command
         $this->em = $em;
         $this->container = $container;
         $this->logger = $logger;
-        //$this->storedIds = $this->em->getRepository(static::NAME)->getExternalIds();
+        $this->storedIds = $this->em->getRepository(static::NAME)->getExternalIds();
     }
 
     /**
@@ -128,11 +128,10 @@ abstract class AbstractParserCommand extends Command
         $stopwatch->start($this->getName());
 
         $this->io = new SymfonyStyle($input, $output);
-        $this->io->writeln((new \DateTime())->format('Y-m-d H:i:s') . ' Run');
-//        $this->logger->info('Run ' . $this->getName(), [
-//            'class' => (new \ReflectionClass(static::class))->getShortName(),
-//            'category' => 'parser-command',
-//        ]);
+        $this->logger->info('Run ' . $this->getName(), [
+            'class' => (new \ReflectionClass(static::class))->getShortName(),
+            'category' => 'parser-command',
+        ]);
 
         try {
             $this->process();

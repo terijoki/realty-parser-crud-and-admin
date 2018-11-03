@@ -4,6 +4,7 @@ namespace RltBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use RltBundle\Entity\Building;
 use RltBundle\Entity\Model\BuildingDTO;
 use RltBundle\Entity\Model\DTOInterface;
 use RltBundle\Entity\Model\Flat;
@@ -71,7 +72,7 @@ final class BuildingParserManager extends AbstractManager implements ParseItemIn
      */
     public function parseItem(string $item, int $externalId): DTOInterface
     {
-        $dom = new Crawler(\file_get_contents(__DIR__ . '/../Tests/Mock/building1.html'));
+        $dom = new Crawler(\file_get_contents(__DIR__ . '/../../../var/mock/building1.html'));
         $this->externalId = $externalId;
 
         $this->parseCharacteristics($dom);
@@ -420,5 +421,29 @@ final class BuildingParserManager extends AbstractManager implements ParseItemIn
             }
         }
         $this->dto->addFlat($flat);
+    }
+
+    /**
+     * @param string $item
+     * @param int    $id
+     *
+     * @return bool
+     */
+    public function needToUpdate(string $item, int $id): bool
+    {
+        $dom = new Crawler(\file_get_contents(__DIR__ . '/../../../var/mock/building1.html'));
+
+        foreach ($dom->filter('table[class="build-info-data"]')->eq(1)->children() as $node) {
+            if (self::UPDATED === $node->firstChild->nodeValue) {
+                $lastUpdated = $this->convertToDatetime(\trim($node->childNodes->item(2)->nodeValue));
+                /** @var Building $building */
+                $building = $this->findByExternalId(Building::class, $id);
+                if ($lastUpdated > $building->getExternalUpdated()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

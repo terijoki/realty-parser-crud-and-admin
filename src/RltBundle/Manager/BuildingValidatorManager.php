@@ -84,21 +84,21 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
     public function createEntity(DTOInterface $dto, int $externalId): EntityInterface
     {
         $this->externalId = $externalId;
-        /** @var User $user */
-        $user = $this->em->getReference(User::class, User::PARSER);
+        /* @var User $user */
+        //$user = $this->em->getReference(User::class, User::PARSER);
         $this->entity
             ->setName($dto->getName())
             ->setExternalId($externalId)
             ->setAddress($dto->getAddress())
             ->setFlatCount($dto->getFlatCount())
             ->setParking($dto->getParking())
-            ->setExternalUpdated($dto->getUpdated())
+            ->setExternalUpdated($this->convertToDatetime($dto->getUpdated()))
             ->setDescription($dto->getDescription())
             ->setOurOpinition($dto->getOurOpinition())
             ->setPrice($dto->getPrice())
             ->setPricePerM2($dto->getPricePerM2())
             ->setFlats($dto->getFlats())
-            ->setUserCreator($user)
+            //->setUserCreator($user)
             //->setImages($this->uploadImages($dto->getImages()))
         ;
         //todo make autoSet Datetime of create and update building (timestampable)

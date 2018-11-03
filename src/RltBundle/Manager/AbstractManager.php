@@ -2,15 +2,21 @@
 
 namespace RltBundle\Manager;
 
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Psr\Log\LoggerInterface;
+use RltBundle\Entity\Building;
 use RltBundle\Entity\EntityInterface;
 use RltBundle\Service\AbstractService;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 abstract class AbstractManager
 {
     protected const DELAY = 5;
+    private const NUMBER = 0;
+    private const MONTH = 1;
+    private const YEAR = 2;
 
     /**
      * @var EntityManagerInterface
@@ -85,7 +91,7 @@ abstract class AbstractManager
      *
      * @return array
      */
-    public function uploadImages(array $imagesPath): array
+    protected function uploadImages(array $imagesPath): array
     {
         $images = [];
         foreach ($imagesPath as $imagePath) {
@@ -121,5 +127,41 @@ abstract class AbstractManager
         }
 
         return $path;
+    }
+
+    /**
+     * @param string $class
+     * @param int    $id
+     *
+     * @return object[]
+     */
+    protected function findByExternalId(string $class, int $id)
+    {
+        return $this->em->getRepository($class)->findBy([
+            'externalId' => $id,
+        ]);
+    }
+
+    /**
+     * @param string $date
+     *
+     * @return DateTime
+     */
+    protected function convertToDatetime(string $date): \DateTime
+    {
+        $exploded = \explode(' ', $date);
+        foreach (Building::$monthes as $month => $numberMonth) {
+            if ($month === $exploded[self::MONTH]) {
+                $result = $exploded[self::YEAR] . '-' . $numberMonth . '-' . $exploded[self::NUMBER];
+                $converted = new \DateTime($result);
+
+                break;
+            }
+        }
+        if (!$converted instanceof \DateTime) {
+            throw new UnexpectedTypeException($result . 'value doesт`t match the format Y-m-d', (new \DateTime())->format('Y-m-d'));
+        }
+
+        return $converted;
     }
 }

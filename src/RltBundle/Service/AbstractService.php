@@ -14,7 +14,7 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 abstract class AbstractService implements ParseListInterface
 {
-    protected const URN = '';
+    protected const SUFFIX = '';
     protected const EXPIRATION = 0;
     protected const PAGE_SIZE = 0;
     protected const DELAY = 5;
@@ -127,7 +127,7 @@ abstract class AbstractService implements ParseListInterface
     public function request($param): string
     {
         try {
-            $response = $this->client->post(static::URN, [
+            $response = $this->client->post(static::SUFFIX, [
                 RequestOptions::BODY => $param,
             ]);
 

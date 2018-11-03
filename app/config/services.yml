@@ -21,7 +21,7 @@ services:
 
     RltBundle\Service\ParseListInterface: '@RltBundle\Service\BuildingService'
 
-    # Buildings
+    # Buildings New
     RltBundle\Service\BuildingService:
       arguments: ['%parser_host%']
       public: true
@@ -35,6 +35,12 @@ services:
       public: true
 
     RltBundle\Command\BuildingNewParserCommand:
+      arguments: ['@RltBundle\Service\BuildingService', '@RltBundle\Manager\BuildingParserManager', '@RltBundle\Manager\BuildingValidatorManager']
+      tags:
+      - { name: console.command }
+
+    # Buildings Update
+    RltBundle\Command\BuildingUpdateParserCommand:
       arguments: ['@RltBundle\Service\BuildingService', '@RltBundle\Manager\BuildingParserManager', '@RltBundle\Manager\BuildingValidatorManager']
       tags:
       - { name: console.command }

@@ -2,7 +2,7 @@
 
 namespace RltBundle\Command;
 
-class RealtyNewParserCommand extends AbstractParserCommand
+class EntityNewParserCommand extends AbstractParserCommand
 {
     protected const NAME = '';
 
@@ -19,10 +19,10 @@ class RealtyNewParserCommand extends AbstractParserCommand
         $progress = 0;
 
         foreach ($links as $id => $link) {
-            if ($this->isUnique($id) && !$this->input->getOption('force')) {
+            if ($this->isUnique($id) || !$this->input->getOption('force')) {
                 $item = $this->service->getItem($link);
                 $dto = $this->parser->parseItem($item, $id);
-                $entity = $this->validator->createEntity($dto, $id);
+                $entity = $this->validator->fillEntity($dto, $id);
 
                 try {
                     $this->em->persist($entity);
@@ -42,6 +42,7 @@ class RealtyNewParserCommand extends AbstractParserCommand
                     ]);
                 }
             }
+            \sleep(static::DELAY);
         }
         $this->output->writeln('Finished parser process, count new entities: ' . $progress);
     }

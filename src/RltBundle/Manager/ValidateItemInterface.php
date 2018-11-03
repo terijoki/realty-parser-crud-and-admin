@@ -18,5 +18,5 @@ interface ValidateItemInterface
      *
      * @return EntityInterface
      */
-    public function createEntity(DTOInterface $dto, int $externalId): EntityInterface;
+    public function fillEntity(DTOInterface $dto, int $externalId): EntityInterface;
 }

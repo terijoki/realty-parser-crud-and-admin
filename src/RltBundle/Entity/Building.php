@@ -64,6 +64,21 @@ class Building implements EntityInterface
     public const IN_PROCESS = false;
     public const READY = true;
 
+    public static $monthes = [
+        'Января' => 1,
+        'Февраля' => 2,
+        'Марта' => 3,
+        'Апреля' => 4,
+        'Мая' => 5,
+        'Июня' => 6,
+        'Июля' => 7,
+        'Августа' => 8,
+        'Сентября' => 9,
+        'Октября' => 10,
+        'Ноября' => 11,
+        'Декабря' => 12,
+    ];
+
     /**
      * @var int
      *
@@ -294,11 +309,11 @@ class Building implements EntityInterface
     private $parking;
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @Assert\Type(type="string")
+     * @Assert\Type(type="DateTime")
      *
-     * @ORM\Column(name="external_updated", type="string")
+     * @ORM\Column(name="external_updated", type="datetime")
      */
     private $externalUpdated;
 
@@ -861,19 +876,19 @@ class Building implements EntityInterface
     }
 
     /**
-     * @return string
+     * @return \DateTime
      */
-    public function getExternalUpdated(): string
+    public function getExternalUpdated(): \DateTime
     {
         return $this->externalUpdated;
     }
 
     /**
-     * @param string $externalUpdated
+     * @param \DateTime $externalUpdated
      *
      * @return Building
      */
-    public function setExternalUpdated(string $externalUpdated): Building
+    public function setExternalUpdated(\DateTime $externalUpdated): Building
     {
         $this->externalUpdated = $externalUpdated;
 

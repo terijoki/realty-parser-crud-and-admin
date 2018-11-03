@@ -4,7 +4,7 @@ namespace RltBundle\Command;
 
 use Symfony\Component\Console\Input\InputOption;
 
-class BuildingNewParserCommand extends RealtyNewParserCommand
+class BuildingNewParserCommand extends EntityNewParserCommand
 {
     protected const NAME = 'RltBundle:Building';
 

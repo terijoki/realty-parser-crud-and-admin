@@ -21,7 +21,7 @@ final class NewsParserManager extends AbstractManager implements ParseItemInterf
     private $dto;
 
     /**
-     * BuildingParserManager constructor.
+     * NewsParserManager constructor.
      *
      * @param EntityManagerInterface $em
      * @param LoggerInterface        $logger
@@ -137,14 +137,14 @@ final class NewsParserManager extends AbstractManager implements ParseItemInterf
         $related = [];
         foreach ($dom->filter('div[id="news_text"] > p > a') as $nodes) {
             $attr = $nodes->getAttribute('href');
-            if (\mb_strpos($attr, BuildingService::URN)) {
-                $related[BuildingService::URN] = $this->service->parseExtId($attr, BuildingService::URN);
+            if (\mb_strpos($attr, BuildingService::SUFFIX)) {
+                $related[BuildingService::SUFFIX] = $this->service->parseExtId($attr, BuildingService::SUFFIX);
             }
-            if (\mb_strpos($attr, DeveloperService::URN)) {
-                $related[DeveloperService::URN] = $this->service->parseExtId($attr, DeveloperService::URN);
+            if (\mb_strpos($attr, DeveloperService::SUFFIX)) {
+                $related[DeveloperService::SUFFIX] = $this->service->parseExtId($attr, DeveloperService::SUFFIX);
             }
-            if (\mb_strpos($attr, BankService::URN)) {
-                $related[BankService::URN] = $this->service->parseExtId($attr, BankService::URN);
+            if (\mb_strpos($attr, BankService::SUFFIX)) {
+                $related[BankService::SUFFIX] = $this->service->parseExtId($attr, BankService::SUFFIX);
             }
         }
 

@@ -85,19 +85,19 @@ final class NewsValidatorManager extends AbstractManager implements ValidateItem
     {
         foreach ($data as $key => $id) {
             switch ($key) {
-                case BuildingService::URN:
+                case BuildingService::SUFFIX:
                     /** @var Building $building */
                     $building = $this->findByExternalId(Building::class, $id);
                     $this->entity->setBuilding($building);
 
                     break;
-                case DeveloperService::URN:
+                case DeveloperService::SUFFIX:
                     /** @var Developer $developer */
                     $developer = $this->findByExternalId(Developer::class, $id);
                     $this->entity->setDeveloper($developer);
 
                     break;
-                case BankService::URN:
+                case BankService::SUFFIX:
                     /** @var Bank $bank */
                     $bank = $this->findByExternalId(Bank::class, $id);
                     $this->entity->setBank($bank);
@@ -105,18 +105,5 @@ final class NewsValidatorManager extends AbstractManager implements ValidateItem
                     break;
             }
         }
-    }
-
-    /**
-     * @param string $class
-     * @param int    $id
-     *
-     * @return object[]
-     */
-    private function findByExternalId(string $class, int $id)
-    {
-        return $this->em->getRepository($class)->findBy([
-            'externalId' => $id,
-        ]);
     }
 }

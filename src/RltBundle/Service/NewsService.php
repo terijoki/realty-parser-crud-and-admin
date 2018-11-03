@@ -9,9 +9,12 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class NewsService extends AbstractService
 {
-    public const URN = 'news';
+    public const SUFFIX = 'news';
 
     /**
+     * For news list there is no need to crawl all the links
+     * every time, just the last 30 notes are enough.
+     *
      * @throws \ReflectionException
      *
      * @return array
@@ -20,19 +23,11 @@ class NewsService extends AbstractService
     {
         $links = [];
 
-        while (true) {
-            $page = 1;
-            $content = $this->simpleRequest(static::URN . '/' . $page);
-            if (empty($content)) {
-                break;
-            }
-            $links[] = $this->parseItemForLinks($content);
-            $content = '';
-            ++$page;
-            \sleep(self::DELAY);
-        }
+        $content = $this->simpleRequest(static::SUFFIX . '/1');
 
-        return \array_merge(...$links);
+        $links[] = $this->parseItemForLinks($content);
+
+        return $links;
     }
 
     /**
@@ -48,7 +43,7 @@ class NewsService extends AbstractService
         foreach ($crawler->filter('li > a') as $li) {
             $link = $li->getAttribute('href') ?? '';
 
-            $id = $this->parseExtId($link, self::URN);
+            $id = $this->parseExtId($link, self::SUFFIX);
             $result[$id] = $link;
         }
         $crawler->clear();

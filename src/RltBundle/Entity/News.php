@@ -140,7 +140,7 @@ class News implements EntityInterface
      *
      * @Serializer\Type("DateTime<'Y-m-d H:i:s'>")
      *
-     * @ORM\Column(name="updated_at", type="datetime", options={"default" = "now()"})
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
 

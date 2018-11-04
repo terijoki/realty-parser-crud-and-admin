@@ -11,7 +11,6 @@ use RltBundle\Entity\EntityInterface;
 use RltBundle\Entity\Metro;
 use RltBundle\Entity\Model\BuildingDTO;
 use RltBundle\Entity\Model\DTOInterface;
-use RltBundle\Entity\User;
 use RltBundle\Service\AbstractService;
 use RltBundle\Service\ParseListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -84,8 +83,6 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
     public function fillEntity(DTOInterface $dto, int $externalId): EntityInterface
     {
         $this->externalId = $externalId;
-        /* @var User $user */
-        $user = $this->em->getReference(User::class, User::PARSER);
         $this->entity
             ->setName($dto->getName())
             ->setExternalId($externalId)
@@ -98,8 +95,8 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
             ->setPrice($dto->getPrice())
             ->setPricePerM2($dto->getPricePerM2())
             ->setFlats($dto->getFlats())
-            ->setUserCreator($user)
-            //->setImages($this->uploadImages($dto->getImages()))
+            ->setUserCreator($this->user)
+            ->setImages($this->uploadImages($dto->getImages()))
         ;
         //todo make autoSet Datetime of create and update building (timestampable)
 

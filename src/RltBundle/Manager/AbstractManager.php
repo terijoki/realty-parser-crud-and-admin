@@ -8,6 +8,7 @@ use Doctrine\ORM\ORMInvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use RltBundle\Entity\Building;
 use RltBundle\Entity\EntityInterface;
+use RltBundle\Entity\User;
 use RltBundle\Service\AbstractService;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
@@ -44,6 +45,11 @@ abstract class AbstractManager
     protected $entity;
 
     /**
+     * @var User ("Parser")
+     */
+    protected $user;
+
+    /**
      * AbstractManager constructor.
      *
      * @param EntityManagerInterface $em
@@ -55,6 +61,9 @@ abstract class AbstractManager
         $this->em = $em;
         $this->logger = $logger;
         $this->service = $service;
+        $this->user = $this->em->getRepository(User::class)->findOneBy([
+            'username' => User::ADMIN,
+        ]);
     }
 
     public function save(): void
@@ -114,7 +123,7 @@ abstract class AbstractManager
     {
         $localName = \preg_replace('/.+\/(.+.jpg)/ui', '$1', $imagePath);
         $image = $this->service->simpleRequest($imagePath);
-        $uploadPath = ROOT . '/var/images/' . $id . '/';
+        $uploadPath = __DIR__ . '/../../../var/images/' . $id . '/';
         $path = $uploadPath . $localName;
 
         try {

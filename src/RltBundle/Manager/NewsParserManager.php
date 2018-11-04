@@ -49,7 +49,7 @@ final class NewsParserManager extends AbstractManager implements ParseItemInterf
      */
     public function parseItem(string $item, int $externalId): DTOInterface
     {
-        $dom = new Crawler(\file_get_contents(__DIR__ . '/../../../var/mock/news1.html'));
+        $dom = new Crawler($item);
 
         $this->dto
             ->setName($this->parseName($dom))

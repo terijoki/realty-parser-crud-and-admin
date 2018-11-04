@@ -275,7 +275,7 @@ class Building implements EntityInterface
      *
      * @Assert\Type(type="string")
      *
-     * @ORM\Column(name="description", type="string", nullable=true)
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
@@ -384,7 +384,7 @@ class Building implements EntityInterface
      *
      * @Serializer\Type("DateTime<'Y-m-d H:i:s'>")
      *
-     * @ORM\Column(name="updated_at", type="datetime", options={"default" = "now()"})
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true, options={"default" = "now()"})
      */
     private $updatedAt;
 

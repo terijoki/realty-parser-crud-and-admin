@@ -1,5 +1,5 @@
 api:
-    resource: "RltBundle/Controller/"
+    resource: "@RltBundle/Controller/"
     type:     rest
     prefix:   /api
 

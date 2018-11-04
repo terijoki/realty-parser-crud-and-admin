@@ -4,7 +4,6 @@ namespace RltBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use FOS\UserBundle\Model\Group;
 use FOS\UserBundle\Model\User as BaseUser;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -31,7 +30,10 @@ class User extends BaseUser
     public const ROLE_MODERATOR = 'ROLE_MODERATOR';
     public const ROLE_USER = 'ROLE_USER';
 
-    public const PARSER = 1;
+    public const ADMIN = 'admin';
+    public const PARSER = 'parser';
+    public const MODERATOR = 'moderator';
+    public const CUSTOM = 'custom';
 
     /**
      * @var int
@@ -42,17 +44,6 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
-
-    /**
-     * @var Group[]
-     *
-     * @ORM\ManyToMany(targetEntity="RltBundle\Entity\Group", inversedBy="users", fetch="EXTRA_LAZY")
-     * @ORM\JoinTable(name="rlt_users_user_groups",
-     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
-     * )
-     */
-    protected $groups;
 
     /**
      * @Assert\NotBlank()
@@ -131,7 +122,7 @@ class User extends BaseUser
      *
      * @Serializer\Type("DateTime<'Y-m-d H:i:s'>")
      *
-     * @ORM\Column(name="updated_at", type="datetime", options={"default" = "now()"})
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
 
@@ -156,26 +147,6 @@ class User extends BaseUser
     public function setId(int $id): User
     {
         $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * @return Group[]
-     */
-    public function getGroups(): array
-    {
-        return $this->groups;
-    }
-
-    /**
-     * @param Group[] $groups
-     *
-     * @return User
-     */
-    public function setGroups(array $groups): User
-    {
-        $this->groups = $groups;
 
         return $this;
     }

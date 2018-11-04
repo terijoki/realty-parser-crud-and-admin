@@ -7,7 +7,7 @@ use Doctrine\DBAL\Types\JsonType;
 
 final class FlatSortType extends JsonType
 {
-    public const NAME = 'flats_sorted';
+    public const NAME = 'flat';
 
     /**
      * {@inheritdoc}

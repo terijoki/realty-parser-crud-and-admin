@@ -99,7 +99,7 @@ class Developer implements EntityInterface
     private $creationYear;
 
     /**
-     * @var Building[]
+     * @var null|Building[]
      *
      * @Assert\Valid()
      *
@@ -130,13 +130,13 @@ class Developer implements EntityInterface
      *
      * @Assert\Type(type="string")
      *
-     * @ORM\Column(name="description", type="string", nullable=true)
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
     /**
      * @var User
-     * @Assert\Blank()
+     *
      * @ORM\ManyToOne(targetEntity="RltBundle\Entity\User", inversedBy="developersCreated", cascade={"persist"})
      *
      * @ORM\JoinColumn(name="user_creator", referencedColumnName="id")
@@ -321,19 +321,31 @@ class Developer implements EntityInterface
     }
 
     /**
-     * @return Building[]
+     * @return null|Building[]
      */
-    public function getBuildings(): array
+    public function getBuildings(): ?array
     {
         return $this->buildings;
     }
 
     /**
+     * @param null|Building $building
+     *
+     * @return null|Developer
+     */
+    public function addBuilding(?array $building): Developer
+    {
+        $this->buildings[] = $building;
+
+        return $this;
+    }
+
+    /**
      * @param Building[] $buildings
      *
-     * @return Developer
+     * @return null|Developer
      */
-    public function setBuildings(array $buildings): Developer
+    public function setBuildings(?array $buildings): Developer
     {
         $this->buildings = $buildings;
 

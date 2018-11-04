@@ -3,11 +3,9 @@
 namespace RltBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\ManyToMany;
 use FOS\UserBundle\Model\Group as BaseGroup;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Serializer\ExclusionPolicy("all")
@@ -34,14 +32,6 @@ class Group extends BaseGroup
      */
     protected $id;
 
-    /**
-     * @var user[]
-     *
-     * Many Groups have Many Users
-     * @ManyToMany(targetEntity="RltBundle\Entity\User", mappedBy="groups", fetch="EXTRA_LAZY")
-     */
-    protected $users;
-
     public function __construct($name = null, $roles = [])
     {
         parent::__construct($name, $roles);
@@ -53,42 +43,6 @@ class Group extends BaseGroup
     public function getUsers()
     {
         return $this->users;
-    }
-
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Length(min="3")
-     * @Assert\Length(max="180")
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return parent::getName();
-    }
-
-    /**
-     * Add user.
-     *
-     * @param \RltBundle\Entity\User $user
-     *
-     * @return Group
-     */
-    public function addUser(\RltBundle\Entity\User $user)
-    {
-        $this->users[] = $user;
-
-        return $this;
-    }
-
-    /**
-     * Remove user.
-     *
-     * @param \RltBundle\Entity\User $user
-     */
-    public function removeUser(\RltBundle\Entity\User $user)
-    {
-        $this->users->removeElement($user);
     }
 
     /**

@@ -117,7 +117,7 @@ class Bank implements EntityInterface
      *
      * @Assert\Type(type="string")
      *
-     * @ORM\Column(name="description", type="string", nullable=true)
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 

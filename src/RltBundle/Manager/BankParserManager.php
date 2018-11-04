@@ -51,7 +51,7 @@ final class BankParserManager extends AbstractManager implements ParseItemInterf
      */
     public function parseItem(string $item, int $externalId): DTOInterface
     {
-        $dom = new Crawler(\file_get_contents(__DIR__ . '/../../../var/mock/bank1.html'));
+        $dom = new Crawler($item);
 
         $this->parseCharacteristics($dom);
         $this->dto

@@ -2,20 +2,34 @@
 
 namespace RltBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations as FOSRest;
+use FOS\RestBundle\Controller\Annotations\QueryParam;
+use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Request\ParamFetcherInterface;
+use FOS\RestBundle\Routing\ClassResourceInterface;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-class DefaultController extends Controller
+class DefaultController extends FOSRestController implements ClassResourceInterface
 {
     /**
-     * @Route("/", name="homepage")
+     * @FOSRest\Get("/")
+     *
+     * @ApiDoc(
+     *     resource=true,
+     *     statusCodes={
+     *         200 = "Returned when successful",
+     *         400 = "Returned when bad request param"
+     *     }
+     * )
+     *
+     * @QueryParam(name="set", map=true, nullable=true, default="getAdvertiser", description="Which set of fields group will be returned?")
+     *
+     * @param ParamFetcherInterface $paramFetcher
+     *
+     * @return ParamFetcherInterface
      */
-    public function indexAction(Request $request)
+    public function cgetAction(ParamFetcherInterface $paramFetcher)
     {
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'base_dir' => \realpath($this->getParameter('kernel.project_dir')) . DIRECTORY_SEPARATOR,
-        ]);
+        return $paramFetcher;
     }
 }

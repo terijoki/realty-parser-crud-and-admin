@@ -99,6 +99,11 @@ services:
       tags:
       - { name: console.command }
 
+    # JWTCreatedListener
+    RltBundle\Listeners\JWTCreatedListener:
+      tags:
+      - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
+
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
     #     arguments:

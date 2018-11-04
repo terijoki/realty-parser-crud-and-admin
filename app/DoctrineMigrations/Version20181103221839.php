@@ -15,7 +15,7 @@ final class Version20181103221839 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('CREATE TABLE rlt_news (id SERIAL NOT NULL, developer_id INT DEFAULT NULL, bank_id INT DEFAULT NULL, building_id INT DEFAULT NULL, user_creator INT DEFAULT NULL, user_updater INT DEFAULT NULL, name VARCHAR(255) NOT NULL, title VARCHAR(255) NOT NULL, external_id SMALLINT NOT NULL, date VARCHAR(255) NOT NULL, images JSONB DEFAULT \'[]\' NOT NULL, text VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT \'now()\' NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT \'now()\' NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE rlt_news (id SERIAL NOT NULL, developer_id INT DEFAULT NULL, bank_id INT DEFAULT NULL, building_id INT DEFAULT NULL, user_creator INT DEFAULT NULL, user_updater INT DEFAULT NULL, name VARCHAR(255) NOT NULL, title VARCHAR(255) NOT NULL, external_id SMALLINT NOT NULL, date VARCHAR(255) NOT NULL, images JSONB DEFAULT \'[]\' NOT NULL, text VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT \'now()\' NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT \'now()\' DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_D1263E945E237E06 ON rlt_news (name)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_D1263E942B36786B ON rlt_news (title)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_D1263E949F75D7B0 ON rlt_news (external_id)');

@@ -9,7 +9,6 @@ use RltBundle\Entity\EntityInterface;
 use RltBundle\Entity\Model\DTOInterface;
 use RltBundle\Entity\Model\NewsDTO;
 use RltBundle\Entity\News;
-use RltBundle\Entity\User;
 use RltBundle\Service\AbstractService;
 use RltBundle\Service\BankService;
 use RltBundle\Service\BuildingService;
@@ -60,8 +59,6 @@ final class NewsValidatorManager extends AbstractManager implements ValidateItem
     public function fillEntity(DTOInterface $dto, int $externalId): EntityInterface
     {
         $this->externalId = $externalId;
-        /* @var User $user */
-        $user = $this->em->getReference(User::class, User::PARSER);
         $this->entity
             ->setName($dto->getName())
             ->setExternalId($externalId)
@@ -69,7 +66,7 @@ final class NewsValidatorManager extends AbstractManager implements ValidateItem
             ->setDate($dto->getDate())
             //->setImages($this->uploadImages($dto->getImages()))
             ->setText($dto->getText())
-            ->setUserCreator($user)
+            ->setUserCreator($this->user)
         ;
         //todo make autoSet Datetime of create and update building (timestampable)
 

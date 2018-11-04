@@ -11,7 +11,7 @@ use RltBundle\Entity\Model\Flat;
 use RltBundle\Service\BuildingService;
 use Symfony\Component\DomCrawler\Crawler;
 
-final class BuildingParserManager extends AbstractManager implements ParseItemInterface
+class BuildingParserManager extends AbstractManager implements ParseItemInterface
 {
     private const B_CLASS = 'Класс жилья';
     private const TYPE = 'Тип здания';
@@ -72,7 +72,7 @@ final class BuildingParserManager extends AbstractManager implements ParseItemIn
      */
     public function parseItem(string $item, int $externalId): DTOInterface
     {
-        $dom = new Crawler(\file_get_contents(__DIR__ . '/../../../var/mock/building1.html'));
+        $dom = new Crawler($item);
         $this->externalId = $externalId;
 
         $this->parseCharacteristics($dom);
@@ -318,7 +318,7 @@ final class BuildingParserManager extends AbstractManager implements ParseItemIn
      */
     private function parseOurOpinition(Crawler $dom): ?string
     {
-        return \trim($dom->filter('div[class="p_c"]')->html());
+        return \trim($dom->filter('div[class="p_c"]')->text());
     }
 
     /**

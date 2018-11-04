@@ -27,7 +27,17 @@ abstract class AbstractParserCommand extends Command
     /**
      * @var EntityManagerInterface
      */
-    protected $em;
+    public $em;
+
+    /**
+     * @var ParseItemInterface
+     */
+    public $parser;
+
+    /**
+     * @var ValidateItemInterface
+     */
+    public $validator;
 
     /**
      * @var LoggerInterface
@@ -53,16 +63,6 @@ abstract class AbstractParserCommand extends Command
      * @var ParseListInterface
      */
     protected $service;
-
-    /**
-     * @var ParseItemInterface
-     */
-    protected $parser;
-
-    /**
-     * @var ValidateItemInterface
-     */
-    protected $validator;
 
     /**
      * @var array

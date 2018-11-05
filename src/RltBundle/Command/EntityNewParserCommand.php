@@ -15,17 +15,20 @@ class EntityNewParserCommand extends AbstractParserCommand
         $this->output->writeln('Search for links...');
         $links = $this->service->parseLinks();
 
-        $this->output->writeln(\count($links) . ' links founded. Starting parser process...');
+        $this->output->writeln(\count($links) . ' links founded. Starting parse process...');
         $progress = 0;
 
         foreach ($links as $id => $link) {
-            if ($this->isUnique($id) || !$this->input->getOption('force')) {
+            if ($this->isUnique($id) || $this->input->getOption('force')) {
+                $this->em->beginTransaction();
+
                 $item = $this->service->getItem($link);
                 $dto = $this->parser->parseItem($item, $id);
                 $entity = $this->validator->fillEntity($dto, $id);
 
+                $this->em->persist($entity);
+
                 try {
-                    $this->em->persist($entity);
                     $this->em->commit();
                     $this->em->flush();
 
@@ -41,18 +44,18 @@ class EntityNewParserCommand extends AbstractParserCommand
                         'category' => 'parser-command',
                     ]);
                 }
+                \sleep(static::DELAY);
             }
-            \sleep(static::DELAY);
         }
-        $this->output->writeln('Finished parser process, count new entities: ' . $progress);
+        $this->output->writeln('Finished parse process, count new entities: ' . $progress);
     }
 
     /**
-     * @param string $externalId
+     * @param int $externalId
      *
      * @return bool
      */
-    protected function isUnique(string $externalId): bool
+    protected function isUnique(int $externalId): bool
     {
         return !\in_array($externalId, $this->storedIds, true);
     }

@@ -12,22 +12,24 @@ class DeveloperService extends AbstractService
     public const SUFFIX = 'companies';
 
     /**
-     * @param string $content
+     * @param array $content
      *
      * @return array
      */
-    protected function parseItemForLinks(string $content): array
+    protected function parseItemForLinks(array $content): array
     {
         $result = [];
-        $crawler = new Crawler($content);
+        foreach ($content as $item) {
+            $crawler = new Crawler($item);
 
-        foreach ($crawler->filter('li > a[class="company"]') as $li) {
-            $temp = $li->getAttribute('href') ?? '';
+            foreach ($crawler->filter('li > a[class="company"]') as $li) {
+                $temp = $li->getAttribute('href') ?? '';
 
-            $id = $this->parseExtId($temp, self::SUFFIX);
-            $result[$id] = $temp;
+                $id = $this->parseExtId($temp, self::SUFFIX);
+                $result[$id] = $temp;
+            }
+            $crawler->clear();
         }
-        $crawler->clear();
         \ksort($result);
 
         return $result;

@@ -13,6 +13,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class BankValidatorManager extends AbstractManager implements ValidateItemInterface
 {
+    protected const NAME = 'banks';
+
     /**
      * @var ValidatorInterface
      */
@@ -31,15 +33,6 @@ final class BankValidatorManager extends AbstractManager implements ValidateItem
         parent::__construct($em, $logger, $service);
         $this->validator = $validator;
         $this->service = $service;
-        $this->entity = new Bank();
-    }
-
-    /**
-     * @return EntityInterface
-     */
-    public function getEntity(): EntityInterface
-    {
-        return $this->entity;
     }
 
     /**
@@ -53,7 +46,8 @@ final class BankValidatorManager extends AbstractManager implements ValidateItem
      */
     public function fillEntity(DTOInterface $dto, int $externalId): EntityInterface
     {
-        $this->entity
+        $entity = new Bank();
+        $entity
             ->setName($dto->getName())
             ->setExternalId($externalId)
             ->setAddress($dto->getAddress())
@@ -66,6 +60,6 @@ final class BankValidatorManager extends AbstractManager implements ValidateItem
         ;
         //todo make autoSet Datetime of create and update building (timestampable)
 
-        return $this->getEntity();
+        return $entity;
     }
 }

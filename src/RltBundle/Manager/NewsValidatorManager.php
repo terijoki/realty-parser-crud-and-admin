@@ -18,6 +18,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class NewsValidatorManager extends AbstractManager implements ValidateItemInterface
 {
+    protected const NAME = 'news';
+
     /**
      * @var ValidatorInterface
      */
@@ -36,15 +38,6 @@ final class NewsValidatorManager extends AbstractManager implements ValidateItem
         parent::__construct($em, $logger, $service);
         $this->validator = $validator;
         $this->service = $service;
-        $this->entity = new News();
-    }
-
-    /**
-     * @return EntityInterface
-     */
-    public function getEntity(): EntityInterface
-    {
-        return $this->entity;
     }
 
     /**
@@ -59,7 +52,8 @@ final class NewsValidatorManager extends AbstractManager implements ValidateItem
     public function fillEntity(DTOInterface $dto, int $externalId): EntityInterface
     {
         $this->externalId = $externalId;
-        $this->entity
+        $entity = new News();
+        $entity
             ->setName($dto->getName())
             ->setExternalId($externalId)
             ->setTitle($dto->getTitle())
@@ -72,7 +66,7 @@ final class NewsValidatorManager extends AbstractManager implements ValidateItem
 
         //$this->setRelatedEntites($dto->getRelatedEntities());
 
-        return $this->getEntity();
+        return $entity;
     }
 
     /**

@@ -17,6 +17,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class BuildingValidatorManager extends AbstractManager implements ValidateItemInterface
 {
+    protected const NAME = 'buildings';
+
     protected const ECONOM = 'Эконом класс';
     protected const COMFORT = 'Комфорт-класс';
     protected const BUSINESS = 'Бизнес-класс';
@@ -60,15 +62,6 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
         parent::__construct($em, $logger, $service);
         $this->validator = $validator;
         $this->service = $service;
-        $this->entity = new Building();
-    }
-
-    /**
-     * @return EntityInterface
-     */
-    public function getEntity(): EntityInterface
-    {
-        return $this->entity;
     }
 
     /**
@@ -83,7 +76,9 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
     public function fillEntity(DTOInterface $dto, int $externalId): EntityInterface
     {
         $this->externalId = $externalId;
-        $this->entity
+        $entity = new Building();
+
+        $entity
             ->setName($dto->getName())
             ->setExternalId($externalId)
             ->setAddress($dto->getAddress())
@@ -102,7 +97,7 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
 
         $this->validateBuilding($dto);
 
-        return $this->getEntity();
+        return $entity;
     }
 
     /**
@@ -154,7 +149,7 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
     {
         try {
             /** @var Developer $developer */
-            $developer = $this->em->getRepository(Developer::class)->findBy(['name' => $developer]);
+            $developer = $this->em->getRepository(Developer::class)->findOneBy(['name' => $developer]);
         } catch (NoResultException $noResultException) {
             $this->logger->critical($noResultException->getMessage(), ['category' => 'parse-validator']);
         }
@@ -180,7 +175,7 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
 
         try {
             /** @var Distinct $distinct */
-            $distinct = $this->em->getRepository(Distinct::class)->findBy(['distinct' => $exploded[0]]);
+            $distinct = $this->em->getRepository(Distinct::class)->findOneBy(['distinct' => $exploded[0]]);
         } catch (NoResultException $noResultException) {
             $this->logger->critical($noResultException->getMessage(), ['category' => 'parse-validator']);
         }

@@ -52,7 +52,7 @@ final class DeveloperParserManager extends AbstractManager implements ParseItemI
      */
     public function parseItem(string $item, int $externalId): DTOInterface
     {
-        $dom = new Crawler(\file_get_contents(__DIR__ . '/../../../var/mock/developer1.html'));
+        $dom = new Crawler($item);
         $this->externalId = $externalId;
 
         $this->parseCharacteristics($dom);

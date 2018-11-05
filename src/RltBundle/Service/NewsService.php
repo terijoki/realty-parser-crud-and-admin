@@ -21,32 +21,32 @@ class NewsService extends AbstractService
      */
     public function parseLinks(): array
     {
-        $links = [];
+        $content = [];
 
-        $content = $this->simpleRequest(static::SUFFIX . '/1');
+        $content[] = $this->simpleRequest(static::SUFFIX . '/1');
 
-        $links[] = $this->parseItemForLinks($content);
-
-        return $links;
+        return $this->parseItemForLinks($content);
     }
 
     /**
-     * @param string $content
+     * @param array $content
      *
      * @return array
      */
-    protected function parseItemForLinks(string $content): array
+    protected function parseItemForLinks(array $content): array
     {
         $result = [];
-        $crawler = new Crawler($content);
+        foreach ($content as $item) {
+            $crawler = new Crawler($item);
 
-        foreach ($crawler->filter('li > a') as $li) {
-            $link = $li->getAttribute('href') ?? '';
+            foreach ($crawler->filter('li > a') as $li) {
+                $link = $li->getAttribute('href') ?? '';
 
-            $id = $this->parseExtId($link, self::SUFFIX);
-            $result[$id] = $link;
+                $id = $this->parseExtId($link, self::SUFFIX);
+                $result[$id] = $link;
+            }
+            $crawler->clear();
         }
-        $crawler->clear();
         \ksort($result);
 
         return $result;

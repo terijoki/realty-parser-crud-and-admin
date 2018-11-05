@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 abstract class AbstractManager
 {
+    protected const NAME = '';
     protected const DELAY = 5;
     private const NUMBER = 0;
     private const MONTH = 1;
@@ -123,7 +124,7 @@ abstract class AbstractManager
     {
         $localName = \preg_replace('/.+\/(.+.jpg)/ui', '$1', $imagePath);
         $image = $this->service->simpleRequest($imagePath);
-        $uploadPath = __DIR__ . '/../../../var/images/' . $id . '/';
+        $uploadPath = __DIR__ . '/../../../var/images/' . static::NAME . '/' . $id . '/';
         $path = $uploadPath . $localName;
 
         try {

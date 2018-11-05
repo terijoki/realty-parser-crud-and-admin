@@ -13,6 +13,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class DeveloperValidatorManager extends AbstractManager implements ValidateItemInterface
 {
+    protected const NAME = 'developers';
+
     /**
      * @var ValidatorInterface
      */
@@ -31,15 +33,6 @@ final class DeveloperValidatorManager extends AbstractManager implements Validat
         parent::__construct($em, $logger, $service);
         $this->validator = $validator;
         $this->service = $service;
-        $this->entity = new Developer();
-    }
-
-    /**
-     * @return EntityInterface
-     */
-    public function getEntity(): EntityInterface
-    {
-        return $this->entity;
     }
 
     /**
@@ -53,7 +46,8 @@ final class DeveloperValidatorManager extends AbstractManager implements Validat
      */
     public function fillEntity(DTOInterface $dto, int $externalId): EntityInterface
     {
-        $this->entity
+        $entity = new Developer();
+        $entity
             ->setName($dto->getName())
             ->setExternalId($externalId)
             ->setAddress($dto->getAddress())
@@ -67,6 +61,6 @@ final class DeveloperValidatorManager extends AbstractManager implements Validat
         ;
         //todo make autoSet Datetime of create and update building (timestampable)
 
-        return $this->getEntity();
+        return $entity;
     }
 }

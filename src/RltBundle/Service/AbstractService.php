@@ -7,27 +7,23 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\RequestOptions;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * Class AbstractService.
  */
 abstract class AbstractService implements ParseListInterface
 {
+    public const USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36';
     protected const SUFFIX = '';
     protected const EXPIRATION = 0;
-    protected const PAGE_SIZE = 0;
+    protected const PAGE_SIZE = 20;
     protected const DELAY = 5;
+    protected const MAX_AVAILABLE_COUNT = 100;
 
     /**
      * @var Client
      */
     protected $client;
-
-    /**
-     * @var Crawler
-     */
-    protected $crawler;
 
     /**
      * @var LoggerInterface
@@ -63,7 +59,7 @@ abstract class AbstractService implements ParseListInterface
         $this->client = new Client([
             'base_uri' => $url,
             'headers' => [
-                'X-Requested-With' => 'XMLHttpRequest',
+                'User-Agent' => self::USER_AGENT,
             ],
         ]);
     }
@@ -100,21 +96,20 @@ abstract class AbstractService implements ParseListInterface
     public function parseLinks(): array
     {
         $offset = 0;
-        $links = [];
-
-        while (true) {
-            $param = 'o:' . $offset * static::PAGE_SIZE;
+        $contents = [];
+        while ($offset < self::MAX_AVAILABLE_COUNT) {
+            $param = $offset * static::PAGE_SIZE;
             $content = $this->request($param);
-            if (empty($content)) {
+            if (\mb_strlen($content) < 10) {
                 break;
             }
-            $links[] = $this->parseItemForLinks($content);
-            $content = '';
+            $contents[] = $content;
             ++$offset;
+
             \sleep(self::DELAY);
         }
 
-        return \array_merge(...$links);
+        return $this->parseItemForLinks($contents);
     }
 
     /**
@@ -128,7 +123,12 @@ abstract class AbstractService implements ParseListInterface
     {
         try {
             $response = $this->client->post(static::SUFFIX, [
-                RequestOptions::BODY => $param,
+                RequestOptions::FORM_PARAMS => [
+                    'o' => $param,
+                ],
+                RequestOptions::HEADERS => [
+                    'X-Requested-With' => 'XMLHttpRequest',
+                ],
             ]);
 
             return $response->getBody()->getContents();
@@ -179,7 +179,7 @@ abstract class AbstractService implements ParseListInterface
      */
     public function parseExtId(string $link, string $urn): int
     {
-        return \preg_replace('/.+\/' . $urn . '\/(\d+).+/ui', '$1', $link) ?? 0;
+        return (int) \preg_replace('/.+\/' . $urn . '\/(\d+).+/ui', '$1', $link) ?? 0;
     }
 
     /**
@@ -195,9 +195,9 @@ abstract class AbstractService implements ParseListInterface
     }
 
     /**
-     * @param string $content
+     * @param array $content
      *
      * @return array
      */
-    abstract protected function parseItemForLinks(string $content): array;
+    abstract protected function parseItemForLinks(array $content): array;
 }

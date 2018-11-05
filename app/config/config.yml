@@ -84,7 +84,7 @@ doctrine:
                 class: Doctrine\DBAL\PostgresTypes\IntArrayType
             json_array:
                 class: Doctrine\DBAL\Types\JsonArrayType
-            flat:
+            flats_sorted:
                 class: RltBundle\Types\FlatSortType
     orm:
         default_entity_manager: default

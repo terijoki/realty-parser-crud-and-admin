@@ -349,7 +349,7 @@ class Building implements EntityInterface
     /**
      * @var Flat[]
      *
-     * @ORM\Column(name="flats", type="flat", options={"default" : "[]", "jsonb" : true})
+     * @ORM\Column(name="flats", type="flats_sorted", options={"default" : "[]", "jsonb" : true})
      */
     private $flats;
 

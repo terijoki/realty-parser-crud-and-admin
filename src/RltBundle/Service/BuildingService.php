@@ -16,18 +16,21 @@ class BuildingService extends AbstractService
      *
      * @return array
      */
-    protected function parseItemForLinks(string $content): array
+    protected function parseItemForLinks(array $content): array
     {
         $result = [];
-        $crawler = new Crawler($content);
 
-        foreach ($crawler->filter('li > a[class="n"]') as $li) {
-            $temp = $li->getAttribute('href') ?? '';
+        foreach ($content as $item) {
+            $crawler = new Crawler($item);
 
-            $id = $this->parseExtId($temp, self::SUFFIX);
-            $result[$id] = $temp;
+            foreach ($crawler->filter('li > a[class="n"]') as $li) {
+                $temp = $li->getAttribute('href') ?? '';
+
+                $id = $this->parseExtId($temp, self::SUFFIX);
+                $result[$id] = $temp;
+            }
+            $crawler->clear();
         }
-        $crawler->clear();
         \ksort($result);
 
         return $result;

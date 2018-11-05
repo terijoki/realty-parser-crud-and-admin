@@ -13,6 +13,8 @@ use Symfony\Component\DomCrawler\Crawler;
 
 final class BuildingParserManager extends AbstractManager implements ParseItemInterface
 {
+    protected const NAME = 'banks';
+
     private const B_CLASS = 'Класс жилья';
     private const TYPE = 'Тип здания';
     private const FLOORS = 'Этажность';
@@ -32,6 +34,12 @@ final class BuildingParserManager extends AbstractManager implements ParseItemIn
     private const TOTAL_COST = 10;
     private const IMAGE = 12;
     private const FLAT_BUILD_DATE = 14;
+
+    private const FLAT_SIZE_S = 0;
+    private const COST_PER_M2_S = 6;
+    private const TOTAL_COST_S = 9;
+    private const IMAGE_S = 10;
+    private const FLAT_BUILD_DATE_S = 12;
 
     private const STANDART_COLUMN_COUNT = 16;
     private const STUDIO = 'S';
@@ -369,12 +377,11 @@ final class BuildingParserManager extends AbstractManager implements ParseItemIn
                     ];
                 } else {
                     $params = [
-                        //todo: change
-                        'flat_size' => self::FLAT_SIZE,
-                        'cost_per_m2' => self::COST_PER_M2,
-                        'total_cost' => self::TOTAL_COST,
-                        'plan_image' => self::IMAGE,
-                        'build_date' => self::FLAT_BUILD_DATE,
+                        'flat_size' => self::FLAT_SIZE_S,
+                        'cost_per_m2' => self::COST_PER_M2_S,
+                        'total_cost' => self::TOTAL_COST_S,
+                        'plan_image' => self::IMAGE_S,
+                        'build_date' => self::FLAT_BUILD_DATE_S,
                     ];
                 }
                 $this->createFlat($flat, $rooms, $params);
@@ -409,9 +416,8 @@ final class BuildingParserManager extends AbstractManager implements ParseItemIn
 
                     break;
                 case $params['plan_image']:
-//                    $imagePath = $this->uploadImage($field->getElementsByTagName('a')->item(0)->getAttribute('href'), $this->externalId);
-//                    $flat->setImg($imagePath);
-                    $flat->setImg($field->getElementsByTagName('a')->item(0)->getAttribute('href'));
+                    $imagePath = $this->uploadImage($field->getElementsByTagName('a')->item(0)->getAttribute('href'), $this->externalId);
+                    $flat->setImg($imagePath);
 
                     break;
                 case $params['build_date']:

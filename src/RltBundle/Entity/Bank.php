@@ -99,7 +99,7 @@ class Bank implements EntityInterface
      *
      * @Assert\Valid()
      *
-     * @ORM\OneToMany(targetEntity="RltBundle\Entity\News", mappedBy="bank", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\News", mappedBy="bank", fetch="EXTRA_LAZY", cascade={"persist"})
      */
     private $news;
 

@@ -161,12 +161,9 @@ class RltTestCase extends WebTestCase
                 'login' => 'admin',
             ],
             2 => [
-                'login' => 'parser',
-            ],
-            3 => [
                 'login' => 'moderator',
             ],
-            4 => [
+            3 => [
                 'login' => 'custom',
             ],
         ];

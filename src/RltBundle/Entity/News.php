@@ -88,7 +88,7 @@ class News implements EntityInterface
     /**
      * @var null|Developer
      *
-     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\Developer", inversedBy="news")
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\Developer", fetch="EXTRA_LAZY", inversedBy="news")
      * @ORM\JoinColumn(name="developer_id", referencedColumnName="id", nullable=true)
      */
     private $developer;
@@ -96,7 +96,7 @@ class News implements EntityInterface
     /**
      * @var null|Bank
      *
-     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\Bank", inversedBy="news")
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\Bank", fetch="EXTRA_LAZY", inversedBy="news")
      * @ORM\JoinColumn(name="bank_id", referencedColumnName="id", nullable=true)
      */
     private $bank;
@@ -104,7 +104,7 @@ class News implements EntityInterface
     /**
      * @var Building
      *
-     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\Building", inversedBy="news")
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\Building", fetch="EXTRA_LAZY", inversedBy="news")
      * @ORM\JoinColumn(name="building_id", referencedColumnName="id")
      */
     private $building;

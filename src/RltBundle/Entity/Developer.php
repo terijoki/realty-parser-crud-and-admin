@@ -103,7 +103,7 @@ class Developer implements EntityInterface
      *
      * @Assert\Valid()
      *
-     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Building", mappedBy="developer", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Building", mappedBy="developer", fetch="EXTRA_LAZY", cascade={"persist"})
      */
     private $buildings;
 
@@ -112,7 +112,7 @@ class Developer implements EntityInterface
      *
      * @Assert\Valid()
      *
-     * @ORM\OneToMany(targetEntity="RltBundle\Entity\News", mappedBy="developer", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\News", mappedBy="developer", fetch="EXTRA_LAZY", cascade={"persist"})
      */
     private $news;
 

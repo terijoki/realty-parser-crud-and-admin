@@ -55,56 +55,56 @@ class User extends BaseUser
     /**
      * @var Building[]
      *
-     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Building", mappedBy="userCreator")
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Building", fetch="EXTRA_LAZY", mappedBy="userCreator")
      */
     private $buildingsCreated;
 
     /**
      * @var Building[]
      *
-     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Building", mappedBy="userUpdater")
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Building", fetch="EXTRA_LAZY", mappedBy="userUpdater")
      */
     private $buildingsUpdated;
 
     /**
      * @var Developer[]
      *
-     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Developer", mappedBy="userCreator")
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Developer", fetch="EXTRA_LAZY", mappedBy="userCreator")
      */
     private $developersCreated;
 
     /**
      * @var Developer[]
      *
-     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Developer", mappedBy="userUpdater")
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Developer", fetch="EXTRA_LAZY", mappedBy="userUpdater")
      */
     private $developersUpdated;
 
     /**
      * @var Bank[]
      *
-     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Bank", mappedBy="userCreator")
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Bank", fetch="EXTRA_LAZY", mappedBy="userCreator")
      */
     private $banksCreated;
 
     /**
      * @var Bank[]
      *
-     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Bank", mappedBy="userUpdater")
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Bank", fetch="EXTRA_LAZY", mappedBy="userUpdater")
      */
     private $banksUpdated;
 
     /**
      * @var News[]
      *
-     * @ORM\OneToMany(targetEntity="RltBundle\Entity\News", mappedBy="userCreator")
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\News", fetch="EXTRA_LAZY", mappedBy="userCreator")
      */
     private $newsCreated;
 
     /**
      * @var News[]
      *
-     * @ORM\OneToMany(targetEntity="RltBundle\Entity\News", mappedBy="userUpdater")
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\News", fetch="EXTRA_LAZY", mappedBy="userUpdater")
      */
     private $newsUpadted;
 

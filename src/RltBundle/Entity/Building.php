@@ -177,7 +177,7 @@ class Building implements EntityInterface
     /**
      * @var Developer
      *
-     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\Developer", inversedBy="buildings")
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\Developer", fetch="EXTRA_LAZY", inversedBy="buildings")
      * @ORM\JoinColumn(name="developer_id", referencedColumnName="id", nullable=false)
      */
     private $developer;
@@ -253,7 +253,7 @@ class Building implements EntityInterface
     /**
      * @var Bank[]
      *
-     * @ORM\ManyToMany(targetEntity="Bank", inversedBy="accreditated", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Bank", inversedBy="accreditated", fetch="EXTRA_LAZY", cascade={"persist"})
      * @ORM\JoinTable(name="rlt_accreditated_buildings",
      *     joinColumns={@ORM\JoinColumn(name="building_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="bank_id", referencedColumnName="id")}
@@ -293,7 +293,7 @@ class Building implements EntityInterface
      *
      * @Assert\Valid()
      *
-     * @ORM\OneToMany(targetEntity="RltBundle\Entity\News", mappedBy="building", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\News", mappedBy="building", fetch="EXTRA_LAZY", cascade={"persist"})
      */
     private $news;
 
@@ -356,7 +356,7 @@ class Building implements EntityInterface
     /**
      * @var User
      * @Assert\Blank()
-     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\User", inversedBy="buildingsCreated", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\User", inversedBy="buildingsCreated", fetch="EXTRA_LAZY", cascade={"persist"})
      *
      * @ORM\JoinColumn(name="user_creator", referencedColumnName="id")
      */
@@ -364,7 +364,7 @@ class Building implements EntityInterface
 
     /**
      * @var User
-     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\User", inversedBy="buildingsUpdated", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\User", inversedBy="buildingsUpdated", fetch="EXTRA_LAZY", cascade={"persist"})
      *
      * @ORM\JoinColumn(name="user_updater", referencedColumnName="id", nullable=true)
      */

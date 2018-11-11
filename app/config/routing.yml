@@ -7,6 +7,9 @@ NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix: "/doc"
 
+api_login:
+    path: /api/login
+
 fos_user_security_logout:
     path:     /logout
     defaults: { _controller: FOSUserBundle:Security:logout }

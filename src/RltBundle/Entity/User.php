@@ -53,6 +53,19 @@ class User extends BaseUser
     protected $password;
 
     /**
+     * @var Group[]
+     *
+     * @Serializer\Groups({"getUser"})
+     *
+     * @ORM\ManyToMany(targetEntity="RltBundle\Entity\Group", inversedBy="users", fetch="EXTRA_LAZY")
+     * @ORM\JoinTable(name="rlt_users_user_groups",
+     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     * )
+     */
+    protected $groups;
+
+    /**
      * @var Building[]
      *
      * @ORM\OneToMany(targetEntity="RltBundle\Entity\Building", fetch="EXTRA_LAZY", mappedBy="userCreator")

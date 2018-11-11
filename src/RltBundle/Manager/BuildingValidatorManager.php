@@ -76,9 +76,10 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
     public function fillEntity(DTOInterface $dto, int $externalId): EntityInterface
     {
         $this->externalId = $externalId;
-        $entity = new Building();
+        /* @var Building $this->entity */
+        $this->entity = new Building();
 
-        $entity
+        $this->entity
             ->setName($dto->getName())
             ->setExternalId($externalId)
             ->setAddress($dto->getAddress())
@@ -97,7 +98,7 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
 
         $this->validateBuilding($dto);
 
-        return $entity;
+        return $this->entity;
     }
 
     /**

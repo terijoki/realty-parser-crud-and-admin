@@ -46,8 +46,9 @@ final class BankValidatorManager extends AbstractManager implements ValidateItem
      */
     public function fillEntity(DTOInterface $dto, int $externalId): EntityInterface
     {
-        $entity = new Bank();
-        $entity
+        /* @var Bank $this->entity */
+        $this->entity = new Bank();
+        $this->entity
             ->setName($dto->getName())
             ->setExternalId($externalId)
             ->setAddress($dto->getAddress())
@@ -60,6 +61,6 @@ final class BankValidatorManager extends AbstractManager implements ValidateItem
         ;
         //todo make autoSet Datetime of create and update building (timestampable)
 
-        return $entity;
+        return $this->entity;
     }
 }

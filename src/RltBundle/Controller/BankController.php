@@ -7,29 +7,29 @@ use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use RltBundle\Entity\Group;
-use RltBundle\Repository\GroupRepository;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use RltBundle\Entity\Bank;
+use RltBundle\Repository\BankRepository;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class GroupController.
+ * Class BankController.
  */
-final class GroupController extends AbstractController
+final class BankController extends AbstractController
 {
-    protected const REPOSITORY = GroupRepository::NAME;
+    protected const REPOSITORY = BankRepository::NAME;
 
     /**
-     * Gets a Groups list.
+     * Gets a Bank list.
      *
-     * @FOSRest\Get("/groups")
+     * @FOSRest\Get("/banks")
      *
-     * @QueryParam(name="set", map=true, strict=true, nullable=true, default="getGroup")
+     * @FOSRest\View(serializerGroups={"getShortBank"})
+     * @QueryParam(name="set", map=true, strict=true, nullable=true, default="getShortBank")
      *
      * @ApiDoc(
      *     resource=true,
      *     section="RltBundle",
-     *     description="Gets a Groups list",
+     *     description="Gets a Banks list",
      *     statusCodes={
      *         200 = "Returned when successful",
      *         400 = "Returned when bad request"
@@ -38,7 +38,7 @@ final class GroupController extends AbstractController
      *
      * @param ParamFetcherInterface $paramFetcher
      *
-     * @return JsonResponse|View
+     * @return array|View
      */
     public function getListAction(ParamFetcherInterface $paramFetcher)
     {
@@ -46,18 +46,18 @@ final class GroupController extends AbstractController
     }
 
     /**
-     * Gets a single Group.
+     * Gets a single Bank.
      *
-     * @QueryParam(name="set", map=true, strict=true, nullable=true, default="getShortGroup")
+     * @QueryParam(name="set", map=true, strict=true, nullable=true, default="getShortBank")
      *
-     * @FOSRest\Get("/groups/{group}", requirements={"group" = "\d+"})
+     * @FOSRest\Get("/banks/{bank}", requirements={"bank" = "\d+"})
      *
      * @param ParamFetcherInterface $paramFetcher
-     * @param Group                 $group
+     * @param Bank                  $bank
      *
-     * @return Group|View
+     * @return Bank|View
      * @ApiDoc(
-     *     description="Returns a single Group",
+     *     description="Returns a single Bank",
      *     section="RltBundle",
      *     statusCodes={
      *         200 = "Returned when successful",
@@ -65,8 +65,8 @@ final class GroupController extends AbstractController
      *     }
      * )
      */
-    public function getAction(ParamFetcherInterface $paramFetcher, Group $group)
+    public function getAction(ParamFetcherInterface $paramFetcher, Bank $bank)
     {
-        return new View($this->getRepository()->find($group->getId()), Response::HTTP_OK);
+        return new View($this->getRepository()->find($bank->getId()), Response::HTTP_OK);
     }
 }

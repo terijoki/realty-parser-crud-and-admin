@@ -23,6 +23,8 @@ class Bank implements EntityInterface
     /**
      * @var int
      *
+     * @Serializer\Groups({"getShortBank"})
+     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -31,6 +33,8 @@ class Bank implements EntityInterface
 
     /**
      * @var string
+     *
+     * @Serializer\Groups({"getShortBank"})
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
@@ -68,6 +72,8 @@ class Bank implements EntityInterface
 
     /**
      * @var null|string
+     *
+     * @Serializer\Groups({"getShortBank"})
      *
      * @Assert\Type(type="string")
      *

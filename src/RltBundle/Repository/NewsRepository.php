@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class NewsRepository extends EntityRepository
 {
     public const TABLE = 'rlt_news';
+    public const NAME = 'RltBundle:News';
 
     /**
      * Entity full signature (with bundle name, like "RltBundle:User").
@@ -21,7 +22,7 @@ class NewsRepository extends EntityRepository
      */
     public function getEntitySignature(): string
     {
-        return'RltBundle:News';
+        return self::NAME;
     }
 
     /**

@@ -3,10 +3,13 @@ FOS\UserBundle\Model\User:
     properties:
         username:
             exclude: false
-            groups: ['users', 'getBuildings']
+            groups: ['getUser']
         email:
             exclude: false
-            groups: ['users']
+            groups: ['getUser']
         id:
             exclude: false
-            groups: ['users', 'getBuildings']
+            groups: ['getUser']
+        groups:
+            exclude: false
+            groups: ['getUser']

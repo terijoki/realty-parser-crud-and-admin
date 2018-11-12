@@ -38,7 +38,8 @@ class User extends BaseUser
     /**
      * @var int
      *
-     * @Serializer\Expose()
+     * @Serializer\Groups({"getUser"})
+     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")

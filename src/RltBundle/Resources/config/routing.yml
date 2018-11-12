@@ -1,0 +1,4 @@
+controller_bank:
+    type: rest
+        resource: "@RltBundle/Controller/BankController.php"
+        prefix: /v1

@@ -3,11 +3,11 @@ FOS\UserBundle\Model\Group:
     properties:
         id:
             exclude: false
-            groups: ['users', 'getBuildings']
+            groups: ['getGroup']
         name:
             exclude: false
-            groups: ['users', 'getBuildings']
+            groups: ['getGroup']
         roles:
             exclude: false
-            groups: ['users']
+            groups: ['getGroup', 'getUser']
 

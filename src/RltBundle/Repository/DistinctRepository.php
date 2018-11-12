@@ -12,6 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class DistinctRepository extends EntityRepository
 {
+    public const TABLE = 'rlt_distincts';
+    public const NAME = 'RltBundle:Distinct';
+
     /**
      * Entity full signature (with bundle name, like "RltBundle:User").
      *
@@ -19,7 +22,7 @@ class DistinctRepository extends EntityRepository
      */
     public function getEntitySignature(): string
     {
-        return'RltBundle:Distinct';
+        return self::NAME;
     }
 
     /**

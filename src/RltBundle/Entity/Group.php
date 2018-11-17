@@ -23,6 +23,7 @@ class Group extends BaseGroup
 {
     public const GROUP_ADMIN = 'admin';
     public const GROUP_MODERATOR = 'moderator';
+    public const DEFAULT_GROUP = 'custom';
 
     /**
      * @var int

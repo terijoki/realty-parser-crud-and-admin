@@ -7,7 +7,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping\MappingException;
 use RltBundle\Entity\Group;
 
-final class GroupUserFixture extends Fixture
+final class GroupDefaultFixture extends Fixture
 {
     /**
      * @param ObjectManager $manager
@@ -20,7 +20,7 @@ final class GroupUserFixture extends Fixture
         $group = new Group();
         $group
             ->setId(3)
-            ->setName('user')
+            ->setName('default')
             ->setRoles([
                 'ROLE_USER',
             ])

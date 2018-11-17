@@ -20,7 +20,6 @@ class EntityNewParserCommand extends AbstractParserCommand
 
         foreach ($links as $id => $link) {
             if ($this->isUnique($id) || $this->input->getOption('force')) {
-                $this->em->beginTransaction();
 
                 $item = $this->service->getItem($link);
                 $dto = $this->parser->parseItem($item, $id);
@@ -29,7 +28,6 @@ class EntityNewParserCommand extends AbstractParserCommand
                 $this->em->persist($entity);
 
                 try {
-                    $this->em->commit();
                     $this->em->flush();
 
                     ++$progress;
@@ -38,11 +36,11 @@ class EntityNewParserCommand extends AbstractParserCommand
                         'class' => (new \ReflectionClass(static::class))->getShortName(),
                         'category' => 'parser-command', ]);
                 } catch (\Exception $e) {
-                    $this->em->rollback();
                     $this->logger->critical($e->getMessage(), [
                         'class' => (new \ReflectionClass(static::class))->getShortName(),
                         'category' => 'parser-command',
                     ]);
+                    throw $e;
                 }
                 \sleep(static::DELAY);
             }

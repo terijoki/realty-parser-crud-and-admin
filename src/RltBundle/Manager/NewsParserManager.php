@@ -68,16 +68,14 @@ final class NewsParserManager extends AbstractManager implements ParseItemInterf
      * @param Crawler $dom
      *
      * @return string
+     * @throws \DOMException
      */
     private function parseName(Crawler $dom): string
     {
         try {
             return $dom->filter('h1[itemprop="name"]')->text();
         } catch (\Exception $e) {
-            $this->logger->error($e->getMessage(), [
-                'category' => 'no-name',
-                'info' => $dom->html(),
-            ]);
+            throw new \DOMException('The current node list is empty');
         }
     }
 

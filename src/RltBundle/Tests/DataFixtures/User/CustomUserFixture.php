@@ -7,7 +7,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use RltBundle\Entity\Group;
 use RltBundle\Entity\User;
-use RltBundle\Tests\DataFixtures\Group\GroupUserFixture;
+use RltBundle\Tests\DataFixtures\Group\GroupDefaultFixture;
 
 final class CustomUserFixture extends Fixture implements DependentFixtureInterface
 {
@@ -17,7 +17,7 @@ final class CustomUserFixture extends Fixture implements DependentFixtureInterfa
     public function load(ObjectManager $manager): void
     {
         /** @var Group $group */
-        $group = $this->getReference(GroupUserFixture::class);
+        $group = $this->getReference(GroupDefaultFixture::class);
 
         $user = new User();
         $user
@@ -40,7 +40,7 @@ final class CustomUserFixture extends Fixture implements DependentFixtureInterfa
     public function getDependencies(): array
     {
         return [
-            GroupUserFixture::class,
+            GroupDefaultFixture::class,
         ];
     }
 }

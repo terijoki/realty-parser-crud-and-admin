@@ -253,9 +253,9 @@ final class UserController extends AbstractController
 
         $serializer = new Serializer([new UserNormalizer()], [new JsonEncoder()]);
 
-        $normalized = $serializer->serialize($user, JsonEncoder::FORMAT);
+        //$normalized = $serializer->serialize($user, JsonEncoder::FORMAT);
 
-        $createdUser = $this->manager->updateEntity($userFromRequest, json_decode($normalized, true));
+        $createdUser = $this->manager->updateEntity($userFromRequest, $user);
 
         if (\count($this->getErrors()) > 0) {
             $serializer = new Serializer([new ErrorsNormalizer()], [new JsonEncoder()]);

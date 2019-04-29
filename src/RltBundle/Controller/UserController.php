@@ -58,6 +58,7 @@ final class UserController extends AbstractController
     private $manager;
 
     /**
+
      * UserController constructor.
      *
      * @param EntityManagerInterface $em

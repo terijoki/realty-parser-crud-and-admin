@@ -67,11 +67,6 @@ abstract class AbstractManager
         ]);
     }
 
-    public function save(): void
-    {
-        $this->em->flush();
-    }
-
     /**
      * @param $entity
      *

@@ -52,8 +52,9 @@ final class NewsValidatorManager extends AbstractManager implements ValidateItem
     public function fillEntity(DTOInterface $dto, int $externalId): EntityInterface
     {
         $this->externalId = $externalId;
-        $entity = new News();
-        $entity
+        /* @var News $this->entity */
+        $this->entity = new News();
+        $this->entity
             ->setName($dto->getName())
             ->setExternalId($externalId)
             ->setTitle($dto->getTitle())
@@ -66,7 +67,7 @@ final class NewsValidatorManager extends AbstractManager implements ValidateItem
 
         //$this->setRelatedEntites($dto->getRelatedEntities());
 
-        return $entity;
+        return $this->entity;
     }
 
     /**

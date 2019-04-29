@@ -12,6 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class MetroRepository extends EntityRepository
 {
+    public const TABLE = 'rlt_metro';
+    public const NAME = 'RltBundle:Metro';
+
     /**
      * Entity full signature (with bundle name, like "RltBundle:User").
      *
@@ -19,7 +22,7 @@ class MetroRepository extends EntityRepository
      */
     public function getEntitySignature(): string
     {
-        return'RltBundle:Metro';
+        return self::NAME;
     }
 
     /**

@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\Group as BaseGroup;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Serializer\ExclusionPolicy("all")
@@ -22,6 +23,7 @@ class Group extends BaseGroup
 {
     public const GROUP_ADMIN = 'admin';
     public const GROUP_MODERATOR = 'moderator';
+    public const DEFAULT_GROUP = 'custom';
 
     /**
      * @var int
@@ -31,6 +33,13 @@ class Group extends BaseGroup
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
+
+    /**
+     * @var User[]
+     *
+     * @ORM\ManyToMany(targetEntity="RltBundle\Entity\User", mappedBy="groups", fetch="EXTRA_LAZY")
+     */
+    protected $users;
 
     public function __construct($name = null, $roles = [])
     {
@@ -43,6 +52,32 @@ class Group extends BaseGroup
     public function getUsers()
     {
         return $this->users;
+    }
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Length(min="3")
+     * @Assert\Length(max="180")
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return parent::getName();
+    }
+
+    /**
+     * Add user.
+     *
+     * @param User $user
+     *
+     * @return Group
+     */
+    public function addUser(User $user)
+    {
+        $this->users[] = $user;
+
+        return $this;
     }
 
     /**

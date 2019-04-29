@@ -6,6 +6,9 @@ use Doctrine\ORM\EntityRepository;
 
 class GroupRepository extends EntityRepository
 {
+    public const TABLE = 'rlt_user_groups';
+    public const NAME = 'RltBundle:Group';
+
     /**
      * Alias for table that will be used in DQL.
      *
@@ -23,6 +26,6 @@ class GroupRepository extends EntityRepository
      */
     public function getEntitySignature(): string
     {
-        return 'RltBundle:Group';
+        return self::NAME;
     }
 }

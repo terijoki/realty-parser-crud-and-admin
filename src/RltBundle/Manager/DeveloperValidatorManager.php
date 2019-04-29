@@ -46,8 +46,9 @@ final class DeveloperValidatorManager extends AbstractManager implements Validat
      */
     public function fillEntity(DTOInterface $dto, int $externalId): EntityInterface
     {
-        $entity = new Developer();
-        $entity
+        /* @var Developer $this->entity */
+        $this->entity = new Developer();
+        $this->entity
             ->setName($dto->getName())
             ->setExternalId($externalId)
             ->setAddress($dto->getAddress())
@@ -61,6 +62,6 @@ final class DeveloperValidatorManager extends AbstractManager implements Validat
         ;
         //todo make autoSet Datetime of create and update building (timestampable)
 
-        return $entity;
+        return $this->entity;
     }
 }

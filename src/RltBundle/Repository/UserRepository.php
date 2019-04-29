@@ -12,6 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserRepository extends EntityRepository
 {
+    public const TABLE = 'rlt_users';
+    public const NAME = 'RltBundle:User';
+
     /**
      * {@inheritdoc}
      */
@@ -25,6 +28,6 @@ class UserRepository extends EntityRepository
      */
     public function getEntitySignature(): string
     {
-        return 'RltBundle:User';
+        return self::NAME;
     }
 }

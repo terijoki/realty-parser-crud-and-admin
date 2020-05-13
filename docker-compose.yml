@@ -11,9 +11,9 @@ services:
     volumes:
       - 'postgresql_data:/bitnami'
     environment:
-    - POSTGRESQL_USERNAME=test
-    - POSTGRESQL_PASSWORD=test
-    - POSTGRESQL_DATABASE=rlt-api
+    - POSTGRES_USER=rlt
+    - POSTGRES_PASSWORD=rlt
+    - POSTGRES_DB=rlt_api
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.4.2

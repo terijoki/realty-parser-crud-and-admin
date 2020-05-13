@@ -47,10 +47,6 @@ class RltTestCase extends WebTestCase
 
             $executor = new ORMExecutor($this->em, $purger);
             $executor->execute($loader->getFixtures());
-
-            if (true === $this->createAuthUser) {
-//                $this->createAuthUser();
-            }
         }
     }
 

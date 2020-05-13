@@ -22,7 +22,7 @@ abstract class AbstractParserCommand extends Command
     protected const NAME = '';
     protected const EXPIRATION = 86400;
     protected const PAGE_SIZE = 20;
-    protected const DELAY = 5;
+    protected const DELAY = 1;
 
     public EntityManagerInterface $em;
 

@@ -23,8 +23,11 @@ class RltTestCase extends WebTestCase
     protected ?EntityManagerInterface $em;
     protected Client $client;
 
-    private $needToLoadFixture = true;
-    private $createAuthUser = true;
+    /**
+     * Set "true" if you want to truncate all data
+     */
+    private $needToLoadFixture = false;
+
     private ?User $user;
 
     /**
@@ -39,7 +42,7 @@ class RltTestCase extends WebTestCase
             ->getManager()
         ;
 
-        if (true === $this->needToLoadFixture) {
+        if ($this->needToLoadFixture) {
             $loader = new Loader();
             $loader->addFixture(new UserAdminFixture());
 

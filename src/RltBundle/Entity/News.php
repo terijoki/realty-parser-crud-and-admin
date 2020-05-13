@@ -5,6 +5,7 @@ namespace RltBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * News.
@@ -81,7 +82,7 @@ class News implements EntityInterface
      *
      * @Assert\Type(type="string")
      *
-     * @ORM\Column(name="text", type="string")
+     * @ORM\Column(name="text", type="text")
      */
     private $text;
 
@@ -129,6 +130,8 @@ class News implements EntityInterface
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="create")
+     *
      * @Serializer\Type("DateTime<'Y-m-d H:i:s'>")
      *
      * @ORM\Column(name="created_at", type="datetime", options={"default" = "now()"})
@@ -139,6 +142,8 @@ class News implements EntityInterface
      * @var \DateTime
      *
      * @Serializer\Type("DateTime<'Y-m-d H:i:s'>")
+     *
+     * @Gedmo\Timestampable(on="update")
      *
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
@@ -358,6 +363,8 @@ class News implements EntityInterface
     public function setUserCreator(User $userCreator): News
     {
         $this->userCreator = $userCreator;
+
+        return $this;
     }
 
     /**
@@ -374,6 +381,8 @@ class News implements EntityInterface
     public function setUserUpdater(?User $userUpdater): News
     {
         $this->userUpdater = $userUpdater;
+
+        return $this;
     }
 
     /**

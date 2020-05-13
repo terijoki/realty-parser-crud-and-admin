@@ -169,7 +169,7 @@ final class BuildingParserManager extends AbstractManager implements ParseItemIn
 
         foreach ($dom->filter('table[class="build-info-data"]')->eq(1)->children() as $node) {
             $result = \trim($node->childNodes->item(2)->nodeValue);
-            switch ($node->firstChild->nodeValue) {
+            switch ($node->childNodes->item(1)->nodeValue) {
                 case self::PAYMENT:
                     $this->dto->setPaymentType($result);
 
@@ -416,8 +416,8 @@ final class BuildingParserManager extends AbstractManager implements ParseItemIn
 
                     break;
                 case $params['plan_image']:
-                    $imagePath = $this->uploadImage($field->getElementsByTagName('a')->item(0)->getAttribute('href'), $this->externalId);
-                    $flat->setImg($imagePath);
+//                    $imagePath = $this->uploadImage($field->getElementsByTagName('a')->item(0)->getAttribute('href'), $this->externalId);
+//                    $flat->setImg($imagePath);
 
                     break;
                 case $params['build_date']:

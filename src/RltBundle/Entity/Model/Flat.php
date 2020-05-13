@@ -77,11 +77,11 @@ class Flat
     }
 
     /**
-     * @param null|float $size
+     * @param null|string $size
      *
      * @return Flat
      */
-    public function setSize(?float $size): Flat
+    public function setSize(?string $size): Flat
     {
         $this->size = $size;
 

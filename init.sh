@@ -11,3 +11,8 @@ php bin/console c:c
 
 # Load Fixttures
 php bin/console d:f:l
+
+mkdir var/images/banks
+mkdir var/images/developers
+mkdir var/images/buildings
+mkdir var/images/news

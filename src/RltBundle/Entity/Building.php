@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use RltBundle\Entity\Model\Flat;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Building.
@@ -373,6 +374,8 @@ class Building implements EntityInterface
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="create")
+     *
      * @Serializer\Type("DateTime<'Y-m-d H:i:s'>")
      *
      * @ORM\Column(name="created_at", type="datetime", options={"default" = "now()"})
@@ -381,6 +384,8 @@ class Building implements EntityInterface
 
     /**
      * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="create")
      *
      * @Serializer\Type("DateTime<'Y-m-d H:i:s'>")
      *
@@ -899,7 +904,7 @@ class Building implements EntityInterface
      *
      * @return Building
      */
-    public function setExternalUpdated(\DateTime $externalUpdated): Building
+    public function setExternalUpdated(?\DateTime $externalUpdated): Building
     {
         $this->externalUpdated = $externalUpdated;
 

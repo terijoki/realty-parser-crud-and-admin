@@ -63,7 +63,7 @@ services:
       tags:
       - { name: console.command }
 
-    # Banks
+    # banks
     RltBundle\Service\BankService:
       arguments: ['%parser_host%']
       public: true

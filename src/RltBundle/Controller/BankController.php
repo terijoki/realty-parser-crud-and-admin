@@ -29,7 +29,7 @@ final class BankController extends AbstractController
      * @ApiDoc(
      *     resource=true,
      *     section="RltBundle",
-     *     description="Gets a Banks list",
+     *     description="Gets a banks list",
      *     statusCodes={
      *         200 = "Returned when successful",
      *         400 = "Returned when bad request"

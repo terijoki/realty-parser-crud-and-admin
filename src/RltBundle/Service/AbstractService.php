@@ -2,6 +2,7 @@
 
 namespace RltBundle\Service;
 
+use Elastica\Exception\NotFoundException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7;
@@ -152,7 +153,7 @@ abstract class AbstractService implements ParseListInterface
      *
      * @return string
      */
-    public function simpleRequest($link, $params = []): string
+    public function simpleRequest($link, $params = []): ?string
     {
         try {
             $response = $this->client->get($link, [
@@ -169,6 +170,8 @@ abstract class AbstractService implements ParseListInterface
             ]);
 
             return '';
+        } catch (NotFoundException $e) {
+            return null;
         }
     }
 

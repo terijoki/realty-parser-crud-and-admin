@@ -20,8 +20,11 @@ class EntityNewParserCommand extends AbstractParserCommand
 
         foreach ($links as $id => $link) {
             if ($this->isUnique($id) || $this->input->getOption('force')) {
-
                 $item = $this->service->getItem($link);
+                if (!$item) {
+                    continue;
+                }
+
                 $dto = $this->parser->parseItem($item, $id);
                 $entity = $this->validator->fillEntity($dto, $id);
 

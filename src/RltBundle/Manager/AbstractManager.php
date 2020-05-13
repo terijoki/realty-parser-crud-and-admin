@@ -134,20 +134,20 @@ abstract class AbstractManager
      *
      * @return DateTime
      */
-    protected function convertToDatetime(string $date): ?\DateTime
+    protected function convertToDatetime(?string $date): ?\DateTime
     {
         $converted = $result = null;
         $exploded = \explode(' ', $date);
 
         foreach (Building::$monthes as $month => $numberMonth) {
-            if ($month === $exploded[self::MONTH]) {
+            if (!empty(array_filter($exploded)) && $month === $exploded[self::MONTH]) {
                 $result = $exploded[self::YEAR] . '-' . $numberMonth . '-' . $exploded[self::NUMBER];
                 $converted = new \DateTime($result);
 
                 break;
             }
         }
-        if (!$converted instanceof \DateTime) {
+        if (!empty($converted) && !$converted instanceof \DateTime) {
             throw new UnexpectedTypeException($result . 'value doesn`t match the format Y-m-d', (new \DateTime())->format('Y-m-d'));
         }
 

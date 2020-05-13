@@ -7,28 +7,8 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping\MappingException;
 use RltBundle\Entity\Group;
 
-final class GroupDefaultFixture extends Fixture
+final class GroupDefaultFixture extends AbstractGroupFixture
 {
-    /**
-     * @param ObjectManager $manager
-     *
-     * @throws MappingException
-     * @throws \ReflectionException
-     */
-    public function load(ObjectManager $manager): void
-    {
-        $group = new Group();
-        $group
-            ->setId(3)
-            ->setName('default')
-            ->setRoles([
-                'ROLE_USER',
-            ])
-        ;
-
-        $manager->persist($group);
-        $manager->flush();
-
-        $this->addReference(static::class, $group);
-    }
+    protected const NAME = 'client';
+    protected const ROLE = 'ROLE_CLIENT';
 }

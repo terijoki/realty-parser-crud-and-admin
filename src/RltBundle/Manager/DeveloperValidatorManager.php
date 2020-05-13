@@ -2,7 +2,6 @@
 
 namespace RltBundle\Manager;
 
-use RltBundle\Entity\Building;
 use RltBundle\Entity\Developer;
 use RltBundle\Entity\EntityInterface;
 use RltBundle\Entity\Model\DeveloperDTO;
@@ -15,10 +14,7 @@ final class DeveloperValidatorManager extends AbstractManager implements Validat
 {
     protected const NAME = 'developers';
 
-    /**
-     * @var ValidatorInterface
-     */
-    private $validator;
+    private ValidatorInterface $validator;
 
     /**
      * DeveloperValidatorManager constructor.
@@ -46,9 +42,7 @@ final class DeveloperValidatorManager extends AbstractManager implements Validat
      */
     public function fillEntity(DTOInterface $dto, int $externalId): EntityInterface
     {
-        /* @var Developer $this->entity */
-        $this->entity = new Developer();
-        $this->entity
+        return (new Developer())
             ->setName($dto->getName())
             ->setExternalId($externalId)
             ->setAddress($dto->getAddress())
@@ -60,8 +54,5 @@ final class DeveloperValidatorManager extends AbstractManager implements Validat
             ->setCreationYear($dto->getCreated())
             ->setUserCreator($this->user)
         ;
-        //todo make autoSet Datetime of create and update building (timestampable)
-
-        return $this->entity;
     }
 }

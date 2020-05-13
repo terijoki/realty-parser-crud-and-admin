@@ -15,10 +15,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 final class NewsParserManager extends AbstractManager implements ParseItemInterface
 {
-    /**
-     * @var DTOInterface
-     */
-    private $dto;
+    private DTOInterface $dto;
 
     /**
      * NewsParserManager constructor.

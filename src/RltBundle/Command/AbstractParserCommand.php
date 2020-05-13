@@ -24,55 +24,25 @@ abstract class AbstractParserCommand extends Command
     protected const PAGE_SIZE = 20;
     protected const DELAY = 5;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    public $em;
+    public EntityManagerInterface $em;
 
-    /**
-     * @var ParseItemInterface
-     */
-    public $parser;
+    public ParseItemInterface $parser;
 
-    /**
-     * @var ValidateItemInterface
-     */
-    public $validator;
+    public ValidateItemInterface $validator;
 
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
+    protected LoggerInterface $logger;
 
-    /**
-     * @var null|ContainerInterface
-     */
-    protected $container;
+    protected ?ContainerInterface $container;
 
-    /**
-     * @var InputInterface
-     */
-    protected $input;
+    protected InputInterface $input;
 
-    /**
-     * @var OutputInterface
-     */
-    protected $output;
+    protected OutputInterface $output;
 
-    /**
-     * @var ParseListInterface
-     */
-    protected $service;
+    protected ParseListInterface $service;
 
-    /**
-     * @var array
-     */
-    protected $storedIds;
+    protected array $storedIds;
 
-    /**
-     * @var SymfonyStyle
-     */
-    protected $io;
+    protected SymfonyStyle $io;
 
     /**
      * EntityNewParserCommand constructor.

@@ -9,7 +9,7 @@ use RltBundle\Entity\Group;
 use RltBundle\Entity\User;
 use RltBundle\Tests\DataFixtures\Group\GroupDefaultFixture;
 
-final class CustomUserFixture extends Fixture implements DependentFixtureInterface
+final class ClientUserFixture extends Fixture implements DependentFixtureInterface
 {
     /**
      * @param ObjectManager $manager
@@ -21,9 +21,9 @@ final class CustomUserFixture extends Fixture implements DependentFixtureInterfa
 
         $user = new User();
         $user
-            ->setId(3)
-            ->setUsername('custom')
-            ->setPassword(123456)
+            ->setUsername('client')
+            ->setEmail('client@mail.ru')
+            ->setPlainPassword('123456')
             ->addGroup($group)
             ->setCreatedAt(new \DateTime())
         ;

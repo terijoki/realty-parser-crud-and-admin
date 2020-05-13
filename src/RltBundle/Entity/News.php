@@ -355,7 +355,7 @@ class News implements EntityInterface
     /**
      * @param User $userCreator
      */
-    public function setUserCreator(User $userCreator): void
+    public function setUserCreator(User $userCreator): News
     {
         $this->userCreator = $userCreator;
     }
@@ -371,7 +371,7 @@ class News implements EntityInterface
     /**
      * @param null|User $userUpdater
      */
-    public function setUserUpdater(?User $userUpdater): void
+    public function setUserUpdater(?User $userUpdater): News
     {
         $this->userUpdater = $userUpdater;
     }

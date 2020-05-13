@@ -109,3 +109,6 @@ services:
     #     arguments:
     #         $someArgument: 'some_value'
 
+    RltBundle\Tests\DataFixtures\:
+      resource: '../../src/RltBundle/Tests/DataFixtures/*'
+      tags: ['doctrine.fixture.orm']

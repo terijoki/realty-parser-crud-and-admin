@@ -73,7 +73,6 @@
     "require-dev": {
         "ext-pdo_sqlite": "*",
         "doctrine/doctrine-fixtures-bundle": "^3.0",
-        "friendsofphp/php-cs-fixer": "^2.6",
         "liip/functional-test-bundle": "^1.7",
         "phpstan/phpstan-doctrine": "^0.10.0",
         "phpstan/phpstan-symfony": "^0.10",

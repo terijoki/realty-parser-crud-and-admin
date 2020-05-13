@@ -15,10 +15,7 @@ final class BankValidatorManager extends AbstractManager implements ValidateItem
 {
     protected const NAME = 'banks';
 
-    /**
-     * @var ValidatorInterface
-     */
-    private $validator;
+    private ValidatorInterface $validator;
 
     /**
      * BankValidatorManager constructor.
@@ -46,9 +43,7 @@ final class BankValidatorManager extends AbstractManager implements ValidateItem
      */
     public function fillEntity(DTOInterface $dto, int $externalId): EntityInterface
     {
-        /* @var Bank $this->entity */
-        $this->entity = new Bank();
-        $this->entity
+        return (new Bank())
             ->setName($dto->getName())
             ->setExternalId($externalId)
             ->setAddress($dto->getAddress())
@@ -59,8 +54,5 @@ final class BankValidatorManager extends AbstractManager implements ValidateItem
             ->setCreationYear($dto->getCreated())
             ->setUserCreator($this->user)
         ;
-        //todo make autoSet Datetime of create and update building (timestampable)
-
-        return $this->entity;
     }
 }

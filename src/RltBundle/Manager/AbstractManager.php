@@ -20,35 +20,17 @@ abstract class AbstractManager
     private const MONTH = 1;
     private const YEAR = 2;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
+    protected EntityManagerInterface $em;
 
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
+    protected LoggerInterface $logger;
 
-    /**
-     * @var AbstractService
-     */
-    protected $service;
+    protected AbstractService $service;
 
-    /**
-     * @var int
-     */
-    protected $externalId;
+    protected int $externalId;
 
-    /**
-     * @var EntityInterface
-     */
-    protected $entity;
+    protected EntityInterface $entity;
 
-    /**
-     * @var User ("Parser")
-     */
-    protected $user;
+    protected ?User $user;
 
     /**
      * AbstractManager constructor.
@@ -152,9 +134,11 @@ abstract class AbstractManager
      *
      * @return DateTime
      */
-    protected function convertToDatetime(string $date): \DateTime
+    protected function convertToDatetime(string $date): ?\DateTime
     {
+        $converted = $result = null;
         $exploded = \explode(' ', $date);
+
         foreach (Building::$monthes as $month => $numberMonth) {
             if ($month === $exploded[self::MONTH]) {
                 $result = $exploded[self::YEAR] . '-' . $numberMonth . '-' . $exploded[self::NUMBER];
@@ -164,7 +148,7 @@ abstract class AbstractManager
             }
         }
         if (!$converted instanceof \DateTime) {
-            throw new UnexpectedTypeException($result . 'value doesт`t match the format Y-m-d', (new \DateTime())->format('Y-m-d'));
+            throw new UnexpectedTypeException($result . 'value doesn`t match the format Y-m-d', (new \DateTime())->format('Y-m-d'));
         }
 
         return $converted;

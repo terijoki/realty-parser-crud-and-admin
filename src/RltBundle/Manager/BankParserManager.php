@@ -17,10 +17,7 @@ final class BankParserManager extends AbstractManager implements ParseItemInterf
     private const SITE = 'Официальный сайт:';
     private const CREATED = 'Дата создания:';
 
-    /**
-     * @var DTOInterface
-     */
-    private $dto;
+    private DTOInterface $dto;
 
     /**
      * BankParserManager constructor.

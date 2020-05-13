@@ -16,36 +16,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class RltTestCase extends WebTestCase
 {
     public const ADMIN = 'admin';
+    public const MODERATOR = 'moderator';
+    public const CLIENT = 'client';
 
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
+    protected ContainerInterface $container;
+    protected ?EntityManagerInterface $em;
+    protected Client $client;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
-
-    /**
-     * @var Client
-     */
-    protected $client;
-
-    /**
-     * @var bool
-     */
     private $needToLoadFixture = true;
-
-    /**
-     * @var bool
-     */
     private $createAuthUser = true;
-
-    /**
-     * @var null|User;
-     */
-    private $user;
+    private ?User $user;
 
     /**
      * {@inheritdoc}
@@ -69,7 +49,7 @@ class RltTestCase extends WebTestCase
             $executor->execute($loader->getFixtures());
 
             if (true === $this->createAuthUser) {
-                $this->createAuthUser();
+//                $this->createAuthUser();
             }
         }
     }
@@ -129,7 +109,7 @@ class RltTestCase extends WebTestCase
         $token = $jwtManager->create($this->getUser());
 
         $this->client = static::createClient();
-        $this->client->setServerParameter('HTTP_Authorization', 'Bearer ' . $token);
+        $this->client->setServerParameter('HTTP_Authorization', 'Bearer '. $token);
         $this->client->setServerParameter('CONTENT_TYPE', 'application/json');
     }
 
@@ -164,7 +144,7 @@ class RltTestCase extends WebTestCase
                 'login' => 'moderator',
             ],
             3 => [
-                'login' => 'custom',
+                'login' => 'client',
             ],
         ];
 

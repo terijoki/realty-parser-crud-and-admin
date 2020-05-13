@@ -24,7 +24,6 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
     protected const BUSINESS = 'Бизнес-класс';
     protected const ELITE = 'Элит-класс';
 
-    //todo need check
     protected const MONOLIT = 'Монолитный';
     protected const PANEL = 'Панельный';
     protected const BRICK_MONOLIT = 'Кирпично-монолитный';
@@ -44,10 +43,7 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
 
     protected const YES = 'Есть';
 
-    /**
-     * @var ValidatorInterface
-     */
-    private $validator;
+    private ValidatorInterface $validator;
 
     /**
      * BuildingValidatorManager constructor.
@@ -76,10 +72,8 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
     public function fillEntity(DTOInterface $dto, int $externalId): EntityInterface
     {
         $this->externalId = $externalId;
-        /* @var Building $this->entity */
-        $this->entity = new Building();
 
-        $this->entity
+        $this->entity = (new Building())
             ->setName($dto->getName())
             ->setExternalId($externalId)
             ->setAddress($dto->getAddress())
@@ -309,7 +303,7 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
      */
     private function setValidatedPermission(?string $permission): void
     {
-        $this->entity->setPermission((self::YES === $permission) ? true : false);
+        $this->entity->setPermission(self::YES === $permission);
     }
 
     /**

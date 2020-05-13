@@ -21,9 +21,9 @@ final class UserModeratorFixture extends Fixture implements DependentFixtureInte
 
         $user = new User();
         $user
-            ->setId(2)
             ->setUsername('moderator')
-            ->setPassword(123456)
+            ->setEmail('moderator@mail.ru')
+            ->setPlainPassword('123456')
             ->addGroup($group)
             ->setCreatedAt(new \DateTime())
         ;

@@ -18,10 +18,7 @@ final class DeveloperParserManager extends AbstractManager implements ParseItemI
     private const SITE = 'Сайт:';
     private const CREATED = 'Дата создания:';
 
-    /**
-     * @var DTOInterface
-     */
-    private $dto;
+    private DTOInterface $dto;
 
     /**
      * DeveloperParserManager constructor.

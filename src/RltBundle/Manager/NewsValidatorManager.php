@@ -20,10 +20,7 @@ final class NewsValidatorManager extends AbstractManager implements ValidateItem
 {
     protected const NAME = 'news';
 
-    /**
-     * @var ValidatorInterface
-     */
-    private $validator;
+    private ValidatorInterface $validator;
 
     /**
      * NewsValidatorManager constructor.
@@ -52,9 +49,8 @@ final class NewsValidatorManager extends AbstractManager implements ValidateItem
     public function fillEntity(DTOInterface $dto, int $externalId): EntityInterface
     {
         $this->externalId = $externalId;
-        /* @var News $this->entity */
-        $this->entity = new News();
-        $this->entity
+
+        $this->entity = (new News())
             ->setName($dto->getName())
             ->setExternalId($externalId)
             ->setTitle($dto->getTitle())

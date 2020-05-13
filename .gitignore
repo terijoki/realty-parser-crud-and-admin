@@ -30,5 +30,6 @@ app/var
 
 /app/config/parameters.yml
 /app/config/parameters_test.yml
+/app/DoctrineMigrations
 
 /.php_cs

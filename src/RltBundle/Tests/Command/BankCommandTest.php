@@ -4,49 +4,23 @@ namespace RltBundle\Tests\Command;
 
 use RltBundle\Command\BankNewParserCommand;
 use RltBundle\Entity\Bank;
-use RltBundle\Entity\Model\BankDTO;
 use RltBundle\Manager\BankParserManager;
 use RltBundle\Manager\BankValidatorManager;
-use RltBundle\Tests\RltTestCase;
 
 /**
  * @coversNothing
  */
-class BankCommandTest extends RltTestCase
+class BankCommandTest extends BaseCommandTest
 {
-    public function dataProvider(): array
+    public function testExecuteCommand()
     {
-        return [[1], [2], [3], [4], [5]];
-    }
+        $bank = $this->handleCommand(
+            'bank',
+            BankNewParserCommand::class,
+            BankParserManager::class,
+            BankValidatorManager::class,
+        );
 
-    /**
-     * @dataProvider dataProvider
-     *
-     * @param int $item
-     */
-    public function testExecuteCommand($item)
-    {
-        $file = __DIR__ . '/../../../../var/mock/bank' . $item . '.html';
-        $data = \file_get_contents($file);
-
-        /** @var BankNewParserCommand $mock */
-        $mock = $this->getMockBuilder(BankNewParserCommand::class)
-            ->disableOriginalConstructor()
-            ->setMethods([
-                'process',
-            ])
-            ->getMock()
-        ;
-
-        $mock->parser = $this->getContainer()->get(BankParserManager::class);
-        /** @var BankDTO $dto */
-        $dto = $mock->parser->parseItem($data, $item);
-
-        $mock->validator = $this->getContainer()->get(BankValidatorManager::class);
-        /** @var Bank $entity */
-        $entity = $mock->validator->fillEntity($dto, $item);
-
-        $this->em->persist($entity);
-        $this->em->flush();
+        $this->assertInstanceOf(Bank::class, $bank);
     }
 }

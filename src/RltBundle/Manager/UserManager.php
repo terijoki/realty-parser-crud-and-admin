@@ -2,7 +2,6 @@
 
 namespace RltBundle\Manager;
 
-
 use RltBundle\Entity\User;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -12,26 +11,13 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserManager
 {
+    protected ValidatorInterface $validator;
 
-    /**
-     * @var ValidatorInterface
-     */
-    protected $validator;
+    protected ConstraintViolationListInterface $errors;
 
-    /**
-     * @var ConstraintViolationListInterface
-     */
-    protected $errors;
+    protected string $entityClass;
 
-    /**
-     * @var string
-     */
-    protected $entityClass;
-
-    /**
-     * @var PropertyAccessorInterface
-     */
-    protected $propertyAccessor;
+    protected PropertyAccessorInterface $propertyAccessor;
 
     /**
      * UserManager constructor.
@@ -45,12 +31,12 @@ class UserManager
     }
 
     /**
-     * @param array $requestData
-     * @param array  $entity
+     * @param User $requestData
+     * @param User  $entity
      *
      * @return $this
      */
-    public function updateEntity(User $requestData, array $entity)
+    public function updateEntity(User $requestData, User $entity)
     {
         $created = $this->getEntityClass();
 

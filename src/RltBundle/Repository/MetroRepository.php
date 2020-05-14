@@ -25,6 +25,19 @@ class MetroRepository extends EntityRepository
         return self::NAME;
     }
 
+    public function getStationNames($city): array
+    {
+        $result = $this
+            ->createQueryBuilder('m')
+            ->select('m.name')
+            ->where('m.city = :city')
+            ->setParameter('city', $city)
+            ->getQuery()
+            ->getScalarResult();
+
+        return array_column($result, 'name');
+    }
+
     /**
      * Alias for table that will be used in DQL.
      *

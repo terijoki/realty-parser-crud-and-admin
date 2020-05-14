@@ -8,11 +8,10 @@ use RltBundle\Entity\City;
 use RltBundle\Entity\Metro;
 
 /**
- * Class BuildingService.
+ * Class MetroParserService.
  */
 class MetroParserManager extends AbstractService
 {
-    private const HH_CITY_ID = 2;
     private const API_URI = 'https://api.hh.ru/metro';
 
     protected EntityManagerInterface $em;
@@ -28,19 +27,23 @@ class MetroParserManager extends AbstractService
         $this->em = $em;
     }
 
-    public function parseMetro(): void
+    public function parseMetro(int $cityId): void
     {
-        $result = $this->simpleRequest(self::API_URI .'/'. self::HH_CITY_ID);
-        $metro = json_decode($result, true);
+        $result = json_decode($this->simpleRequest(self::API_URI .'/'. $cityId), true);
+        $stations = $this->em
+            ->getRepository(Metro::class)
+            ->getStationNames($cityId) ?? [];
 
-        foreach ($metro['lines'] as $line) {
+        foreach ($result['lines'] as $line) {
             foreach ($line['stations'] as $station) {
-                $entity = (new Metro())
-                    ->setCity($this->em->getReference(City::class, City::SPB_ID))
-                    ->setLine($line['name'])
-                    ->setName($station['name']);
+                if(!in_array($station['name'], $stations)) {
+                    $entity = (new Metro())
+                        ->setCity($this->em->getReference(City::class, $cityId))
+                        ->setLine($line['name'])
+                        ->setName($station['name']);
 
-                $this->em->persist($entity);
+                    $this->em->persist($entity);
+                }
             }
         }
         $this->em->flush();

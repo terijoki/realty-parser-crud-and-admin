@@ -7,14 +7,14 @@ use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Distinct.
+ * District.
  *
  * @Serializer\AccessorOrder("custom", custom={"id", "name"})
  *
- * @ORM\Table(name="rlt_distincts")
- * @ORM\Entity(repositoryClass="RltBundle\Repository\DistinctRepository")
+ * @ORM\Table(name="rlt_districts")
+ * @ORM\Entity(repositoryClass="DistrictRepository")
  */
-class Distinct
+class District
 {
     /**
      * @var int
@@ -32,7 +32,7 @@ class Distinct
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
-    private $distinct;
+    private $district;
 
     /**
      * @return int
@@ -45,9 +45,9 @@ class Distinct
     /**
      * @param int $id
      *
-     * @return Distinct
+     * @return District
      */
-    public function setId(int $id): Distinct
+    public function setId(int $id): District
     {
         $this->id = $id;
 
@@ -57,19 +57,19 @@ class Distinct
     /**
      * @return string
      */
-    public function getDistinct(): string
+    public function getDistrict(): string
     {
-        return $this->distinct;
+        return $this->district;
     }
 
     /**
-     * @param string $distinct
+     * @param string $district
      *
-     * @return Distinct
+     * @return District
      */
-    public function setDistinct(string $distinct): Distinct
+    public function setDistrict(string $district): District
     {
-        $this->distinct = $distinct;
+        $this->district = $district;
 
         return $this;
     }

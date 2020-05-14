@@ -99,6 +99,16 @@ services:
       tags:
       - { name: console.command }
 
+    # News
+    RltBundle\Service\MetroParserManager:
+      arguments: ['%parser_host%']
+      public: true
+
+    RltBundle\Command\MetroParserCommand:
+      arguments: ['@RltBundle\Service\MetroParserManager']
+      tags:
+        - { name: console.command }
+
     # JWTCreatedListener
     RltBundle\Listeners\JWTCreatedListener:
       tags:

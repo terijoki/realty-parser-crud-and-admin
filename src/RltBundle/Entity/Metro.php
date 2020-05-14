@@ -8,7 +8,7 @@ use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Distinct.
+ * District.
  *
  * @Serializer\AccessorOrder("custom", custom={"id", "name"})
  *
@@ -34,6 +34,15 @@ class Metro
      * @ORM\Column(name="name", type="string", length=255, unique=true, nullable=false)
      */
     private $name;
+
+    /**
+     * @var int
+     *
+     * @Assert\NotBlank()
+     *
+     * @ORM\Column(name="line", type="integer", nullable=false, options={"default" : 1})
+     */
+    private $line;
 
     /**
      * @var Building[]
@@ -88,6 +97,25 @@ class Metro
     public function setName(string $name): Metro
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLine(): int
+    {
+        return $this->line;
+    }
+
+    /**
+     * @param int $line
+     * @return Metro
+     */
+    public function setLine(int $line): Metro
+    {
+        $this->line = $line;
 
         return $this;
     }

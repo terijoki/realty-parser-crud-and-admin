@@ -18,7 +18,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="rlt_buildings",
  *     indexes={
  *         @ORM\Index(name="rlt_buildings_name_idx", columns={"name"}),
- *         @ORM\Index(name="rlt_buildings_distinct_idx", columns={"distinct_id"}),
+ *         @ORM\Index(name="rlt_buildings_district_idx", columns={"district_id"}),
  *         @ORM\Index(name="rlt_buildings_class_idx", columns={"class"}),
  *         @ORM\Index(name="rlt_buildings_build_type_idx", columns={"build_type"}),
  *         @ORM\Index(name="rlt_buildings_developers_idx", columns={"developer_id"}),
@@ -110,14 +110,14 @@ class Building implements EntityInterface
     private $name;
 
     /**
-     * @var Distinct
+     * @var District
      *
      * @Assert\Valid()
      *
-     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\Distinct", cascade={"persist"})
-     * @ORM\JoinColumn(name="distinct_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="District", cascade={"persist"})
+     * @ORM\JoinColumn(name="district_id", referencedColumnName="id", nullable=false)
      */
-    private $distinct;
+    private $district;
 
     /**
      * @var int
@@ -444,21 +444,21 @@ class Building implements EntityInterface
     }
 
     /**
-     * @return Distinct
+     * @return District
      */
-    public function getDistinct(): Distinct
+    public function getDistrict(): District
     {
-        return $this->distinct;
+        return $this->district;
     }
 
     /**
-     * @param Distinct $distinct
+     * @param District $district
      *
      * @return Building
      */
-    public function setDistinct(Distinct $distinct): Building
+    public function setDistrict(District $district): Building
     {
-        $this->distinct = $distinct;
+        $this->district = $district;
 
         return $this;
     }

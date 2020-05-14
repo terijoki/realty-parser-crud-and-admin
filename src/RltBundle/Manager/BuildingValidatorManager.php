@@ -6,7 +6,7 @@ use Doctrine\ORM\NoResultException;
 use RltBundle\Entity\Bank;
 use RltBundle\Entity\Building;
 use RltBundle\Entity\Developer;
-use RltBundle\Entity\Distinct;
+use RltBundle\Entity\District;
 use RltBundle\Entity\EntityInterface;
 use RltBundle\Entity\Metro;
 use RltBundle\Entity\Model\BuildingDTO;
@@ -107,7 +107,7 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
         $this->setValidatedMetro($dto->getMetro());
         $this->setValidatedDeveloper($dto->getDeveloper());
         $this->setValidatedAccreditation($dto->getAccreditation());
-        $this->setValidatedDistinct($dto->getAddress());
+        $this->setValidatedDistrict($dto->getAddress());
         $this->setValidatedStatus($dto->getStatus());
         $this->setValidatedClass($dto->getClass());
         $this->setValidatedPermission($dto->getPermission());
@@ -164,17 +164,17 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
     /**
      * @param string $address
      */
-    private function setValidatedDistinct(string $address): void
+    private function setValidatedDistrict(string $address): void
     {
         $exploded = \explode(',', $address);
 
         try {
-            /** @var Distinct $distinct */
-            $distinct = $this->em->getRepository(Distinct::class)->findOneBy(['distinct' => $exploded[0]]);
+            /** @var District $district */
+            $district = $this->em->getRepository(District::class)->findOneBy(['district' => $exploded[0]]);
         } catch (NoResultException $noResultException) {
             $this->logger->critical($noResultException->getMessage(), ['category' => 'parse-validator']);
         }
-        $this->entity->setDistinct($distinct);
+        $this->entity->setDistrict($district);
     }
 
     /**

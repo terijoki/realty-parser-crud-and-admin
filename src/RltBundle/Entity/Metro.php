@@ -111,18 +111,18 @@ class Metro
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getLine(): int
+    public function getLine(): string
     {
         return $this->line;
     }
 
     /**
-     * @param int $line
+     * @param string $line
      * @return Metro
      */
-    public function setLine(int $line): Metro
+    public function setLine(string $line): Metro
     {
         $this->line = $line;
 
@@ -158,7 +158,7 @@ class Metro
     }
 
     /**
-     * @param City $city
+     * @param City|object $city
      * @return Metro
      */
     public function setCity(City $city): Metro

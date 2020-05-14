@@ -135,6 +135,7 @@ final class BuildingParserManager extends AbstractManager implements ParseItemIn
     {
         foreach ($dom->filter('table[class="build-info-data"]')->eq(0)->children() as $node) {
             $result = \trim($node->childNodes->item(2)->nodeValue);
+
             switch ($node->firstChild->nodeValue) {
                 case self::B_CLASS:
                     $this->dto->setClass($result);

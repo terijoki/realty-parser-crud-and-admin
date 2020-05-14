@@ -85,6 +85,7 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
             ->setPrice($dto->getPrice())
             ->setPricePerM2($dto->getPricePerM2())
             ->setFlats($dto->getFlats())
+            ->setCity($this->city)
             ->setUserCreator($this->user)
             ->setImages($this->uploadImages($dto->getImages()))
         ;
@@ -170,7 +171,9 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
 
         try {
             /** @var District $district */
-            $district = $this->em->getRepository(District::class)->findOneBy(['district' => $exploded[0]]);
+            $district = $this->em
+                ->getRepository(District::class)
+                ->findOneBy(['district' => $exploded[0]]);
         } catch (NoResultException $noResultException) {
             $this->logger->critical($noResultException->getMessage(), ['category' => 'parse-validator']);
         }

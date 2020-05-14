@@ -52,6 +52,7 @@ final class BankValidatorManager extends AbstractManager implements ValidateItem
             ->setDescription($dto->getDescription())
             ->setLogo($this->uploadImage($dto->getLogo(), $externalId))
             ->setCreationYear($dto->getCreated())
+            ->setCity($this->city)
             ->setUserCreator($this->user)
         ;
     }

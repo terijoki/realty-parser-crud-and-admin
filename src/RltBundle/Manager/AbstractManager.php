@@ -5,6 +5,7 @@ namespace RltBundle\Manager;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMInvalidArgumentException;
+use Proxies\__CG__\RltBundle\Entity\City;
 use Psr\Log\LoggerInterface;
 use RltBundle\Entity\Building;
 use RltBundle\Entity\EntityInterface;
@@ -32,6 +33,8 @@ abstract class AbstractManager
 
     protected ?User $user;
 
+    protected City $city;
+
     /**
      * AbstractManager constructor.
      *
@@ -47,6 +50,7 @@ abstract class AbstractManager
         $this->user = $this->em->getRepository(User::class)->findOneBy([
             'username' => User::ADMIN,
         ]);
+        $this->city = $this->em->getReference(City::class, City::SPB_ID);
     }
 
     /**

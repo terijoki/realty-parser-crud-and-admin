@@ -52,6 +52,7 @@ final class DeveloperValidatorManager extends AbstractManager implements Validat
             ->setDescription($dto->getDescription())
             ->setLogo($this->uploadImage($dto->getLogo(), $externalId))
             ->setCreationYear($dto->getCreated())
+            ->setCity($this->city)
             ->setUserCreator($this->user)
         ;
     }

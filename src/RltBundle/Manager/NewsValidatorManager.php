@@ -57,6 +57,7 @@ final class NewsValidatorManager extends AbstractManager implements ValidateItem
             ->setDate($dto->getDate())
             ->setImages($this->uploadImages($dto->getImages()))
             ->setText($dto->getText())
+            ->setCity($this->city)
             ->setUserCreator($this->user)
         ;
         //todo make autoSet Datetime of create and update building (timestampable)

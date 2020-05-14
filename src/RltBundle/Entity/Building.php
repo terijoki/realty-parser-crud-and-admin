@@ -285,7 +285,7 @@ class Building implements EntityInterface
      *
      * @Assert\Type(type="string")
      *
-     * @ORM\Column(name="our_opinition", type="string", nullable=true)
+     * @ORM\Column(name="our_opinition", type="text", nullable=true)
      */
     private $ourOpinition;
 
@@ -325,7 +325,7 @@ class Building implements EntityInterface
      *
      * @Assert\Type(type="DateTime")
      *
-     * @ORM\Column(name="external_updated", type="datetime")
+     * @ORM\Column(name="external_updated", type="datetime", nullable=true)
      */
     private $externalUpdated;
 
@@ -461,11 +461,11 @@ class Building implements EntityInterface
     }
 
     /**
-     * @param District $district
+     * @param District|null $district
      *
      * @return Building
      */
-    public function setDistrict(District $district): Building
+    public function setDistrict(?District $district): Building
     {
         $this->district = $district;
 

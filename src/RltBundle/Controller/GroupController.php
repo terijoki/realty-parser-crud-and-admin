@@ -8,7 +8,6 @@ use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use RltBundle\Entity\Group;
-use RltBundle\Repository\GroupRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,8 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class GroupController extends AbstractController
 {
-    protected const REPOSITORY = GroupRepository::NAME;
-
     /**
      * Gets a Groups list.
      *

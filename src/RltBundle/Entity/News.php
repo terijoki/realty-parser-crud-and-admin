@@ -111,6 +111,15 @@ class News implements EntityInterface
     private $building;
 
     /**
+     * @var City
+     * @Assert\Blank()
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\City", inversedBy="news", fetch="EXTRA_LAZY", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
+     */
+    private $city;
+
+    /**
      * @var User
      * @Assert\Blank()
      * @ORM\ManyToOne(targetEntity="RltBundle\Entity\User", inversedBy="newsCreated", cascade={"persist"})
@@ -345,6 +354,25 @@ class News implements EntityInterface
     public function setBuilding(Building $building): News
     {
         $this->building = $building;
+
+        return $this;
+    }
+
+    /**
+     * @return City
+     */
+    public function getCity(): City
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param City $city
+     * @return News
+     */
+    public function setCity(City $city): News
+    {
+        $this->city = $city;
 
         return $this;
     }

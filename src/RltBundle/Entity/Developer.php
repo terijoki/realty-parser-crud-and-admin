@@ -135,6 +135,15 @@ class Developer implements EntityInterface
     private $description;
 
     /**
+     * @var City
+     * @Assert\Blank()
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\City", inversedBy="developers", fetch="EXTRA_LAZY", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
+     */
+    private $city;
+
+    /**
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="RltBundle\Entity\User", inversedBy="developersCreated", cascade={"persist"})
@@ -408,6 +417,25 @@ class Developer implements EntityInterface
     public function setDescription(?string $description): Developer
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return City
+     */
+    public function getCity(): City
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param City $city
+     * @return Developer
+     */
+    public function setCity(City $city): Developer
+    {
+        $this->city = $city;
 
         return $this;
     }

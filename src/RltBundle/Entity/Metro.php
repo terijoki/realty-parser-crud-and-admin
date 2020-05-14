@@ -49,9 +49,18 @@ class Metro
      *
      * @Assert\Valid()
      *
-     * @ORM\ManyToMany(targetEntity="RltBundle\Entity\Building", mappedBy="metro", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Building", mappedBy="metro", fetch="EXTRA_LAZY", cascade={"persist"})
      */
     private $buildings;
+
+    /**
+     * @var City
+     * @Assert\Blank()
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\City", inversedBy="metro", fetch="EXTRA_LAZY", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
+     */
+    private $city;
 
     /**
      * Metro constructor.
@@ -136,6 +145,25 @@ class Metro
     public function setBuildings(array $buildings): Metro
     {
         $this->buildings = $buildings;
+
+        return $this;
+    }
+
+    /**
+     * @return City
+     */
+    public function getCity(): City
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param City $city
+     * @return Metro
+     */
+    public function setCity(City $city): Metro
+    {
+        $this->city = $city;
 
         return $this;
     }

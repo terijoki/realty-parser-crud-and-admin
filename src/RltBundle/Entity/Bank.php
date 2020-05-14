@@ -128,6 +128,15 @@ class Bank implements EntityInterface
     private $description;
 
     /**
+     * @var City
+     * @Assert\Blank()
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\City", inversedBy="banks", fetch="EXTRA_LAZY", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
+     */
+    private $city;
+
+    /**
      * @var User
      * @Assert\Blank()
      * @ORM\ManyToOne(targetEntity="RltBundle\Entity\User", inversedBy="banksCreated", cascade={"persist"})
@@ -369,6 +378,25 @@ class Bank implements EntityInterface
     public function setDescription(?string $description): Bank
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return City
+     */
+    public function getCity(): City
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param City $city
+     * @return Bank
+     */
+    public function setCity(City $city): Bank
+    {
+        $this->city = $city;
 
         return $this;
     }

@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @Serializer\ExclusionPolicy("all")
  * @Serializer\AccessorOrder("custom", custom={"id"})
  *
- * @ORM\Entity(repositoryClass="RltBundle\Repository\GroupRepository")
+ * @ORM\Entity
  * @ORM\Table(name="rlt_user_groups")
  * @UniqueEntity(
  *     fields={"name"},

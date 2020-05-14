@@ -11,8 +11,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @Serializer\AccessorOrder("custom", custom={"id", "name"})
  *
- * @ORM\Table(name="rlt_districts")
- * @ORM\Entity(repositoryClass="DistrictRepository")
+ * @ORM\Table(name="rlt_districts", uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="rlt_district_city_uindex", columns={"name", "city_id"})
+ * })
+ * @ORM\Entity
  */
 class District
 {
@@ -30,9 +32,18 @@ class District
      *
      * @Assert\NotBlank()
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255)
      */
     private $district;
+
+    /**
+     * @var City
+     * @Assert\Blank()
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\City", inversedBy="districts", fetch="EXTRA_LAZY", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
+     */
+    private $city;
 
     /**
      * @return int
@@ -70,6 +81,25 @@ class District
     public function setDistrict(string $district): District
     {
         $this->district = $district;
+
+        return $this;
+    }
+
+    /**
+     * @return City
+     */
+    public function getCity(): City
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param City $city
+     * @return District
+     */
+    public function setCity(City $city): District
+    {
+        $this->city = $city;
 
         return $this;
     }

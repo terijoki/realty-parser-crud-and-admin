@@ -355,6 +355,15 @@ class Building implements EntityInterface
     private $flats;
 
     /**
+     * @var City
+     * @Assert\Blank()
+     * @ORM\ManyToOne(targetEntity="RltBundle\Entity\City", inversedBy="buildings", fetch="EXTRA_LAZY", cascade={"persist"})
+     *
+     * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
+     */
+    private $city;
+
+    /**
      * @var User
      * @Assert\Blank()
      * @ORM\ManyToOne(targetEntity="RltBundle\Entity\User", inversedBy="buildingsCreated", fetch="EXTRA_LAZY", cascade={"persist"})
@@ -981,6 +990,25 @@ class Building implements EntityInterface
         foreach ($flats as $flat) {
             $this->addFlat($flat);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return City
+     */
+    public function getCity(): City
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param City $city
+     * @return Building
+     */
+    public function setCity(City $city): Building
+    {
+        $this->city = $city;
 
         return $this;
     }

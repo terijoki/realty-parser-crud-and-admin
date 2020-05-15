@@ -1,6 +1,6 @@
 <?php
 
-namespace RltBundle\Manager;
+namespace RltBundle\Manager\ParserManager;
 
 use RltBundle\Entity\Model\DTOInterface;
 

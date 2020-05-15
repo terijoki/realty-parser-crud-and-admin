@@ -1,26 +1,28 @@
 <?php
 
-namespace RltBundle\Manager;
+namespace RltBundle\Manager\ParserManager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use RltBundle\Entity\Model\BankDTO;
+use RltBundle\Entity\Model\DeveloperDTO;
 use RltBundle\Entity\Model\DTOInterface;
+use RltBundle\Manager\AbstractManager;
 use RltBundle\Service\AbstractService;
 use RltBundle\Service\ParseListInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
-final class BankParserManager extends AbstractManager implements ParseItemInterface
+final class DeveloperParserManager extends AbstractManager implements ParseItemInterface
 {
     private const ADDRESS = 'Адрес офиса:';
     private const TELEPHONE = 'Телефон:';
-    private const SITE = 'Официальный сайт:';
+    private const EMAIL = 'E-mail:';
+    private const SITE = 'Сайт:';
     private const CREATED = 'Дата создания:';
 
     private DTOInterface $dto;
 
     /**
-     * BankParserManager constructor.
+     * DeveloperParserManager constructor.
      *
      * @param EntityManagerInterface $em
      * @param LoggerInterface        $logger
@@ -29,7 +31,7 @@ final class BankParserManager extends AbstractManager implements ParseItemInterf
     public function __construct(EntityManagerInterface $em, LoggerInterface $logger, ParseListInterface $service)
     {
         parent::__construct($em, $logger, $service);
-        $this->dto = new BankDTO();
+        $this->dto = new DeveloperDTO();
     }
 
     /**
@@ -49,6 +51,7 @@ final class BankParserManager extends AbstractManager implements ParseItemInterf
     public function parseItem(string $item, int $externalId): DTOInterface
     {
         $dom = new Crawler($item);
+        $this->externalId = $externalId;
 
         $this->parseCharacteristics($dom);
         $this->dto
@@ -88,16 +91,15 @@ final class BankParserManager extends AbstractManager implements ParseItemInterf
             $result = \trim($node->childNodes->item(2)->nodeValue);
             switch ($node->firstChild->nodeValue) {
                 case self::ADDRESS:
-                    $address = \trim($node->childNodes
-                        ->item(2)
-                        ->getElementsByTagName('span')
-                        ->item(0)
-                        ->nodeValue);
-                    $this->dto->setAddress($address);
+                    $this->dto->setAddress($result);
 
                     break;
                 case self::TELEPHONE:
                     $this->dto->setPhone($result);
+
+                    break;
+                case self::EMAIL:
+                    $this->dto->setEmail($result);
 
                     break;
                 case self::SITE:

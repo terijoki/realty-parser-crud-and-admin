@@ -2,10 +2,9 @@
 
 namespace RltBundle\Tests\Command;
 
-use RltBundle\Command\EntityNewParserCommand;
+use RltBundle\Command\EntityParserCommand;
 use RltBundle\Entity\EntityInterface;
 use RltBundle\Entity\Model\DTOInterface;
-use RltBundle\Manager\ValidateItemInterface;
 use RltBundle\Tests\RltTestCase;
 
 /**
@@ -33,7 +32,7 @@ class BaseCommandTest extends RltTestCase
         $filePath = __DIR__ . self::PATH_TO_MOCK_FILE . $entityName .'1.html';
         $data = \file_get_contents($filePath);
 
-        /** @var EntityNewParserCommand $mock */
+        /** @var EntityParserCommand $mock */
         $mock = $this->getMockBuilder($commandClass)
             ->disableOriginalConstructor()
             ->setMethods([

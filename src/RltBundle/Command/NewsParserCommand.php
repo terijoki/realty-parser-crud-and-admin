@@ -4,9 +4,10 @@ namespace RltBundle\Command;
 
 use Symfony\Component\Console\Input\InputOption;
 
-class NewsNewParserCommand extends EntityNewParserCommand
+class NewsParserCommand extends EntityParserCommand
 {
     protected const NAME = 'RltBundle:News';
+    protected const LINKS_SELECTOR = 'li > a';
 
     /**
      * NewsNewParser Configurate.

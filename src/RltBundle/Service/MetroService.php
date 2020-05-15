@@ -10,7 +10,7 @@ use RltBundle\Entity\Metro;
 /**
  * Class MetroParserService.
  */
-class MetroParserManager extends AbstractService
+class MetroService extends AbstractService
 {
     private const API_URI = 'https://api.hh.ru/metro';
 
@@ -49,7 +49,7 @@ class MetroParserManager extends AbstractService
         $this->em->flush();
     }
 
-    protected function parseItemForLinks(array $content): array
+    protected function parseItemForLinks(array $content, string $selector): array
     {
     }
 }

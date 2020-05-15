@@ -8,6 +8,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\RequestOptions;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * Class AbstractService.
@@ -91,10 +92,11 @@ abstract class AbstractService implements ParseListInterface
 
     /**
      * @throws \ReflectionException
+     * @param string $selector
      *
      * @return array
      */
-    public function parseLinks(): array
+    public function parseLinks(string $selector): array
     {
         $offset = 0;
         $contents = [];
@@ -110,7 +112,7 @@ abstract class AbstractService implements ParseListInterface
             \sleep(self::DELAY);
         }
 
-        return $this->parseItemForLinks($contents);
+        return $this->parseItemForLinks($contents, $selector);
     }
 
     /**
@@ -199,8 +201,27 @@ abstract class AbstractService implements ParseListInterface
 
     /**
      * @param array $content
+     * @param string $selector
      *
      * @return array
      */
-    abstract protected function parseItemForLinks(array $content): array;
+    protected function parseItemForLinks(array $content, string $selector): array
+    {
+        $result = [];
+
+        foreach ($content as $item) {
+            $crawler = new Crawler($item);
+
+            foreach ($crawler->filter($selector) as $li) {
+                $temp = $li->getAttribute('href') ?? '';
+
+                $id = $this->parseExtId($temp, self::SUFFIX);
+                $result[$id] = $temp;
+            }
+            $crawler->clear();
+        }
+        \ksort($result);
+
+        return $result;
+    }
 }

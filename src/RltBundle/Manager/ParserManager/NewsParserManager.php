@@ -1,11 +1,12 @@
 <?php
 
-namespace RltBundle\Manager;
+namespace RltBundle\Manager\ParserManager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use RltBundle\Entity\Model\DTOInterface;
 use RltBundle\Entity\Model\NewsDTO;
+use RltBundle\Manager\AbstractManager;
 use RltBundle\Service\AbstractService;
 use RltBundle\Service\BankService;
 use RltBundle\Service\BuildingService;

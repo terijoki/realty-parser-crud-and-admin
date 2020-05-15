@@ -2,10 +2,10 @@
 
 namespace RltBundle\Tests\Command;
 
-use RltBundle\Command\BuildingNewParserCommand;
+use RltBundle\Command\BuildingParserCommand;
 use RltBundle\Entity\Building;
-use RltBundle\Manager\BuildingParserManager;
-use RltBundle\Manager\BuildingValidatorManager;
+use RltBundle\Manager\FillerManager\BuildingFillerManager;
+use RltBundle\Manager\ParserManager\BuildingParserManager;
 
 /**
  * @coversNothing
@@ -16,9 +16,9 @@ class BuildingCommandTest extends BaseCommandTest
     {
         $building = $this->handleCommand(
             'building',
-            BuildingNewParserCommand::class,
+            BuildingParserCommand::class,
             BuildingParserManager::class,
-            BuildingValidatorManager::class,
+            BuildingFillerManager::class,
         );
 
         $this->assertInstanceOf(Building::class, $building);

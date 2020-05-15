@@ -10,9 +10,11 @@ namespace RltBundle\Service;
 interface ParseListInterface
 {
     /**
+     * @param string $selector
+     *
      * @return array
      */
-    public function parseLinks(): array;
+    public function parseLinks(string $selector): array;
 
     /**
      * @param string $link

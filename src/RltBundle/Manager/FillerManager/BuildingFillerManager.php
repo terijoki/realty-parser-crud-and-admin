@@ -1,6 +1,6 @@
 <?php
 
-namespace RltBundle\Manager;
+namespace RltBundle\Manager\FillerManager;
 
 use Doctrine\ORM\NoResultException;
 use RltBundle\Entity\Bank;
@@ -11,11 +11,12 @@ use RltBundle\Entity\EntityInterface;
 use RltBundle\Entity\Metro;
 use RltBundle\Entity\Model\BuildingDTO;
 use RltBundle\Entity\Model\DTOInterface;
+use RltBundle\Manager\AbstractManager;
 use RltBundle\Service\AbstractService;
 use RltBundle\Service\ParseListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final class BuildingValidatorManager extends AbstractManager implements ValidateItemInterface
+final class BuildingFillerManager extends AbstractManager implements FillItemInterface
 {
     protected const NAME = 'buildings';
 
@@ -46,7 +47,7 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
     private ValidatorInterface $validator;
 
     /**
-     * BuildingValidatorManager constructor.
+     * BuildingFillerManager constructor.
      *
      * @param $em
      * @param $logger
@@ -87,9 +88,7 @@ final class BuildingValidatorManager extends AbstractManager implements Validate
             ->setFlats($dto->getFlats())
             ->setCity($this->city)
             ->setUserCreator($this->user)
-            ->setImages($this->uploadImages($dto->getImages()))
-        ;
-        //todo make autoSet Datetime of create and update building (timestampable)
+            ->setImages($this->uploadImages($dto->getImages()));
 
         $this->validateBuilding($dto);
 

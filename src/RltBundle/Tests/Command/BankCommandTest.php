@@ -2,10 +2,10 @@
 
 namespace RltBundle\Tests\Command;
 
-use RltBundle\Command\BankNewParserCommand;
+use RltBundle\Command\BankParserCommand;
 use RltBundle\Entity\Bank;
-use RltBundle\Manager\BankParserManager;
-use RltBundle\Manager\BankValidatorManager;
+use RltBundle\Manager\FillerManager\BankFillerManager;
+use RltBundle\Manager\ParserManager\BankParserManager;
 
 /**
  * @coversNothing
@@ -16,9 +16,9 @@ class BankCommandTest extends BaseCommandTest
     {
         $bank = $this->handleCommand(
             'bank',
-            BankNewParserCommand::class,
+            BankParserCommand::class,
             BankParserManager::class,
-            BankValidatorManager::class,
+            BankFillerManager::class,
         );
 
         $this->assertInstanceOf(Bank::class, $bank);

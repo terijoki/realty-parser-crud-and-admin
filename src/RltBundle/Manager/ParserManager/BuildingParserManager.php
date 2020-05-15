@@ -1,6 +1,6 @@
 <?php
 
-namespace RltBundle\Manager;
+namespace RltBundle\Manager\ParserManager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -8,6 +8,7 @@ use RltBundle\Entity\Building;
 use RltBundle\Entity\Model\BuildingDTO;
 use RltBundle\Entity\Model\DTOInterface;
 use RltBundle\Entity\Model\Flat;
+use RltBundle\Manager\AbstractManager;
 use RltBundle\Service\BuildingService;
 use Symfony\Component\DomCrawler\Crawler;
 

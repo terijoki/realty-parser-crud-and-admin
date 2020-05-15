@@ -2,9 +2,10 @@
 
 namespace RltBundle\Command;
 
-class EntityNewParserCommand extends AbstractParserCommand
+class EntityParserCommand extends AbstractParserCommand
 {
     protected const NAME = '';
+    protected const LINKS_SELECTOR = '';
 
     /**
      * @throws \ReflectionException
@@ -13,7 +14,7 @@ class EntityNewParserCommand extends AbstractParserCommand
     protected function process(): void
     {
         $this->output->writeln('Search for links...');
-        $links = $this->service->parseLinks();
+        $links = $this->service->parseLinks(static::LINKS_SELECTOR);
 
         $this->output->writeln(\count($links) . ' links founded. Starting parse process...');
         $progress = 0;

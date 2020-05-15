@@ -2,10 +2,10 @@
 
 namespace RltBundle\Tests\Command;
 
-use RltBundle\Command\NewsNewParserCommand;
+use RltBundle\Command\NewsParserCommand;
 use RltBundle\Entity\News;
-use RltBundle\Manager\NewsParserManager;
-use RltBundle\Manager\NewsValidatorManager;
+use RltBundle\Manager\FillerManager\NewsFillerManager;
+use RltBundle\Manager\ParserManager\NewsParserManager;
 
 /**
  * @coversNothing
@@ -16,9 +16,9 @@ class NewsCommandTest extends BaseCommandTest
     {
         $newsItem = $this->handleCommand(
             'news',
-            NewsNewParserCommand::class,
+            NewsParserCommand::class,
             NewsParserManager::class,
-            NewsValidatorManager::class,
+            NewsFillerManager::class,
         );
 
         $this->assertInstanceOf(News::class, $newsItem);

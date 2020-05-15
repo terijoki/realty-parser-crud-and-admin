@@ -2,10 +2,10 @@
 
 namespace RltBundle\Tests\Command;
 
-use RltBundle\Command\DeveloperNewParserCommand;
+use RltBundle\Command\DeveloperParserCommand;
 use RltBundle\Entity\Developer;
-use RltBundle\Manager\DeveloperParserManager;
-use RltBundle\Manager\DeveloperValidatorManager;
+use RltBundle\Manager\FillerManager\DeveloperFillerManager;
+use RltBundle\Manager\ParserManager\DeveloperParserManager;
 
 /**
  * @coversNothing
@@ -16,9 +16,9 @@ class DeveloperCommandTest extends BaseCommandTest
     {
         $developer = $this->handleCommand(
             'developer',
-            DeveloperNewParserCommand::class,
+            DeveloperParserCommand::class,
             DeveloperParserManager::class,
-            DeveloperValidatorManager::class,
+            DeveloperFillerManager::class,
         );
 
         $this->assertInstanceOf(Developer::class, $developer);

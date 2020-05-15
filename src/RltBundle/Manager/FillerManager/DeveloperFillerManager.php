@@ -1,23 +1,24 @@
 <?php
 
-namespace RltBundle\Manager;
+namespace RltBundle\Manager\FillerManager;
 
 use RltBundle\Entity\Developer;
 use RltBundle\Entity\EntityInterface;
 use RltBundle\Entity\Model\DeveloperDTO;
 use RltBundle\Entity\Model\DTOInterface;
+use RltBundle\Manager\AbstractManager;
 use RltBundle\Service\AbstractService;
 use RltBundle\Service\ParseListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final class DeveloperValidatorManager extends AbstractManager implements ValidateItemInterface
+final class DeveloperFillerManager extends AbstractManager implements FillItemInterface
 {
     protected const NAME = 'developers';
 
     private ValidatorInterface $validator;
 
     /**
-     * DeveloperValidatorManager constructor.
+     * DeveloperFillerManager constructor.
      *
      * @param $em
      * @param $logger
@@ -53,7 +54,6 @@ final class DeveloperValidatorManager extends AbstractManager implements Validat
             ->setLogo($this->uploadImage($dto->getLogo(), $externalId))
             ->setCreationYear($dto->getCreated())
             ->setCity($this->city)
-            ->setUserCreator($this->user)
-        ;
+            ->setUserCreator($this->user);
     }
 }

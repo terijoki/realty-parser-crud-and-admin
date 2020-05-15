@@ -26,22 +26,16 @@ services:
       arguments: ['%parser_host%']
       public: true
 
-    RltBundle\Manager\BuildingParserManager:
+    RltBundle\Manager\ParserManager\BuildingParserManager:
       arguments: ['@doctrine.orm.default_entity_manager', '@logger']
       public: true
 
-    RltBundle\Manager\BuildingValidatorManager:
+    RltBundle\Manager\FillerManager\BuildingFillerManager:
       arguments: ['@doctrine.orm.default_entity_manager', '@logger']
       public: true
 
-    RltBundle\Command\BuildingNewParserCommand:
-      arguments: ['@RltBundle\Service\BuildingService', '@RltBundle\Manager\BuildingParserManager', '@RltBundle\Manager\BuildingValidatorManager']
-      tags:
-      - { name: console.command }
-
-    # Buildings Update
-    RltBundle\Command\BuildingUpdateParserCommand:
-      arguments: ['@RltBundle\Service\BuildingService', '@RltBundle\Manager\BuildingParserManager', '@RltBundle\Manager\BuildingValidatorManager']
+    RltBundle\Command\BuildingParserCommand:
+      arguments: ['@RltBundle\Service\BuildingService','@RltBundle\Manager\ParserManager\BuildingParserManager','@RltBundle\Manager\FillerManager\BuildingFillerManager']
       tags:
       - { name: console.command }
 
@@ -50,16 +44,16 @@ services:
       arguments: ['%parser_host%']
       public: true
 
-    RltBundle\Manager\DeveloperParserManager:
+    RltBundle\Manager\ParserManager\DeveloperParserManager:
       arguments: ['@doctrine.orm.default_entity_manager', '@logger']
       public: true
 
-    RltBundle\Manager\DeveloperValidatorManager:
+    RltBundle\Manager\FillerManager\DeveloperFillerManager:
       arguments: ['@doctrine.orm.default_entity_manager', '@logger']
       public: true
 
-    RltBundle\Command\DeveloperNewParserCommand:
-      arguments: ['@RltBundle\Service\DeveloperService', '@RltBundle\Manager\DeveloperParserManager', '@RltBundle\Manager\DeveloperValidatorManager']
+    RltBundle\Command\DeveloperParserCommand:
+      arguments: ['@RltBundle\Service\DeveloperService','@RltBundle\Manager\ParserManager\DeveloperParserManager','@RltBundle\Manager\FillerManager\DeveloperFillerManager']
       tags:
       - { name: console.command }
 
@@ -68,16 +62,16 @@ services:
       arguments: ['%parser_host%']
       public: true
 
-    RltBundle\Manager\BankParserManager:
+    RltBundle\Manager\ParserManager\BankParserManager:
       arguments: ['@doctrine.orm.default_entity_manager', '@logger']
       public: true
 
-    RltBundle\Manager\BankValidatorManager:
+    RltBundle\Manager\FillerManager\BankFillerManager:
       arguments: ['@doctrine.orm.default_entity_manager', '@logger']
       public: true
 
-    RltBundle\Command\BankNewParserCommand:
-      arguments: ['@RltBundle\Service\BankService', '@RltBundle\Manager\BankParserManager', '@RltBundle\Manager\BankValidatorManager']
+    RltBundle\Command\BankParserCommand:
+      arguments: ['@RltBundle\Service\BankService','@RltBundle\Manager\ParserManager\BankParserManager','@RltBundle\Manager\FillerManager\BankFillerManager']
       tags:
       - { name: console.command }
 
@@ -86,26 +80,26 @@ services:
       arguments: ['%parser_host%']
       public: true
 
-    RltBundle\Manager\NewsParserManager:
+    RltBundle\Manager\ParserManager\NewsParserManager:
       arguments: ['@doctrine.orm.default_entity_manager', '@logger']
       public: true
 
-    RltBundle\Manager\NewsValidatorManager:
+    RltBundle\Manager\FillerManager\NewsFillerManager:
       arguments: ['@doctrine.orm.default_entity_manager', '@logger']
       public: true
 
-    RltBundle\Command\NewsNewParserCommand:
-      arguments: ['@RltBundle\Service\NewsService', '@RltBundle\Manager\NewsParserManager', '@RltBundle\Manager\NewsValidatorManager']
+    RltBundle\Command\NewsParserCommand:
+      arguments: ['@RltBundle\Service\NewsService','@RltBundle\Manager\ParserManager\NewsParserManager','@RltBundle\Manager\FillerManager\NewsFillerManager']
       tags:
       - { name: console.command }
 
     # News
-    RltBundle\Service\MetroParserManager:
+    RltBundle\Service\MetroService:
       arguments: ['%parser_host%']
       public: true
 
     RltBundle\Command\MetroParserCommand:
-      arguments: ['@RltBundle\Service\MetroParserManager']
+      arguments: ['@RltBundle\Service\MetroService']
       tags:
         - { name: console.command }
 

@@ -5,8 +5,8 @@ namespace RltBundle\Command;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use RltBundle\Manager\ParseItemInterface;
-use RltBundle\Manager\ValidateItemInterface;
+use RltBundle\Manager\FillerManager\FillItemInterface;
+use RltBundle\Manager\ParserManager\ParseItemInterface;
 use RltBundle\Service\ParseListInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\LockableTrait;
@@ -28,7 +28,7 @@ abstract class AbstractParserCommand extends Command
 
     public ParseItemInterface $parser;
 
-    public ValidateItemInterface $validator;
+    public FillItemInterface $validator;
 
     protected LoggerInterface $logger;
 
@@ -45,19 +45,19 @@ abstract class AbstractParserCommand extends Command
     protected SymfonyStyle $io;
 
     /**
-     * EntityNewParserCommand constructor.
+     * EntityParserCommand constructor.
      *
      * @param EntityManagerInterface $em
      * @param ContainerInterface     $container
      * @param LoggerInterface        $logger
      * @param ParseListInterface     $service
      * @param ParseItemInterface     $parser
-     * @param ValidateItemInterface  $validator
+     * @param FillItemInterface  $validator
      */
     public function __construct(
         ParseListInterface     $service,
         ParseItemInterface     $parser,
-        ValidateItemInterface  $validator,
+        FillItemInterface  $validator,
         EntityManagerInterface $em,
         ContainerInterface     $container,
         LoggerInterface        $logger

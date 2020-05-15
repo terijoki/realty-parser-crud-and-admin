@@ -16,39 +16,16 @@ class NewsService extends AbstractService
      * every time, just the last 30 notes are enough.
      *
      * @throws \ReflectionException
+     * @param string $selector
      *
      * @return array
      */
-    public function parseLinks(): array
+    public function parseLinks(string $selector): array
     {
         $content = [];
 
         $content[] = $this->simpleRequest(static::SUFFIX . '/1');
 
-        return $this->parseItemForLinks($content);
-    }
-
-    /**
-     * @param array $content
-     *
-     * @return array
-     */
-    protected function parseItemForLinks(array $content): array
-    {
-        $result = [];
-        foreach ($content as $item) {
-            $crawler = new Crawler($item);
-
-            foreach ($crawler->filter('li > a') as $li) {
-                $link = $li->getAttribute('href') ?? '';
-
-                $id = $this->parseExtId($link, self::SUFFIX);
-                $result[$id] = $link;
-            }
-            $crawler->clear();
-        }
-        \ksort($result);
-
-        return $result;
+        return $this->parseItemForLinks($content, $selector);
     }
 }

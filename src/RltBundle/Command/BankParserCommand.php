@@ -4,9 +4,10 @@ namespace RltBundle\Command;
 
 use Symfony\Component\Console\Input\InputOption;
 
-class BankNewParserCommand extends EntityNewParserCommand
+class BankParserCommand extends EntityParserCommand
 {
     protected const NAME = 'RltBundle:Bank';
+    protected const LINKS_SELECTOR = 'li > a[class="company"]';
 
     /**
      * BankNewParser Configurate.

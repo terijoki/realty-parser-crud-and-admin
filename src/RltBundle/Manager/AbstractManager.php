@@ -128,7 +128,7 @@ abstract class AbstractManager
      */
     protected function findByExternalId(string $class, int $id)
     {
-        return $this->em->getRepository($class)->findBy([
+        return $this->em->getRepository($class)->findOneBy([
             'externalId' => $id,
         ]);
     }

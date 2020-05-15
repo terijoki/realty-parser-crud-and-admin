@@ -1,6 +1,6 @@
 <?php
 
-namespace RltBundle\Manager;
+namespace RltBundle\Manager\FillerManager;
 
 use RltBundle\Entity\Bank;
 use RltBundle\Entity\Building;
@@ -9,6 +9,7 @@ use RltBundle\Entity\EntityInterface;
 use RltBundle\Entity\Model\DTOInterface;
 use RltBundle\Entity\Model\NewsDTO;
 use RltBundle\Entity\News;
+use RltBundle\Manager\AbstractManager;
 use RltBundle\Service\AbstractService;
 use RltBundle\Service\BankService;
 use RltBundle\Service\BuildingService;
@@ -16,14 +17,14 @@ use RltBundle\Service\DeveloperService;
 use RltBundle\Service\ParseListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final class NewsValidatorManager extends AbstractManager implements ValidateItemInterface
+final class NewsFillerManager extends AbstractManager implements FillItemInterface
 {
     protected const NAME = 'news';
 
     private ValidatorInterface $validator;
 
     /**
-     * NewsValidatorManager constructor.
+     * NewsFillerManager constructor.
      *
      * @param $em
      * @param $logger
@@ -58,11 +59,9 @@ final class NewsValidatorManager extends AbstractManager implements ValidateItem
             ->setImages($this->uploadImages($dto->getImages()))
             ->setText($dto->getText())
             ->setCity($this->city)
-            ->setUserCreator($this->user)
-        ;
-        //todo make autoSet Datetime of create and update building (timestampable)
+            ->setUserCreator($this->user);
 
-        //$this->setRelatedEntites($dto->getRelatedEntities());
+        $this->setRelatedEntites($dto->getRelatedEntities());
 
         return $this->entity;
     }

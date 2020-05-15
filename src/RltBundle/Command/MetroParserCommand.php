@@ -2,7 +2,7 @@
 
 namespace RltBundle\Command;
 
-use RltBundle\Service\MetroParserManager;
+use RltBundle\Service\MetroService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -10,14 +10,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MetroParserCommand extends Command
 {
-    protected MetroParserManager $service;
+    protected MetroService $service;
 
     /**
-     * EntityNewParserCommand constructor.
+     * EntityParserCommand constructor.
      *
-     * @param MetroParserManager $service
+     * @param MetroService $service
      */
-    public function __construct(MetroParserManager $service) {
+    public function __construct(MetroService $service) {
         parent::__construct();
         $this->service = $service;
     }

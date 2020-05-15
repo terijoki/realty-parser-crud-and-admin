@@ -1,16 +1,16 @@
 <?php
 
-namespace RltBundle\Manager;
+namespace RltBundle\Manager\FillerManager;
 
 use RltBundle\Entity\EntityInterface;
 use RltBundle\Entity\Model\DTOInterface;
 
 /**
- * Interface ValidateItemInterface.
+ * Interface FillItemInterface.
  *
  * @Annotation
  */
-interface ValidateItemInterface
+interface FillItemInterface
 {
     /**
      * @param DTOInterface $dto

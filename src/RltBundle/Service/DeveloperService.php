@@ -7,7 +7,7 @@ use Symfony\Component\DomCrawler\Crawler;
 /**
  * Class DeveloperService.
  */
-class DeveloperService extends AbstractService
+class DeveloperService extends BaseService
 {
     public const SUFFIX = 'companies';
 }

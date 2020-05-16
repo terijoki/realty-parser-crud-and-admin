@@ -7,7 +7,7 @@ use RltBundle\Entity\EntityInterface;
 use RltBundle\Entity\Model\DeveloperDTO;
 use RltBundle\Entity\Model\DTOInterface;
 use RltBundle\Manager\AbstractManager;
-use RltBundle\Service\AbstractService;
+use RltBundle\Service\BaseService;
 use RltBundle\Service\ParseListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -23,7 +23,7 @@ final class DeveloperFillerManager extends AbstractManager implements FillItemIn
      * @param $em
      * @param $logger
      * @param ValidatorInterface $validator
-     * @param AbstractService    $service
+     * @param BaseService    $service
      */
     public function __construct($em, $logger, ValidatorInterface $validator, ParseListInterface $service)
     {

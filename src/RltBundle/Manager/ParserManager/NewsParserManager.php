@@ -7,7 +7,7 @@ use Psr\Log\LoggerInterface;
 use RltBundle\Entity\Model\DTOInterface;
 use RltBundle\Entity\Model\NewsDTO;
 use RltBundle\Manager\AbstractManager;
-use RltBundle\Service\AbstractService;
+use RltBundle\Service\BaseService;
 use RltBundle\Service\BankService;
 use RltBundle\Service\BuildingService;
 use RltBundle\Service\DeveloperService;
@@ -23,7 +23,7 @@ final class NewsParserManager extends AbstractManager implements ParseItemInterf
      *
      * @param EntityManagerInterface $em
      * @param LoggerInterface        $logger
-     * @param AbstractService        $service
+     * @param BaseService        $service
      */
     public function __construct(EntityManagerInterface $em, LoggerInterface $logger, ParseListInterface $service)
     {

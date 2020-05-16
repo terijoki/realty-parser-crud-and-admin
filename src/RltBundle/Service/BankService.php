@@ -7,7 +7,7 @@ use Symfony\Component\DomCrawler\Crawler;
 /**
  * Class BankService.
  */
-class BankService extends AbstractService
+class BankService extends BaseService
 {
     public const SUFFIX = 'banks';
 }

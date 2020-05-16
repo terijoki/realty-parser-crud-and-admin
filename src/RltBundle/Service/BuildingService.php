@@ -7,7 +7,7 @@ use Symfony\Component\DomCrawler\Crawler;
 /**
  * Class BuildingService.
  */
-class BuildingService extends AbstractService
+class BuildingService extends BaseService
 {
     public const SUFFIX = 'novostroyki';
 }

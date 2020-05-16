@@ -10,7 +10,7 @@ use RltBundle\Entity\Model\DTOInterface;
 use RltBundle\Entity\Model\NewsDTO;
 use RltBundle\Entity\News;
 use RltBundle\Manager\AbstractManager;
-use RltBundle\Service\AbstractService;
+use RltBundle\Service\BaseService;
 use RltBundle\Service\BankService;
 use RltBundle\Service\BuildingService;
 use RltBundle\Service\DeveloperService;
@@ -29,7 +29,7 @@ final class NewsFillerManager extends AbstractManager implements FillItemInterfa
      * @param $em
      * @param $logger
      * @param ValidatorInterface $validator
-     * @param AbstractService    $service
+     * @param BaseService    $service
      */
     public function __construct($em, $logger, ValidatorInterface $validator, ParseListInterface $service)
     {

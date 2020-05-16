@@ -7,7 +7,7 @@ use Psr\Log\LoggerInterface;
 use RltBundle\Entity\Model\DeveloperDTO;
 use RltBundle\Entity\Model\DTOInterface;
 use RltBundle\Manager\AbstractManager;
-use RltBundle\Service\AbstractService;
+use RltBundle\Service\BaseService;
 use RltBundle\Service\ParseListInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -26,7 +26,7 @@ final class DeveloperParserManager extends AbstractManager implements ParseItemI
      *
      * @param EntityManagerInterface $em
      * @param LoggerInterface        $logger
-     * @param AbstractService        $service
+     * @param BaseService        $service
      */
     public function __construct(EntityManagerInterface $em, LoggerInterface $logger, ParseListInterface $service)
     {
@@ -76,7 +76,7 @@ final class DeveloperParserManager extends AbstractManager implements ParseItemI
             return $dom->filter('h1[itemprop="name"]')->text();
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage(), [
-                'category' => 'no-name',
+                'category' => self::ERROR_PARSE_TAG,
                 'info' => $dom->html(),
             ]);
         }

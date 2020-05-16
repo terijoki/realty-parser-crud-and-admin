@@ -11,9 +11,9 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
- * Class AbstractService.
+ * Class BaseService.
  */
-abstract class AbstractService implements ParseListInterface
+class BaseService implements ParseListInterface
 {
     public const USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36';
     protected const SUFFIX = '';
@@ -215,7 +215,7 @@ abstract class AbstractService implements ParseListInterface
             foreach ($crawler->filter($selector) as $li) {
                 $temp = $li->getAttribute('href') ?? '';
 
-                $id = $this->parseExtId($temp, self::SUFFIX);
+                $id = $this->parseExtId($temp, static::SUFFIX);
                 $result[$id] = $temp;
             }
             $crawler->clear();

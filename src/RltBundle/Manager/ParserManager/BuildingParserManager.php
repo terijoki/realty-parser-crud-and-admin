@@ -113,7 +113,7 @@ final class BuildingParserManager extends AbstractManager implements ParseItemIn
             return $dom->filter('h1[itemprop="name"]')->text();
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage(), [
-                'category' => 'no-name',
+                'category' => self::ERROR_PARSE_TAG,
                 'info' => $dom->html(),
             ]);
         }

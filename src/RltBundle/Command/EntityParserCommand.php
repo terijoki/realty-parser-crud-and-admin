@@ -38,11 +38,12 @@ class EntityParserCommand extends AbstractParserCommand
                     $this->output->writeln('Stored new entity: ' . $link);
                     $this->logger->info('Stored new entity: ' . $link, [
                         'class' => (new \ReflectionClass(static::class))->getShortName(),
-                        'category' => 'parser-command', ]);
+                        'category' => self::ERROR_CATEGORY
+                    ]);
                 } catch (\Exception $e) {
                     $this->logger->critical($e->getMessage(), [
                         'class' => (new \ReflectionClass(static::class))->getShortName(),
-                        'category' => 'parser-command',
+                        'category' => self::ERROR_CATEGORY,
                     ]);
                     throw $e;
                 }

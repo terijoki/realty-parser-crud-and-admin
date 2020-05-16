@@ -10,13 +10,15 @@ use Psr\Log\LoggerInterface;
 use RltBundle\Entity\Building;
 use RltBundle\Entity\EntityInterface;
 use RltBundle\Entity\User;
-use RltBundle\Service\AbstractService;
+use RltBundle\Service\BaseService;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 abstract class AbstractManager
 {
     protected const NAME = '';
     protected const DELAY = 5;
+    protected const ERROR_PARSE_TAG = 'parse-tag';
+    protected const IMAGES_PATH = '/../../../var/images/';
     private const NUMBER = 0;
     private const MONTH = 1;
     private const YEAR = 2;
@@ -25,7 +27,7 @@ abstract class AbstractManager
 
     protected LoggerInterface $logger;
 
-    protected AbstractService $service;
+    protected BaseService $service;
 
     protected int $externalId;
 
@@ -40,9 +42,9 @@ abstract class AbstractManager
      *
      * @param EntityManagerInterface $em
      * @param LoggerInterface        $logger
-     * @param AbstractService        $service
+     * @param BaseService        $service
      */
-    public function __construct(EntityManagerInterface $em, LoggerInterface $logger, AbstractService $service)
+    public function __construct(EntityManagerInterface $em, LoggerInterface $logger, BaseService $service)
     {
         $this->em = $em;
         $this->logger = $logger;
@@ -105,7 +107,7 @@ abstract class AbstractManager
     {
         $localName = \preg_replace('/.+\/(.+.jpg)/ui', '$1', $imagePath);
         $image = $this->service->simpleRequest($imagePath);
-        $uploadPath = __DIR__ . '/../../../var/images/' . static::NAME . '/' . $id . '/';
+        $uploadPath = __DIR__ . self::IMAGES_PATH . static::NAME . '/' . $id . '/';
         $path = $uploadPath . $localName;
 
         try {
@@ -152,7 +154,7 @@ abstract class AbstractManager
             }
         }
         if (!empty($converted) && !$converted instanceof \DateTime) {
-            throw new UnexpectedTypeException($result . 'value doesn`t match the format Y-m-d', (new \DateTime())->format('Y-m-d'));
+            throw new UnexpectedTypeException($result . ' value doesn`t match the format Y-m-d', (new \DateTime())->format('Y-m-d'));
         }
 
         return $converted;

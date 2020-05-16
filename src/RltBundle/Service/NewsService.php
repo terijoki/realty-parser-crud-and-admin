@@ -7,7 +7,7 @@ use Symfony\Component\DomCrawler\Crawler;
 /**
  * Class NewsService.
  */
-class NewsService extends AbstractService
+class NewsService extends BaseService
 {
     public const SUFFIX = 'news';
 

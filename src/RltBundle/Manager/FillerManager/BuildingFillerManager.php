@@ -12,7 +12,7 @@ use RltBundle\Entity\Metro;
 use RltBundle\Entity\Model\BuildingDTO;
 use RltBundle\Entity\Model\DTOInterface;
 use RltBundle\Manager\AbstractManager;
-use RltBundle\Service\AbstractService;
+use RltBundle\Service\BaseService;
 use RltBundle\Service\ParseListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -44,6 +44,8 @@ final class BuildingFillerManager extends AbstractManager implements FillItemInt
 
     protected const YES = 'Есть';
 
+    protected const ERROR_PARSE_VALIDATOR = 'parse-validator';
+
     private ValidatorInterface $validator;
 
     /**
@@ -52,7 +54,7 @@ final class BuildingFillerManager extends AbstractManager implements FillItemInt
      * @param $em
      * @param $logger
      * @param ValidatorInterface $validator
-     * @param AbstractService    $service
+     * @param BaseService    $service
      */
     public function __construct($em, $logger, ValidatorInterface $validator, ParseListInterface $service)
     {
@@ -90,7 +92,7 @@ final class BuildingFillerManager extends AbstractManager implements FillItemInt
             ->setUserCreator($this->user)
             ->setImages($this->uploadImages($dto->getImages()));
 
-        $this->validateBuilding($dto);
+        $this->setValidatedBuilding($dto);
 
         return $this->entity;
     }
@@ -102,7 +104,7 @@ final class BuildingFillerManager extends AbstractManager implements FillItemInt
      *
      * @throws \ReflectionException
      */
-    private function validateBuilding(DTOInterface $dto): void
+    private function setValidatedBuilding(DTOInterface $dto): void
     {
         $this->setValidatedMetro($dto->getMetro());
         $this->setValidatedDeveloper($dto->getDeveloper());
@@ -146,7 +148,7 @@ final class BuildingFillerManager extends AbstractManager implements FillItemInt
             /** @var Developer $developer */
             $developer = $this->em->getRepository(Developer::class)->findOneBy(['name' => $developer]);
         } catch (NoResultException $noResultException) {
-            $this->logger->critical($noResultException->getMessage(), ['category' => 'parse-validator']);
+            $this->logger->critical($noResultException->getMessage(), ['category' => self::ERROR_PARSE_VALIDATOR]);
         }
         $this->entity->setDeveloper($developer);
     }
@@ -174,7 +176,7 @@ final class BuildingFillerManager extends AbstractManager implements FillItemInt
                 ->getRepository(District::class)
                 ->findOneBy(['district' => $exploded[0]]);
         } catch (NoResultException $noResultException) {
-            $this->logger->critical($noResultException->getMessage(), ['category' => 'parse-validator']);
+            $this->logger->critical($noResultException->getMessage(), ['category' => self::ERROR_PARSE_VALIDATOR]);
         }
         $this->entity->setDistrict($district);
     }

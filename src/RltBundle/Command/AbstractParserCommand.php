@@ -23,6 +23,7 @@ abstract class AbstractParserCommand extends Command
     protected const EXPIRATION = 86400;
     protected const PAGE_SIZE = 20;
     protected const DELAY = 1;
+    protected const ERROR_CATEGORY = 'parser-command';
 
     public EntityManagerInterface $em;
 
@@ -100,7 +101,7 @@ abstract class AbstractParserCommand extends Command
         $this->io = new SymfonyStyle($input, $output);
         $this->logger->info('Run ' . $this->getName(), [
             'class' => (new \ReflectionClass(static::class))->getShortName(),
-            'category' => 'parser-command',
+            'category' => self::ERROR_CATEGORY,
         ]);
 
         try {
@@ -108,7 +109,7 @@ abstract class AbstractParserCommand extends Command
         } catch (\Exception $e) {
             $this->logger->critical($e->getMessage(), [
                 'class' => (new \ReflectionClass(static::class))->getShortName(),
-                'category' => 'parser-command',
+                'category' => self::ERROR_CATEGORY,
             ]);
         }
 
@@ -118,7 +119,7 @@ abstract class AbstractParserCommand extends Command
 
         $this->logger->info($event->__toString(), [
             'class' => (new \ReflectionClass(static::class))->getShortName(),
-            'category' => 'parser-command',
+            'category' => self::ERROR_CATEGORY,
         ]);
 
         $this->release();

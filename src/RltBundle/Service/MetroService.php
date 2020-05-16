@@ -10,7 +10,7 @@ use RltBundle\Entity\Metro;
 /**
  * Class MetroParserService.
  */
-class MetroService extends AbstractService
+class MetroService extends BaseService
 {
     private const API_URI = 'https://api.hh.ru/metro';
 

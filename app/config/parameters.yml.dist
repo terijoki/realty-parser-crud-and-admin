@@ -41,7 +41,8 @@ parameters:
     ftp_password: ~
 
     custom.base_url: "https://rlt-spb.ru"
-    parser.host: ~
+    parser_host: ~
 
     mailer_from: info@rlt.ru
     mailer_from_name: Realty Spb Info
+    upload_path: /upload

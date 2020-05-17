@@ -2,11 +2,13 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+#    - { resource: easy_admin.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    vich_upload_destination: '%kernel.project_dir%/web%upload_path%'
 
 framework:
     #esi: ~
@@ -106,6 +108,14 @@ doctrine:
                         get_json_object: Opsway\Doctrine\ORM\Query\AST\Functions\GetJsonObject
                         get_json_object_text: Opsway\Doctrine\ORM\Query\AST\Functions\GetJsonObjectText
 
+vich_uploader:
+    db_driver: orm # or mongodb or propel or phpcr
+    mappings:
+        enitity_files:
+            uri_prefix: '%upload_path%'
+            upload_destination: '%vich_upload_destination%'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
+
 # Swiftmailer Configuration
 swiftmailer:
     transport: '%mailer_transport%'
@@ -187,6 +197,7 @@ fos_rest:
         #- { path: ^/api/customdoc/search, priorities: [ html ], fallback_format: ~, prefer_extension: true }
         - { path: ^/api, priorities: [ json, jsonp, csv ], fallback_format: ~, prefer_extension: true }
         - { path: ^/doc, priorities: [ html ], fallback_format: ~, prefer_extension: true }
+        - { path: ^/admin, priorities: [ html ], fallback_format: ~, prefer_extension: true }
 
 # JMS Serializer
 jms_serializer:
@@ -234,3 +245,16 @@ stof_doctrine_extensions:
     orm:
         default:
             timestampable: true
+
+easy_admin:
+    entities:
+        User:
+            class: RltBundle\Entity\User
+            form:
+                fields:
+                    - username
+                    - email
+                    - lastLogin
+                    # if administrators are allowed to edit users' passwords and roles, add this:
+                    - { property: 'password', type: 'text', type_options: { required: false } }
+                    - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }

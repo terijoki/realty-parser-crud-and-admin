@@ -13,6 +13,9 @@ services:
         # this means you cannot fetch services directly from the container via $container->get()
         # if you need to do this, you can override this setting on individual services
         public: false
+#        bind:
+#          $prefix: '%upload_path%'
+#          $upload_destination: '%vich_upload_destination%'
 
     # by FOS REST we include any controller to service
     RltBundle\Controller\:

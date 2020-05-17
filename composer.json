@@ -29,18 +29,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "~7.4",
-        "ext-curl": "*",
-        "ext-dom": "*",
-        "ext-gmp": "*",
-        "ext-intl": "*",
-        "ext-json": "*",
-        "ext-libxml": "*",
-        "ext-mbstring": "*",
-        "ext-pdo": "*",
-        "ext-pgsql": "*",
-        "ext-xml": "*",
-        "lib-openssl": "*",
+        "php": "~7.3",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-cache-bundle": "^1.2",
         "doctrine/doctrine-migrations-bundle": "^1.2",
@@ -50,6 +39,7 @@
         "friendsofsymfony/user-bundle": "^2.0",
         "guzzlehttp/guzzle": "^6.2",
         "incenteev/composer-parameter-handler": "^2.0",
+        "javiereguiluz/easyadmin-bundle": "^1.17",
         "jms/serializer-bundle": "^2.0",
         "lexik/jwt-authentication-bundle": "^2.2",
         "namshi/cuzzle": "^2.0",
@@ -57,7 +47,6 @@
         "nelmio/cors-bundle": "^1.5",
         "opensoft/doctrine-postgres-types": "^1.3",
         "opsway/doctrine-dbal-postgresql": "^0.7",
-        "oro/doctrine-extensions": "dev-master",
         "phpdocumentor/reflection-docblock": "^4.0",
         "predis/predis": "^1.1",
         "ruflin/elastica": "^6.0",
@@ -68,10 +57,10 @@
         "symfony/polyfill-apcu": "^1.0",
         "symfony/swiftmailer-bundle": "^3.0",
         "symfony/symfony": "3.4.*",
-        "twig/twig": "^1.0||^2.0"
+        "twig/twig": "^1.0||^2.0",
+        "vich/uploader-bundle": "1.8.*"
     },
     "require-dev": {
-        "ext-pdo_sqlite": "*",
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "liip/functional-test-bundle": "^1.7",
         "phpstan/phpstan-doctrine": "^0.10.0",
@@ -79,7 +68,8 @@
         "phpunit/phpunit": "^7.2",
         "roave/security-advisories": "dev-master",
         "symfony/maker-bundle": "^1.5",
-        "symfony/phpunit-bridge": "^4.0"
+        "symfony/phpunit-bridge": "^4.0",
+        "symfony/web-server-bundle": "^4.4"
     },
     "scripts": {
         "symfony-scripts": [

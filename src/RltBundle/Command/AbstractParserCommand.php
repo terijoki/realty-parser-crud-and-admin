@@ -25,25 +25,25 @@ abstract class AbstractParserCommand extends Command
     protected const DELAY = 1;
     protected const ERROR_CATEGORY = 'parser-command';
 
-    public EntityManagerInterface $em;
+    public $em;
 
-    public ParseItemInterface $parser;
+    public $parser;
 
-    public FillItemInterface $validator;
+    public $validator;
 
-    protected LoggerInterface $logger;
+    protected $logger;
 
-    protected ?ContainerInterface $container;
+    protected $container;
 
-    protected InputInterface $input;
+    protected $input;
 
-    protected OutputInterface $output;
+    protected $output;
 
-    protected ParseListInterface $service;
+    protected $service;
 
-    protected array $storedIds;
+    protected $storedIds;
 
-    protected SymfonyStyle $io;
+    protected $io;
 
     /**
      * EntityParserCommand constructor.

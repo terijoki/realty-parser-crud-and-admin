@@ -21,7 +21,7 @@ final class NewsFillerManager extends AbstractManager implements FillItemInterfa
 {
     protected const NAME = 'news';
 
-    private ValidatorInterface $validator;
+    private $validator;
 
     /**
      * NewsFillerManager constructor.

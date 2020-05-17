@@ -16,7 +16,7 @@ final class BankFillerManager extends AbstractManager implements FillItemInterfa
 {
     protected const NAME = 'banks';
 
-    private ValidatorInterface $validator;
+    private $validator;
 
     /**
      * BankFillerManager constructor.

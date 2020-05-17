@@ -14,7 +14,7 @@ class MetroService extends BaseService
 {
     private const API_URI = 'https://api.hh.ru/metro';
 
-    protected EntityManagerInterface $em;
+    protected $em;
 
     public function __construct(
         string $url,

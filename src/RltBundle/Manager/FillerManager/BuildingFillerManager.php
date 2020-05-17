@@ -46,7 +46,7 @@ final class BuildingFillerManager extends AbstractManager implements FillItemInt
 
     protected const ERROR_PARSE_VALIDATOR = 'parse-validator';
 
-    private ValidatorInterface $validator;
+    private $validator;
 
     /**
      * BuildingFillerManager constructor.

@@ -23,19 +23,19 @@ abstract class AbstractManager
     private const MONTH = 1;
     private const YEAR = 2;
 
-    protected EntityManagerInterface $em;
+    protected $em;
 
-    protected LoggerInterface $logger;
+    protected $logger;
 
-    protected BaseService $service;
+    protected $service;
 
-    protected int $externalId;
+    protected $externalId;
 
-    protected EntityInterface $entity;
+    protected $entity;
 
-    protected ?User $user;
+    protected $user;
 
-    protected City $city;
+    protected $city;
 
     /**
      * AbstractManager constructor.

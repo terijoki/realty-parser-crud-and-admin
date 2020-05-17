@@ -11,13 +11,13 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserManager
 {
-    protected ValidatorInterface $validator;
+    protected $validator;
 
-    protected ConstraintViolationListInterface $errors;
+    protected $errors;
 
-    protected string $entityClass;
+    protected $entityClass;
 
-    protected PropertyAccessorInterface $propertyAccessor;
+    protected $propertyAccessor;
 
     /**
      * UserManager constructor.

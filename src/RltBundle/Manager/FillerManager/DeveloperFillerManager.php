@@ -15,7 +15,7 @@ final class DeveloperFillerManager extends AbstractManager implements FillItemIn
 {
     protected const NAME = 'developers';
 
-    private ValidatorInterface $validator;
+    private $validator;
 
     /**
      * DeveloperFillerManager constructor.

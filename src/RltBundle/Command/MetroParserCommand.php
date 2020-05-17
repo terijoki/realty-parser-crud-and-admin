@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MetroParserCommand extends Command
 {
-    protected MetroService $service;
+    protected $service;
 
     /**
      * EntityParserCommand constructor.

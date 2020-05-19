@@ -1,0 +1,8 @@
+easy_admin:
+    site_name: 'rlt-admin'
+    list:
+      actions:
+        # displays both the action label and a custom icon
+        - { name: 'edit', icon: 'pencil' }
+        - { name: 'new', icon: 'plus' }
+        - { name: 'delete', icon: 'trash' }

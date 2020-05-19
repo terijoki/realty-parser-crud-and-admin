@@ -2,7 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-#    - { resource: easy_admin.yml }
+    - { resource: easy_admin/ }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -246,15 +246,3 @@ stof_doctrine_extensions:
         default:
             timestampable: true
 
-easy_admin:
-    entities:
-        User:
-            class: RltBundle\Entity\User
-            form:
-                fields:
-                    - username
-                    - email
-                    - lastLogin
-                    # if administrators are allowed to edit users' passwords and roles, add this:
-                    - { property: 'password', type: 'text', type_options: { required: false } }
-                    - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }

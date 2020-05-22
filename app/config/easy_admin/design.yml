@@ -8,4 +8,7 @@ easy_admin:
         children:
           - { label: 'Пользователи', entity: 'User', icon: 'calendar', default: true }
           - { label: 'Роли', entity: 'Group', icon: 'calendar' }
+          - { label: 'Банки>', entity: 'Banks', icon: 'calendar' }
+          - { label: 'Застройщики>', entity: 'Developers', icon: 'calendar' }
+          - { label: 'Новости', entity: 'News', icon: 'calendar' }
           - { label: 'Новостройки', entity: 'Buildings', icon: 'calendar' }

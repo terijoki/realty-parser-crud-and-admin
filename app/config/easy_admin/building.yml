@@ -1,0 +1,18 @@
+easy_admin:
+  entities:
+    Building:
+      class: RltBundle\Entity\Building
+      label: 'Новостройки'
+      list:
+        actions:
+          - { name: 'new', label: 'Создать новостройку', icon: 'plus' }
+        title: "Список новостроек"
+        fields:
+          - { property: 'name', label: 'Название' }
+      form:
+        fields:
+          - { property: 'name', type: 'text', type_options: { label: 'Название' } }
+      new:
+        title: 'Создать новостройку'
+      edit:
+        title: 'Редактировать новостройку %%entity_id%%'

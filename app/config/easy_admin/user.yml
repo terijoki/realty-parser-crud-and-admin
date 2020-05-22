@@ -1,0 +1,23 @@
+easy_admin:
+  entities:
+    User:
+      class: RltBundle\Entity\User
+      label: 'Пользователи'
+      list:
+        actions:
+          - { name: 'new', label: 'Создать пользователя', icon: 'plus' }
+        title: "Список пользователей"
+        fields:
+          - username
+          - email
+          - enabled
+          - { property: 'last_login', template: 'admin/fields/datetime_field.html.twig' }
+      form:
+        fields:
+          - { property: 'username', type: 'text', type_options: { label: 'Логин' } }
+          - { property: 'email', type: 'text', type_options: { label: 'Эл.почта' } }
+          - { property: 'enabled', type: 'checkbox', type_options: { label: 'Активность' } }
+      new:
+        title: 'Создать пользователя'
+      edit:
+        title: 'Редактировать пользователя %%entity_id%%'

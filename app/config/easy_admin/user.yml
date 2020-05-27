@@ -2,11 +2,11 @@ easy_admin:
   entities:
     User:
       class: RltBundle\Entity\User
-      label: 'Пользователи'
+      label: 'Users'
       list:
         actions:
-          - { name: 'new', label: 'Создать пользователя', icon: 'plus' }
-        title: "Список пользователей"
+          - { name: 'new', label: 'Create user', icon: 'plus' }
+        title: "Users list"
         fields:
           - username
           - email
@@ -14,10 +14,10 @@ easy_admin:
           - { property: 'last_login', template: 'admin/fields/datetime_field.html.twig' }
       form:
         fields:
-          - { property: 'username', type: 'text', type_options: { label: 'Логин' } }
-          - { property: 'email', type: 'text', type_options: { label: 'Эл.почта' } }
-          - { property: 'enabled', type: 'checkbox', type_options: { label: 'Активность' } }
+          - { property: 'username', type: 'text', type_options: { label: 'Login' } }
+          - { property: 'email', type: 'text', type_options: { label: 'Email' } }
+          - { property: 'enabled', type: 'checkbox', type_options: { label: 'Activity' } }
       new:
-        title: 'Создать пользователя'
+        title: 'Create user'
       edit:
-        title: 'Редактировать пользователя %%entity_id%%'
+        title: 'Edit user %%entity_id%%'

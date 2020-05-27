@@ -1,0 +1,29 @@
+easy_admin:
+  entities:
+    Bank:
+      class: RltBundle\Entity\Bank
+      label: 'Banks'
+      list:
+        actions:
+          - { name: 'new', label: 'Create bank', icon: 'plus' }
+        title: "Banks list"
+        fields:
+          - { property: 'external_id', label: 'External ID'}
+          - { property: 'name', label: 'Name' }
+          - { property: 'phone', label: 'Phone'}
+          - { property: 'site', label: 'Site'}
+          - { property: 'creation_year', label: 'Founded at'}
+      form:
+        fields:
+          - { property: 'name', type: 'text', label: 'Name' }
+          - { property: 'external_id', label: 'External ID', type_options: { disabled: true }}
+          - { property: 'address', type: 'text', label: 'Address'}
+          - { property: 'phone', type: 'text', label: 'Phone'}
+          - { property: 'site', type: 'text', label: 'Site'}
+          - { property: 'creation_year', type: 'text', label: 'Founded at'}
+          - { property: 'logo', type: 'RltBundle\Form\EntityFilesType', help: 'Max filesize - 5Mb', type_options: { label: 'Logo file', by_reference: false, data_class: 'AppBundle\Entity\EventFiles', value_type: 'Vich\UploaderBundle\Form\Type\VichImageType'}}
+          - { property: 'description', type: 'textarea', type_options: { label: 'Description', by_reference: false }}
+      new:
+        title: 'Create bank'
+      edit:
+        title: 'Edit bank %%entity_id%%'

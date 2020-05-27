@@ -2,17 +2,17 @@ easy_admin:
   entities:
     Group:
       class: RltBundle\Entity\Group
-      label: 'Роли'
+      label: 'Roles'
       list:
         actions:
-          - { name: 'new', label: 'Создать роль', icon: 'plus' }
-        title: "Список ролей"
+          - { name: 'new', label: 'Create role', icon: 'plus' }
+        title: "Roles list"
         fields:
-          - { property: 'name', label: 'Название' }
+          - { property: 'name', label: 'Name' }
       form:
         fields:
-          - { property: 'name', type: 'text', type_options: { label: 'Название' } }
+          - { property: 'name', type: 'text', type_options: { label: 'Name' } }
       new:
-        title: 'Создать роль'
+        title: 'Create role'
       edit:
-        title: 'Редактировать роль %%entity_id%%'
+        title: 'Edit role %%entity_id%%'

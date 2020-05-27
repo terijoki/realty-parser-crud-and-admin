@@ -2,17 +2,17 @@ easy_admin:
   entities:
     Building:
       class: RltBundle\Entity\Building
-      label: 'Новостройки'
+      label: 'Buildings'
       list:
         actions:
-          - { name: 'new', label: 'Создать новостройку', icon: 'plus' }
-        title: "Список новостроек"
+          - { name: 'new', label: 'Create building', icon: 'plus' }
+        title: "Buildings list"
         fields:
-          - { property: 'name', label: 'Название' }
+          - { property: 'name', label: 'Name' }
       form:
         fields:
-          - { property: 'name', type: 'text', type_options: { label: 'Название' } }
+          - { property: 'name', type: 'text', type_options: { label: 'Name' } }
       new:
-        title: 'Создать новостройку'
+        title: 'Create building'
       edit:
-        title: 'Редактировать новостройку %%entity_id%%'
+        title: 'Edit building %%entity_id%%'

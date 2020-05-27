@@ -36,7 +36,7 @@ monolog:
 
 vich_uploader:
     mappings:
-        enitity_files:
+        files:
             delete_on_remove: false  # determine whether to delete file upon removal of entity
             delete_on_update: false  # determine wheter to delete the file upon update of entity
 

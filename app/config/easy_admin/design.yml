@@ -4,11 +4,11 @@ easy_admin:
     form_theme:
       - '@EasyAdmin/form/bootstrap_3_horizontal_layout.html.twig'
     menu:
-      - label: 'Пользователи и роли'
+      - label: 'Users and roles'
         children:
-          - { label: 'Пользователи', entity: 'User', icon: 'calendar', default: true }
-          - { label: 'Роли', entity: 'Group', icon: 'calendar' }
-          - { label: 'Банки>', entity: 'Banks', icon: 'calendar' }
-          - { label: 'Застройщики>', entity: 'Developers', icon: 'calendar' }
-          - { label: 'Новости', entity: 'News', icon: 'calendar' }
-          - { label: 'Новостройки', entity: 'Buildings', icon: 'calendar' }
+          - { label: 'Users', entity: 'User', icon: 'calendar', default: true }
+          - { label: 'Roles', entity: 'Group', icon: 'calendar' }
+          - { label: 'Banks', entity: 'Bank', icon: 'calendar' }
+          - { label: 'Developers', entity: 'Developer', icon: 'calendar' }
+#          - { label: 'News', entity: 'News', icon: 'calendar' }
+#          - { label: 'Buildings', entity: 'Building', icon: 'calendar' }

@@ -8,7 +8,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use RltBundle\Entity\Group;
 use RltBundle\Entity\User;
 use RltBundle\Tests\DataFixtures\Group\GroupAdminFixture;
-use RltBundle\Tests\DataFixtures\Group\GroupModeratorFixture;
 
 final class UserAdminFixture extends Fixture implements DependentFixtureInterface
 {

@@ -9,7 +9,7 @@ imports:
 
 vich_uploader:
     mappings:
-        enitity_files:
+        files:
             delete_on_remove: true  # determine whether to delete file upon removal of entity
             delete_on_update: true  # determine wheter to delete the file upon update of entity
 

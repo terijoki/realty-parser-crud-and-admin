@@ -111,7 +111,7 @@ doctrine:
 vich_uploader:
     db_driver: orm # or mongodb or propel or phpcr
     mappings:
-        enitity_files:
+        files:
             uri_prefix: '%upload_path%'
             upload_destination: '%vich_upload_destination%'
             namer: Vich\UploaderBundle\Naming\UniqidNamer

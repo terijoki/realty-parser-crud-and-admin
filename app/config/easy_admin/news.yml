@@ -1,0 +1,26 @@
+easy_admin:
+  entities:
+    News:
+      class: RltBundle\Entity\News
+      label: 'News'
+      list:
+        actions:
+          - { name: 'new', label: 'Create news', icon: 'plus' }
+        title: "News list"
+        fields:
+          - { property: 'title', label: 'Header' }
+          - { property: 'bankName', label: 'Bank'}
+          - { property: 'developerName', label: 'Developer'}
+          - { property: 'buildingName', label: 'Building'}
+          - { property: 'created_at', template: 'admin/fields/datetime_field.html.twig' }
+      form:
+        fields:
+          - { property: 'external_id', type: 'text', label: 'External ID', type_options: { disabled: true }}
+          - { property: 'title', type: 'text', label: 'Name' }
+          - { property: 'bank', type: 'RltBundle\Form\RelatedEntityType', type_options: { label: false, required: false,  by_reference: false, data_class: 'RltBundle\Entity\Bank'} }
+#          - { property: 'images', type: 'RltBundle\Form\FilesType', help: 'Max filesize - 5Mb', type_options: { label: 'Logo file', by_reference: false, data_class: 'RltBundle\Entity\Files', value_type: 'Vich\UploaderBundle\Form\Type\VichImageType'}}
+          - { property: 'text', type: 'textarea', type_options: { label: 'Text', by_reference: false }}
+      new:
+        title: 'Create news'
+      edit:
+        title: 'Edit news %%entity_id%%'

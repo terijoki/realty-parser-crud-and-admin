@@ -10,5 +10,5 @@ easy_admin:
           - { label: 'Roles', entity: 'Group', icon: 'calendar' }
           - { label: 'Banks', entity: 'Bank', icon: 'calendar' }
           - { label: 'Developers', entity: 'Developer', icon: 'calendar' }
-#          - { label: 'News', entity: 'News', icon: 'calendar' }
+          - { label: 'News', entity: 'News', icon: 'calendar' }
 #          - { label: 'Buildings', entity: 'Building', icon: 'calendar' }

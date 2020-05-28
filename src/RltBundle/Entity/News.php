@@ -39,15 +39,6 @@ class News implements EntityInterface
      *
      * @Assert\NotBlank()
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
-     */
-    private $name;
-
-    /**
-     * @var string
-     *
-     * @Assert\NotBlank()
-     *
      * @ORM\Column(name="title", type="string", unique=true)
      */
     private $title;
@@ -60,15 +51,6 @@ class News implements EntityInterface
      * @ORM\Column(name="external_id", type="smallint", unique=true)
      */
     private $externalId;
-
-    /**
-     * @var string
-     *
-     * @Assert\NotBlank()
-     *
-     * @ORM\Column(name="date", type="string", unique=true)
-     */
-    private $date;
 
     /**
      * @var array
@@ -112,7 +94,6 @@ class News implements EntityInterface
 
     /**
      * @var City
-     * @Assert\Blank()
      * @ORM\ManyToOne(targetEntity="RltBundle\Entity\City", inversedBy="news", fetch="EXTRA_LAZY", cascade={"persist"})
      *
      * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
@@ -121,7 +102,6 @@ class News implements EntityInterface
 
     /**
      * @var User
-     * @Assert\Blank()
      * @ORM\ManyToOne(targetEntity="RltBundle\Entity\User", inversedBy="newsCreated", cascade={"persist"})
      *
      * @ORM\JoinColumn(name="user_creator", referencedColumnName="id")
@@ -164,26 +144,6 @@ class News implements EntityInterface
     public function getId(): int
     {
         return $this->id;
-    }
-
-    /**
-     * @param int $id
-     *
-     * @return News
-     */
-    public function setId(int $id): News
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
     }
 
     /**
@@ -234,26 +194,6 @@ class News implements EntityInterface
     public function setExternalId(int $externalId): News
     {
         $this->externalId = $externalId;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDate(): string
-    {
-        return $this->date;
-    }
-
-    /**
-     * @param string $date
-     *
-     * @return News
-     */
-    public function setDate(string $date): News
-    {
-        $this->date = $date;
 
         return $this;
     }
@@ -451,5 +391,29 @@ class News implements EntityInterface
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBankName()
+    {
+        return $this->bank ? $this->bank->getName() : '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getDeveloperName()
+    {
+        return $this->developer ? $this->developer->getName() : '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getBuildingName()
+    {
+        return $this->building ? $this->building->getName() : '';
     }
 }

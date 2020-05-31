@@ -9,9 +9,20 @@ easy_admin:
         title: "Buildings list"
         fields:
           - { property: 'name', label: 'Name' }
+          - { property: 'districtName', label: 'District'}
+          - { property: 'developerName', label: 'District'}
+          - { property: 'buildType', label: 'Type'}
+          - { property: 'flatCount', label: 'Flats'}
+          - { property: 'price', label: 'Price'}
+          - status
+          - { property: 'created_at', template: 'admin/fields/datetime_field.html.twig' }
       form:
         fields:
           - { property: 'name', type: 'text', type_options: { label: 'Name' } }
+          - { property: 'address', label: 'Address'}
+          - { property: 'flat_count', label: 'Site'}
+          - { property: 'developer', type: 'RltBundle\Form\RelatedEntityType', type_options: { label: false, required: false,  by_reference: false, data_class: 'RltBundle\Entity\Developer'} }
+          - { property: 'district', type: 'RltBundle\Form\RelatedEntityType', type_options: { label: false, required: false,  by_reference: false, data_class: 'RltBundle\Entity\District'} }
       new:
         title: 'Create building'
       edit:

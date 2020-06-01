@@ -11,15 +11,15 @@ easy_admin:
           - { property: 'name', label: 'Name' }
           - { property: 'phone', label: 'Phone'}
           - { property: 'site', label: 'Site'}
-          - { property: 'creation_year', label: 'Founded at'}
+          - { property: 'creationYear', label: 'Founded at'}
       form:
         fields:
+          - { property: 'externalId', type: 'text', label: 'External ID', type_options: { disabled: true }}
           - { property: 'name', type: 'text', label: 'Name' }
-          - { property: 'external_id', type: 'text', label: 'External ID', type_options: { disabled: true }}
           - { property: 'phone', type: 'text', label: 'Phone'}
           - { property: 'site', type: 'text', label: 'Site'}
           - { property: 'address', type: 'text', label: 'Address'}
-          - { property: 'creation_year', type: 'text', label: 'Founded at'}
+          - { property: 'creationYear', type: 'text', label: 'Founded at'}
           - { property: 'logo', type: 'RltBundle\Form\FilesType', help: 'Max filesize - 5Mb', type_options: { label: 'Logo file', by_reference: false, data_class: 'RltBundle\Entity\Files', value_type: 'Vich\UploaderBundle\Form\Type\VichImageType'}}
           - { property: 'description', type: 'textarea', type_options: { label: 'Description', by_reference: false }}
       new:

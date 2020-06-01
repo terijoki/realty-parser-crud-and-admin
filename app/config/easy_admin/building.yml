@@ -10,19 +10,33 @@ easy_admin:
         fields:
           - { property: 'name', label: 'Name' }
           - { property: 'districtName', label: 'District'}
-          - { property: 'developerName', label: 'District'}
+          - { property: 'developerName', label: 'Developer'}
           - { property: 'buildType', label: 'Type'}
           - { property: 'flatCount', label: 'Flats'}
           - { property: 'price', label: 'Price'}
           - status
-          - { property: 'created_at', template: 'admin/fields/datetime_field.html.twig' }
+          - { property: 'createdAt', template: 'admin/fields/datetime_field.html.twig' }
       form:
         fields:
+          - { property: 'externalId', type: 'text', label: 'External ID', type_options: { disabled: true }}
           - { property: 'name', type: 'text', type_options: { label: 'Name' } }
-          - { property: 'address', label: 'Address'}
-          - { property: 'flat_count', label: 'Site'}
+          - { property: 'address', label: 'Address' }
+          - { property: 'flatCount', type: 'text', label: 'Flat count' }
+          - { property: 'floors', type: 'text', label: 'Floors' }
+          - { property: 'price', type: 'text', label: 'Price' }
+          - { property: 'pricePerM2', type: 'text', label: 'Price per M2' }
+          - { property: 'permission', type: 'boolean', label: 'Permission' }
+          - { property: 'parking', type: 'text', label: 'Parking' }
+          - { property: 'externalUpdated', label: 'Updated at (remote)', template: 'admin/fields/datetime_field.html.twig', type_options: { disabled: true }}
+          - { property: 'description', type: 'textarea', label: 'Description' }
+          - { property: 'ourOpinion', type: 'textarea', label: 'Our opinion' }
+          - { property: 'class', type: 'RltBundle\Form\BuildingClassesType', type_options: { label: 'Class', multiple: false, expanded: false, required: false } }
+          - { property: 'buildType', type: 'RltBundle\Form\BuildingType', type_options: { label: 'Type', multiple: false, expanded: false, required: false } }
+          - { property: 'facing', type: 'RltBundle\Form\BuildingFacingType', type_options: { label: 'Facing', multiple: false, expanded: false, required: false } }
+          - { property: 'paymentType', type: 'RltBundle\Form\BuildingPaymentType', type_options: { label: 'Payment type', multiple: false, expanded: false, required: false } }
           - { property: 'developer', type: 'RltBundle\Form\RelatedEntityType', type_options: { label: false, required: false,  by_reference: false, data_class: 'RltBundle\Entity\Developer'} }
           - { property: 'district', type: 'RltBundle\Form\RelatedEntityType', type_options: { label: false, required: false,  by_reference: false, data_class: 'RltBundle\Entity\District'} }
+#          - { property: 'images', type: 'RltBundle\Form\FilesType', help: 'Max filesize - 5Mb', type_options: { label: 'Image', by_reference: false, data_class: 'RltBundle\Entity\Files', value_type: 'Vich\UploaderBundle\Form\Type\VichImageType'}}
       new:
         title: 'Create building'
       edit:

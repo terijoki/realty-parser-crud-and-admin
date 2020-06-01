@@ -39,6 +39,13 @@ class Building implements EntityInterface
     public const BUSINESS = 2;
     public const COMFORT = 3;
     public const ECONOM = 4;
+    public const CLASSES = [
+        self::OTHER_CLASS => 'Другое',
+        self::ELITE => 'Элитное жилье',
+        self::BUSINESS => 'Бизнес-класс',
+        self::COMFORT => 'Комфорт-класс',
+        self::ECONOM => 'Эконом-класс',
+    ];
 
     /**
      * Realty types.
@@ -49,6 +56,14 @@ class Building implements EntityInterface
     public const BRICK_MONOLIT = 3;
     public const CARCASS_MONOLIT = 4;
     public const BRICK = 5;
+    public const TYPES = [
+        self::OTHER_TYPE => 'Другое',
+        self::MONOLIT => 'Монолитный',
+        self::PANEL => 'Панельный',
+        self::BRICK_MONOLIT => 'Кирпично-монолитный',
+        self::CARCASS_MONOLIT => 'Каркасно-монолитный',
+        self::BRICK => 'Кирпичный',
+    ];
 
     /**
      * Contract types.
@@ -62,6 +77,11 @@ class Building implements EntityInterface
     public const WITHOUT = 0;
     public const WITH = 1;
     public const WITH_AND_WITHOUT = 2;
+    public const FACING_TYPES = [
+        self::WITHOUT => 'Без отделки',
+        self::WITH => 'С отделкой',
+        self::WITH_AND_WITHOUT => 'С отделкой и без',
+    ];
 
     /**
      * Payment types.
@@ -69,6 +89,11 @@ class Building implements EntityInterface
     public const INSTALMENTS = 0;
     public const IPOTEKA = 1;
     public const ANY = 2;
+    public const PAYMENT_TYPES = [
+        self::INSTALMENTS => 'Рассрочка',
+        self::IPOTEKA => 'Ипотека',
+        self::ANY => 'Ипотека и рассрочка',
+    ];
 
     /**
      * Status.
@@ -1091,5 +1116,20 @@ class Building implements EntityInterface
         $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+    /**
+     * @return string
+     */
+    public function getDeveloperName()
+    {
+        return $this->developer ? $this->developer->getName() : '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getDistrictName()
+    {
+        return $this->district ? $this->district->getName() : '';
     }
 }

@@ -34,7 +34,7 @@ class District
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $district;
+    private $name;
 
     /**
      * @var City
@@ -68,19 +68,19 @@ class District
     /**
      * @return string
      */
-    public function getDistrict(): string
+    public function getName(): string
     {
-        return $this->district;
+        return $this->name;
     }
 
     /**
-     * @param string $district
+     * @param string $name
      *
      * @return District
      */
-    public function setDistrict(string $district): District
+    public function setName(string $name): District
     {
-        $this->district = $district;
+        $this->name = $name;
 
         return $this;
     }

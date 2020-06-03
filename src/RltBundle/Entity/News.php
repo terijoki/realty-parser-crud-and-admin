@@ -14,8 +14,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table(name="rlt_news",
  *     indexes={
- *         @ORM\Index(name="rlt_news_name_idx", columns={"name"}),
- *         @ORM\Index(name="rlt_news_date_idx", columns={"date"}),
+ *         @ORM\Index(name="rlt_news_name_idx", columns={"title"}),
  *         @ORM\Index(name="rlt_news_text_idx", columns={"text"}),
  *         @ORM\Index(name="rlt_news_developers_idx", columns={"developer_id"}),
  *         @ORM\Index(name="rlt_news_buildings_idx", columns={"building_id"}),
@@ -144,18 +143,6 @@ class News implements EntityInterface
     public function getId(): int
     {
         return $this->id;
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return News
-     */
-    public function setName(string $name): News
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     /**

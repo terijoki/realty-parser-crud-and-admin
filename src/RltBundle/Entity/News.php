@@ -2,8 +2,10 @@
 
 namespace RltBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use RltBundle\Entity\Files\NewsFiles;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -52,11 +54,11 @@ class News implements EntityInterface
     private $externalId;
 
     /**
-     * @var array
+     * @var ArrayCollection|NewsFiles[]
      *
-     * @ORM\Column(name="images", type="json_array", options={"jsonb" : true, "default" : "[]"})
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Files\NewsFiles", mappedBy="entity", fetch="EAGER", orphanRemoval=true, cascade={"persist"})
      */
-    private $images = [];
+    private $images;
 
     /**
      * @var string
@@ -138,6 +140,14 @@ class News implements EntityInterface
     private $updatedAt;
 
     /**
+     * NewsConstructor constructor.
+     */
+    public function __construct()
+    {
+        $this->images = new ArrayCollection();
+    }
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -181,26 +191,6 @@ class News implements EntityInterface
     public function setExternalId(int $externalId): News
     {
         $this->externalId = $externalId;
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getImages(): array
-    {
-        return $this->images;
-    }
-
-    /**
-     * @param array $images
-     *
-     * @return News
-     */
-    public function setImages(array $images): News
-    {
-        $this->images = $images;
 
         return $this;
     }

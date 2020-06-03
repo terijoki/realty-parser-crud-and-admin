@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use RltBundle\Entity\Files\BuildingFiles;
 use RltBundle\Entity\Model\Flat;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -288,13 +289,11 @@ class Building implements EntityInterface
     private $accreditation;
 
     /**
-     * @var array
+     * @var ArrayCollection|BuildingFiles[]
      *
-     * @Assert\Type(type="array")
-     *
-     * @ORM\Column(name="images", type="json", options={"jsonb" : true, "default" : "[]"})
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Files\BuildingFiles", mappedBy="entity", fetch="EAGER", orphanRemoval=true, cascade={"persist"})
      */
-    private $images = [];
+    private $images;
 
     /**
      * @var null|string
@@ -435,6 +434,7 @@ class Building implements EntityInterface
         $this->metro = new ArrayCollection();
         $this->accreditation = new ArrayCollection();
         $this->news = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     /**
@@ -801,26 +801,6 @@ class Building implements EntityInterface
     public function addAccreditation($bank)
     {
         $this->accreditation[] = $bank;
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getImages(): array
-    {
-        return $this->images;
-    }
-
-    /**
-     * @param array $images
-     *
-     * @return Building
-     */
-    public function setImages(array $images): Building
-    {
-        $this->images = $images;
 
         return $this;
     }

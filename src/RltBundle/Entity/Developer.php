@@ -5,6 +5,7 @@ namespace RltBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use RltBundle\Entity\Files\DeveloperFiles;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -117,11 +118,9 @@ class Developer implements EntityInterface
     private $news;
 
     /**
-     * @var null|string
+     * @var ArrayCollection|DeveloperFiles[]
      *
-     * @Assert\Type(type="string")
-     *
-     * @ORM\Column(name="logo", type="string", nullable=true)
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Files\DeveloperFiles", mappedBy="entity", fetch="EAGER", orphanRemoval=true, cascade={"persist"})
      */
     private $logo;
 
@@ -167,6 +166,7 @@ class Developer implements EntityInterface
     {
         $this->accreditated = new ArrayCollection();
         $this->news = new ArrayCollection();
+        $this->logo = new ArrayCollection();
     }
 
     /**
@@ -377,26 +377,6 @@ class Developer implements EntityInterface
     public function setNews(array $news): Developer
     {
         $this->news = $news;
-
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getLogo(): ?string
-    {
-        return $this->logo;
-    }
-
-    /**
-     * @param null|string $logo
-     *
-     * @return Developer
-     */
-    public function setLogo(?string $logo): Developer
-    {
-        $this->logo = $logo;
 
         return $this;
     }

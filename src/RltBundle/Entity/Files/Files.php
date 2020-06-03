@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\Table(name="files")
+ * @ORM\Table(name="rlt_files")
  * @Vich\Uploadable
  */
 abstract class Files

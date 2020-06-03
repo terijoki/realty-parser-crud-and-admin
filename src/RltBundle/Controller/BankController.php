@@ -19,7 +19,7 @@ final class BankController extends AbstractController
     protected const REPOSITORY = BankRepository::NAME;
 
     /**
-     * Gets a Bank list.
+     * Gets a Banks list.
      *
      * @FOSRest\Get("/banks")
      *

@@ -5,6 +5,8 @@ namespace RltBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use RltBundle\Entity\Building;
+use RltBundle\Entity\Files\BankFiles;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -110,11 +112,9 @@ class Bank implements EntityInterface
     private $news;
 
     /**
-     * @var null|string
+     * @var ArrayCollection|BankFiles[]
      *
-     * @Assert\Type(type="string")
-     *
-     * @ORM\Column(name="logo", type="string", nullable=true)
+     * @ORM\OneToMany(targetEntity="RltBundle\Entity\Files\BankFiles", mappedBy="entity", fetch="EAGER", orphanRemoval=true, cascade={"persist"})
      */
     private $logo;
 
@@ -160,6 +160,7 @@ class Bank implements EntityInterface
     {
         $this->accreditated = new ArrayCollection();
         $this->news = new ArrayCollection();
+        $this->logo = new ArrayCollection();
     }
 
     /**
@@ -338,26 +339,6 @@ class Bank implements EntityInterface
     public function setNews(array $news): Bank
     {
         $this->news = $news;
-
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getLogo(): ?string
-    {
-        return $this->logo;
-    }
-
-    /**
-     * @param null|string $logo
-     *
-     * @return Bank
-     */
-    public function setLogo(?string $logo): Bank
-    {
-        $this->logo = $logo;
 
         return $this;
     }

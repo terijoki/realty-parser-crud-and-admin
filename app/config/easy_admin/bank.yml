@@ -20,7 +20,7 @@ easy_admin:
           - { property: 'phone', type: 'text', label: 'Phone'}
           - { property: 'site', type: 'text', label: 'Site'}
           - { property: 'creationYear', type: 'text', label: 'Founded at'}
-          - { property: 'logo', type: 'RltBundle\Form\FilesType', help: 'Max filesize - 5Mb', type_options: { label: 'Logo file', by_reference: false, data_class: 'RltBundle\Entity\Files', value_type: 'Vich\UploaderBundle\Form\Type\VichImageType'}}
+          - { property: 'logo', type: 'RltBundle\Form\FilesType', help: 'Max filesize - 5Mb', type_options: { label: 'Logo file', by_reference: false, data_class: 'RltBundle\Entity\Files\BankFiles', value_type: 'Vich\UploaderBundle\Form\Type\VichImageType'}}
           - { property: 'description', type: 'textarea', type_options: { label: 'Description', by_reference: false }}
       new:
         title: 'Create bank'

@@ -120,6 +120,8 @@ class Building implements EntityInterface
     /**
      * @var int
      *
+     * @Serializer\Groups({"getShortBuilding"})
+     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -128,6 +130,8 @@ class Building implements EntityInterface
 
     /**
      * @var string
+     *
+     * @Serializer\Groups({"getShortBuilding"})
      *
      * @Assert\NotBlank()
      *
@@ -203,6 +207,8 @@ class Building implements EntityInterface
 
     /**
      * @var Developer
+     *
+     * @Serializer\Groups({"getShortBuilding"})
      *
      * @ORM\ManyToOne(targetEntity="RltBundle\Entity\Developer", fetch="EXTRA_LAZY", inversedBy="buildings")
      * @ORM\JoinColumn(name="developer_id", referencedColumnName="id", nullable=false)
@@ -410,6 +416,7 @@ class Building implements EntityInterface
      * @Gedmo\Timestampable(on="create")
      *
      * @Serializer\Type("DateTime<'Y-m-d H:i:s'>")
+     * @Serializer\Groups({"getShortBuilding"})
      *
      * @ORM\Column(name="created_at", type="datetime", options={"default" = "now()"})
      */
@@ -421,6 +428,7 @@ class Building implements EntityInterface
      * @Gedmo\Timestampable(on="create")
      *
      * @Serializer\Type("DateTime<'Y-m-d H:i:s'>")
+     * @Serializer\Groups({"getShortBuilding"})
      *
      * @ORM\Column(name="updated_at", type="datetime", nullable=true, options={"default" = "now()"})
      */

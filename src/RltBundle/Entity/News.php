@@ -29,6 +29,8 @@ class News implements EntityInterface
     /**
      * @var int
      *
+     * @Serializer\Groups({"getShortNews"})
+     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -37,6 +39,8 @@ class News implements EntityInterface
 
     /**
      * @var string
+     *
+     * @Serializer\Groups({"getShortNews"})
      *
      * @Assert\NotBlank()
      *
@@ -123,6 +127,7 @@ class News implements EntityInterface
      * @Gedmo\Timestampable(on="create")
      *
      * @Serializer\Type("DateTime<'Y-m-d H:i:s'>")
+     * @Serializer\Groups({"getShortNews"})
      *
      * @ORM\Column(name="created_at", type="datetime", options={"default" = "now()"})
      */
@@ -132,6 +137,7 @@ class News implements EntityInterface
      * @var \DateTime
      *
      * @Serializer\Type("DateTime<'Y-m-d H:i:s'>")
+     * @Serializer\Groups({"getShortNews"})
      *
      * @Gedmo\Timestampable(on="update")
      *

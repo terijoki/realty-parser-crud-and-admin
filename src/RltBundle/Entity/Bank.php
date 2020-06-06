@@ -75,8 +75,6 @@ class Bank implements EntityInterface
     /**
      * @var null|string
      *
-     * @Serializer\Groups({"getShortBank"})
-     *
      * @Assert\Type(type="string")
      *
      * @ORM\Column(name="site", type="string", length=255, unique=true, nullable=true)

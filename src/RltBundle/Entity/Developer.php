@@ -24,6 +24,8 @@ class Developer implements EntityInterface
     /**
      * @var int
      *
+     * @Serializer\Groups({"getShortDev"})
+     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -32,6 +34,8 @@ class Developer implements EntityInterface
 
     /**
      * @var string
+     *
+     * @Serializer\Groups({"getShortDev"})
      *
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
